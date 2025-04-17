@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace ClassLibrary1;
+namespace UrbanMuse.Models;
 
 public class Client
 {
