@@ -1,6 +1,10 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UrbanMuseWeb", "UrbanMuseWeb\UrbanMuseWeb.csproj", "{38FCE566-3B2A-497D-B082-9A4F3D5CC03C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UrbanMuse", "UrbanMuse\UrbanMuse.csproj", "{38FCE566-3B2A-497D-B082-9A4F3D5CC03C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UrbanMuse.Models", "UrbanMuse.Models\UrbanMuse.Models.csproj", "{22A72C91-C735-4144-A2B7-7FC05C5BD058}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UrbanMuse.DataBase", "UrbanMuse.DataBase\UrbanMuse.DataBase.csproj", "{FD7F8EFD-115A-44B7-9E9A-72A86BFD436C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -12,5 +16,13 @@ Global
 		{38FCE566-3B2A-497D-B082-9A4F3D5CC03C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{38FCE566-3B2A-497D-B082-9A4F3D5CC03C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{38FCE566-3B2A-497D-B082-9A4F3D5CC03C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{22A72C91-C735-4144-A2B7-7FC05C5BD058}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{22A72C91-C735-4144-A2B7-7FC05C5BD058}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{22A72C91-C735-4144-A2B7-7FC05C5BD058}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{22A72C91-C735-4144-A2B7-7FC05C5BD058}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FD7F8EFD-115A-44B7-9E9A-72A86BFD436C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FD7F8EFD-115A-44B7-9E9A-72A86BFD436C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FD7F8EFD-115A-44B7-9E9A-72A86BFD436C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FD7F8EFD-115A-44B7-9E9A-72A86BFD436C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
