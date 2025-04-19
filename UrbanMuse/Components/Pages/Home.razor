@@ -1,5 +1,5 @@
 ﻿@page "/"
-@inject NavigationManager mg
+@inject NavigationManager nm
 <div class="home-custom-background">
     <div class="home-layout-custom">
         <div class="home-burger-menu">
@@ -30,6 +30,6 @@
 {
     private void NavigateToStore()
     {
-        mg.NavigateTo("http://localhost:5044/store");
+        nm.NavigateTo("/store");
     }
 }

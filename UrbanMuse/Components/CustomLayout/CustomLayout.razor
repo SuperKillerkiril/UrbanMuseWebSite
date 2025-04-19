@@ -1,21 +1,23 @@
 @inherits LayoutComponentBase
 
 <div class="custom-layout">
-    <h1>лого, название, дом магазин 2025, в конце две иконки </h1>
+    <img src="LocalImage/amphora.svg">
     @Body
 </div>
 <style>
     .custom-layout {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        background-color: white; /* Цвет фона */
-        z-index: 1000; /* слой */
+        position: fixed; /* Фиксированное положение */
+        top: 0; /* Прикрепляем к верхнему краю */
+        left: 50%;
+        width: 90%; /* Ширина 90% */
+        transform: translateX(-50%); /* Центрирование по горизонтали */
+        background-color: white;
+        z-index: 1000; /* Уровень на заднем плане */
+        border-bottom-left-radius: 20px; /* Скругление нижнего левого угла */
+        border-bottom-right-radius: 20px; /* Скругление нижнего правого угла */
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Тень для лучшего визуального представления */
     }
-
-    /* Отступ для контента, чтобы он не перекрывался */
     body {
-        margin-top: 60px; /* Отступ зависит от высоты header */
+        margin-top: 60px; 
     }
 </style>
