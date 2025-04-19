@@ -1,12 +1,23 @@
 ﻿@page "/"
+@inject NavigationManager mg
 <div class="home-custom-background">
     <div class="home-layout-custom">
         <div class="home-burger-menu">
-            <div class="home-burger-menu-text">HOME</div>
-            <div class="home-burger-menu-text"><a>2025 COLLECTION</a></div>
-            <div class="home-burger-menu-text">STORE</div>
-            <div class="home-burger-menu-text">CONTACT</div>
-            <div class="home-burger-menu-text">ABOUT</div>
+            <div class="home-burger-menu-text">
+                HOME
+            </div>
+            <div class="home-burger-menu-text">
+                <button class="home-burger-menu-buttons">2025 COLLECTION</button>
+            </div>
+            <div class="home-burger-menu-text">
+                <button class="home-burger-menu-buttons" @onclick="NavigateToStore">STORE</button>
+            </div>
+            <div class="home-burger-menu-text">
+                CONTACT
+            </div>
+            <div class="home-burger-menu-text">
+                ABOUT
+            </div>
         </div>
         <div class="home-order-by">Order By</div>
         <div class="home-account-button">
@@ -15,3 +26,10 @@
     </div>
     <div class="hodie-group-png"><img src="LocalImage/HodieGroup.png"/></div>
 </div>
+@code
+{
+    private void NavigateToStore()
+    {
+        mg.NavigateTo("http://localhost:5044/store");
+    }
+}

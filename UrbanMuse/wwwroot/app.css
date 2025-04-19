@@ -60,20 +60,20 @@ h1:focus {
 }
 .home-custom-background{
     background-image: url('LocalImage/header.png');
-    background-size: cover; /* Чтобы изображение покрывало весь элемент */
-    background-position: center; /* Центрирование изображения */
-    height: 100vh; /* Высота на всю высоту окна */
+    background-size: cover; 
+    background-position: center; 
+    height: 100vh; 
 }
 .home-layout-custom{
-    display: flex; /* Используем Flexbox для расположения блоков */
-    justify-content: space-between; /* Распределяем пространство между блоками */
-    align-items: center; /* Выравниваем блоки по центру по вертикали */
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center; 
 }
 .home-burger-menu{
     margin-right: auto;
-    position: relative; /* Или absolute/fixed в зависимости от нужд */
-    top: 50px; /* Измените значение для регулировки вертикального положения */
-    left: 119px; /* Измените значение для регулировки горизонтального положения */
+    position: relative; 
+    top: 50px; 
+    left: 119px; 
     flex-direction: column;
     color: white;
     display: flex;
@@ -83,16 +83,21 @@ h1:focus {
     font-size: 32px;
     transition: transform 0.3s ease;
 }
+.home-burger-menu-buttons{
+    background-color: transparent;
+    border: none; 
+    color: white; 
+}
 .home-burger-menu-text:hover {
-    transform: scale(1.1); /* Увеличение размера текста на 10% */
+    transform: scale(1.1);
 }
 .home-order-by {
     font-family: 'Nico Moji', sans-serif;
     font-size: 64px;
     color: white;
-    position: absolute; /* Позволяет располагать блок в центре */
-    left: 50%; /* Сдвигаем к центру */
-    transform: translateX(-50%); /* Центрируем блок по горизонтали */
+    position: absolute; 
+    left: 50%; 
+    transform: translateX(-50%); 
     margin-top: -120px;
     cursor: pointer;
 }
@@ -102,14 +107,14 @@ h1:focus {
     left: 0;
     right: 0;
     bottom: 0;
-    height: 4px; /* высота подчеркивания */
-    background: rgba(255, 255, 255, 0.5); /* полупрозрачный белый цвет */
-    border-radius: 2px; /* округлые края */
-    transform: scaleX(0); /* скрываем подчеркивание по умолчанию */
-    transition: transform 0.3s ease; /* плавный переход */
+    height: 4px; 
+    background: rgba(255, 255, 255, 0.5); 
+    border-radius: 2px; 
+    transform: scaleX(0); 
+    transition: transform 0.3s ease; 
 }
 .home-order-by:hover::after {
-    transform: scaleX(1); /* показываем подчеркивание при наведении */
+    transform: scaleX(1);
 }
 .home-account-button {
     display: flex;
@@ -145,6 +150,19 @@ h1:focus {
     margin-top: -100px;
     transition: transform 0.3s ease;
 }
-.hodie-group-png:hover{
-    transform: scale(1.02);/*Анимка для худи если бесит убрать*/
+.store-title-slogan {
+    font-family: 'Gerhaus', sans-serif;
+    font-size: 128pt;
+    padding-top: 450px;
+    text-align: center;
+}
+.store-background-catalog{
+    width: 90%;
+    height: 2000px; 
+    background-color: #ffffff; 
+    border-radius: 20px; 
+    margin: 0 auto;
+    -webkit-box-shadow: 0px 0px 10px 1px rgba(0, 0, 0, 0.4);
+    -moz-box-shadow: 0px 0px 10px 1px rgba(0, 0, 0, 0.4);
+    box-shadow: 0px 0px 10px 1px rgba(0, 0, 0, 0.4);
 }

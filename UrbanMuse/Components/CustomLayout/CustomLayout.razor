@@ -1,0 +1,21 @@
+@inherits LayoutComponentBase
+
+<div class="custom-layout">
+    <h1>лого, название, дом магазин 2025, в конце две иконки </h1>
+    @Body
+</div>
+<style>
+    .custom-layout {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        background-color: white; /* Цвет фона */
+        z-index: 1000; /* слой */
+    }
+
+    /* Отступ для контента, чтобы он не перекрывался */
+    body {
+        margin-top: 60px; /* Отступ зависит от высоты header */
+    }
+</style>
