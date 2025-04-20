@@ -1,0 +1,41 @@
+@page "/registered"
+@using UrbanMuse.DataBase
+@using UrbanMuse.Models
+@inject ModelContext ef
+@rendermode InteractiveServer
+
+<div class="registered-custom-background">
+    <div class="registered-container">
+        <h3 class="registered-text">REGISTERED</h3>
+        <div class="registered-form">
+            <input class="registered-form-input" type="text" @bind="_client.Name" placeholder="What should call you"/>
+            <input class="registered-form-input" type="text" @bind="_client.Email" placeholder="Email"/>
+            <input class="registered-form-input" type="password" @bind="_client.Password" placeholder="Password"/>
+            <input class="registered-form-input" type="date" @bind="_client.BirthDate" placeholder="Birthday Date"/>
+            <button class="registered-form-button" @onclick="Register">ACCEPT</button>
+        </div>
+        @errorMsg
+    </div>
+</div>
+
+
+
+
+
+@code {
+    public Client _client = new Client();
+    private string errorMsg;
+
+    public void Register()
+    {
+        try
+        {
+            ef.Add(_client);
+            ef.SaveChanges();
+        }
+        catch (Exception e)
+        {
+            errorMsg = e.Message;
+        }
+    }
+}

@@ -1,5 +1,4 @@
 ﻿@page "/"
-@inject NavigationManager nm
 <div class="home-custom-background">
     <div class="home-layout-custom">
         <div class="home-burger-menu">
@@ -10,10 +9,10 @@
                 <button class="home-burger-menu-buttons">2025 COLLECTION</button>
             </div>
             <div class="home-burger-menu-text">
-                <button class="home-burger-menu-buttons" @onclick="NavigateToStore">STORE</button>
+                <NavLink class="nav-link" href="store">STORE</NavLink>
             </div>
             <div class="home-burger-menu-text">
-                CONTACT
+                <NavLink class="nav-link" href="">CONTACT</NavLink>
             </div>
             <div class="home-burger-menu-text">
                 ABOUT
@@ -21,15 +20,14 @@
         </div>
         <div class="home-order-by">Order By</div>
         <div class="home-account-button">
-            <div class="home-login-button">вход</div><div class="home-sign-in-button">регистрация</div>
+            <div class="home-login-button">
+                вход
+            </div>
+            <div class="home-sign-in-button">
+                <NavLink class="nav-link" href="registered">регистрация</NavLink>
+            </div>
         </div>
     </div>
     <div class="hodie-group-png"><img src="LocalImage/HodieGroup.png"/></div>
 </div>
-@code
-{
-    private void NavigateToStore()
-    {
-        nm.NavigateTo("/store");
-    }
-}
+    

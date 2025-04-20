@@ -1,0 +1,55 @@
+@page "/store"
+@using System.Reflection.Metadata
+@using UrbanMuse.DataBase
+@using UrbanMuse.Models
+@rendermode InteractiveServer
+@inject ModelContext ef
+@inject IJSRuntime IJSRuntime
+
+<div class="store-header">
+    <img class="store-header-img" src="LocalImage/amphora.svg">
+    <div class="store-header-logo-text">
+        URBAN MUSE
+    </div>
+    <div class="store-header-text-container">
+        <div class="store-header-text-home-2025">
+            <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
+                HOME
+            </NavLink>
+        </div>
+        <div class="store-header-text-store">
+            STORE
+        </div>
+        <div class="store-header-text-home-2025">
+            2025
+        </div><!--Можно кодом актуальный год поставить или год самой свежей коллекции-->
+    </div>
+    <div class="store-header-button-container">
+        <img class="store-header-button-img" src="LocalImage/поиск.svg"/>
+        <img class="store-header-button-img" src="LocalImage/корзина.svg"/>
+    </div>
+</div>
+
+<div @onscroll="@OnScroll" id="myDiv" class="home-custom-background">
+    <div class="store-title-slogan">
+        ART IN EVERYDAY
+    </div>
+    <div class="store-background-catalog">
+        
+    </div>
+</div>
+<script suppress-error="BL9992">
+    window.getScrollToTop =  (selector) => {
+        return document.querySelector(selector).scrollTop
+    }
+</script>
+
+
+@code {
+    public int ScrollTop { get; set; }
+
+    private async Task OnScroll(EventArgs e)
+    {
+        ScrollTop = await IJSRuntime.InvokeAsync<int>("getScrollToTop", "#myDiv") % 100;
+    }
+}

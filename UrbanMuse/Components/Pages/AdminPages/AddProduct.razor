@@ -1,0 +1,33 @@
+@page "/AddProduct"
+@using UrbanMuse.DataBase
+@using UrbanMuse.Models
+@inject ModelContext ef
+@rendermode InteractiveServer
+
+<EditForm Model="_product" OnValidSubmit="@SumbitProduct">
+    <h1>Создание нового продукта</h1>
+    <a>Название</a>
+    <input type="text" @bind="_product.Name"/>
+    <a>Стоимость?</a>
+    <input type="number" @bind="_product.Price"/>
+    <a>Описание</a>
+    <input tupe="text" @bind="_product.Description"/>
+    <button type="submit">Добавить продукт</button>
+</EditForm>
+<button @onclick="ClearForm">Отчистить форму</button>
+
+@code {
+    Product _product = new Product();
+
+    public void SumbitProduct()
+    {
+        _product.CreatedAt = DateTime.Now;
+        ef.Add(_product);
+        ef.SaveChanges();
+    }
+
+    public void ClearForm()
+    {
+        _product = new Product();
+    }
+}

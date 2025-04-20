@@ -62,7 +62,8 @@ h1:focus {
     background-image: url('LocalImage/header.png');
     background-size: cover; 
     background-position: center; 
-    height: 100vh; 
+    height: 100vh;
+    overflow:scroll;
 }
 .home-layout-custom{
     display: flex; 
@@ -155,7 +156,9 @@ h1:focus {
     font-size: 128pt;
     padding-top: 450px;
     text-align: center;
+    transition: transform 0.3s
 }
+
 .store-background-catalog{
     width: 90%;
     height: 2000px; 
@@ -219,4 +222,55 @@ h1:focus {
 .store-header-button-img{
     max-width: 70px;
     max-height: 70px;
+}
+.registered-custom-background
+{
+    background-image: url('LocalImage/header.png');
+    background-size: cover;
+    background-position: center;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.registered-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: 50%;
+    height: 50%;
+    background-color: #ffffff;
+    border-radius: 20px;
+    margin: 0 auto;
+    -webkit-box-shadow: 0px 0px 10px 1px rgba(0, 0, 0, 0.4);
+    -moz-box-shadow: 0px 0px 10px 1px rgba(0, 0, 0, 0.4);
+    box-shadow: 0px 0px 10px 1px rgba(0, 0, 0, 0.4);
+    opacity: 0;
+    animation: ani 0.5s forwards;
+}
+@keyframes ani {
+    0% {opacity: 0;}
+    100% {opacity: 1;}
+}
+.registered-form{
+    display: flex;
+    flex-flow: column wrap;
+    width: 90%;
+}
+.registered-form-input{
+    background-color: transparent;
+    border: none;
+    padding: 10px;
+    font-family: 'Gerhaus', sans-serif;
+    font-size: 15pt;
+}
+.registered-form-button{
+    padding: 10px;
+    background-color: lightgray;
+    border-radius: 15px;
+}
+.registered-text{
+    font-family: 'Nico Moji', sans-serif;
+    font-size: 40pt;
 }

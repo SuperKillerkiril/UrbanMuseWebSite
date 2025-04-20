@@ -11,6 +11,7 @@
       <_ContentIncludedByDefault Remove="Components\Layout\MainLayout.razor" />
       <_ContentIncludedByDefault Remove="Components\Layout\NavMenu.razor" />
       <_ContentIncludedByDefault Remove="Components\MyLayout\NullLayout.razor" />
+      <_ContentIncludedByDefault Remove="Components\AdminPages\AddProduct.razor" />
     </ItemGroup>
 
     <ItemGroup>
@@ -24,6 +25,15 @@
         <PrivateAssets>all</PrivateAssets>
         <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       </PackageReference>
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\UrbanMuse.DataBase\UrbanMuse.DataBase.csproj" />
+      <ProjectReference Include="..\UrbanMuse.Models\UrbanMuse.Models.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <AdditionalFiles Include="Components\Pages\AdminPages\AddProduct.razor" />
     </ItemGroup>
 
 </Project>
