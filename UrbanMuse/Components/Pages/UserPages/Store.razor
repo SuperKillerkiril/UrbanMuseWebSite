@@ -21,8 +21,8 @@
             STORE
         </div>
         <div class="store-header-text-home-2025">
-            2025
-        </div><!--Можно кодом актуальный год поставить или год самой свежей коллекции-->
+            @_actualYear
+        </div><!--Можно кодом актуальный год поставить или год самой свежей коллекции (фильтр по бд)-->
     </div>
     <div class="store-header-button-container">
         <img class="store-header-button-img" src="LocalImage/поиск.svg"/>
@@ -35,7 +35,8 @@
         ART IN EVERYDAY
     </div>
     <div class="store-background-catalog">
-        
+        <div class="store-filter-container"></div>
+        <div class="store-product-card"></div>
     </div>
 </div>
 <script suppress-error="BL9992">
@@ -46,6 +47,7 @@
 
 
 @code {
+    private readonly int _actualYear = DateTime.Now.Year;
     public int ScrollTop { get; set; }
 
     private async Task OnScroll(EventArgs e)

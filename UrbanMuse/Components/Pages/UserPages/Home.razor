@@ -6,7 +6,7 @@
                 HOME
             </div>
             <div class="home-burger-menu-text">
-                <button class="home-burger-menu-buttons">2025 COLLECTION</button>
+                <button class="home-burger-menu-buttons">@_actualYear COLLECTION</button>
             </div>
             <div class="home-burger-menu-text">
                 <NavLink class="nav-link" href="store">STORE</NavLink>
@@ -30,4 +30,8 @@
     </div>
     <div class="hodie-group-png"><img src="LocalImage/HodieGroup.png"/></div>
 </div>
+@code
+{
+    private readonly int _actualYear = DateTime.Now.Year;
+}
     
