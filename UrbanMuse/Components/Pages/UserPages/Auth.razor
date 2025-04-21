@@ -1,0 +1,37 @@
+﻿@page "/auth"
+@using UrbanMuse.DataBase
+@using UrbanMuse.Models
+@inject ModelContext ef
+@rendermode InteractiveServer
+
+<div class="registered-custom-background">
+    <div class="registered-container">
+        <h3 class="registered-text">AUTHENTICATION</h3>
+        <div class="registered-form">
+            <input class="registered-form-input" type="text" @bind="_client.Email" placeholder="Email"/>
+            <input class="registered-form-input" type="password" @bind="_client.Password" placeholder="Password"/>
+            <button class="registered-form-button" @onclick="AuthUser">ACCEPT</button>
+        </div>
+        @errorMsg
+    </div>
+</div>
+
+@code {
+    Client _client = new Client();
+    private string errorMsg;
+
+    public void AuthUser()
+    {
+        try
+        {
+            if (expr)
+            {
+                
+            }
+        }
+        catch (Exception e)
+        {
+            errorMsg = e.Message;
+        }
+    }
+}

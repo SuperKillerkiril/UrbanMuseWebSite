@@ -4,7 +4,26 @@
 @inject ModelContext ef
 @rendermode InteractiveServer
 
-<EditForm Model="_product" OnValidSubmit="@SumbitProduct">
+
+<div class="store-header">
+    <img class="store-header-img" src="LocalImage/amphora.svg">
+    <div class="store-header-logo-text">
+        URBAN MUSE
+    </div>
+    <div class="store-header-text-container">
+        <div class="store-header-text-home-2025">
+            <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
+                HOME
+            </NavLink>
+        </div>
+        <div class="store-header-text-store">
+            STORE
+        </div>
+    </div>
+</div>
+
+<div class="registered-custom-background">
+<EditForm class="registered-container"  Model="_product" OnValidSubmit="@SumbitProduct">
     <h1>Создание нового продукта</h1>
     <a>Название</a>
     <input type="text" @bind="_product.Name"/>
@@ -13,9 +32,10 @@
     <a>Описание</a>
     <input tupe="text" @bind="_product.Description"/>
     <button type="submit">Добавить продукт</button>
+    <button @onclick="ClearForm">Отчистить форму</button>
 </EditForm>
-<button @onclick="ClearForm">Отчистить форму</button>
 
+</div>
 @code {
     Product _product = new Product();
 
