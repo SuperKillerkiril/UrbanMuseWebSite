@@ -6,6 +6,7 @@
 @inject ModelContext ef
 @inject IJSRuntime IJSRuntime
 
+
 <div class="store-header">
     <img class="store-header-img" src="LocalImage/amphora.svg">
     <div class="store-header-logo-text">
@@ -35,7 +36,15 @@
         ART IN EVERYDAY
     </div>
     <div class="store-background-catalog">
-        <div class="store-filter-container"></div>
+        <div class="store-filter-container">
+                <div class="store-filter-button-allprod">
+                    <img class="store-filter-img" src="LocalImage/shopping-basket.svg"/>
+                    <button class="store-filter-button" @onclick="UpdatePage">ALL PRODUCT</button>
+                </div>
+                <div class="dropdown-shop-menu">
+                    
+                </div>
+        </div>
         <div class="store-product-card"></div>
     </div>
 </div>
@@ -53,5 +62,10 @@
     private async Task OnScroll(EventArgs e)
     {
         ScrollTop = await IJSRuntime.InvokeAsync<int>("getScrollToTop", "#myDiv") % 100;
+    }
+
+    void UpdatePage()
+    {
+        StateHasChanged();
     }
 }

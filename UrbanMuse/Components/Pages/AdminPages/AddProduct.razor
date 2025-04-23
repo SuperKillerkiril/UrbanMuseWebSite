@@ -1,5 +1,4 @@
 @page "/AddProduct"
-@attribute [Authorize(Roles = "Admin")]
 @using Microsoft.AspNetCore.Authorization
 @using UrbanMuse.DataBase
 @using UrbanMuse.Models
@@ -44,6 +43,7 @@
     public void SumbitProduct()
     {
         _product.CreatedAt = DateTime.Now;
+        _product.Image = string.Empty;
         ef.Add(_product);
         ef.SaveChanges();
     }

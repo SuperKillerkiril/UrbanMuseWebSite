@@ -172,7 +172,7 @@ h1:focus {
     top: 0;
     left: 50%;
     width: 90%; 
-    transform: translateX(-50%); 
+    transform: translateX(-50.5%); 
     background-color: white;
     z-index: 1000; 
     border-bottom-left-radius: 20px; 
@@ -220,13 +220,35 @@ h1:focus {
 .store-header-button-img{
     max-width: 70px;
     max-height: 70px;
+    margin: 10px;
 }
 .store-filter-container{
     display: flex;
-    justify-content: center;
-    width: 300px; height: 400px;
-    background-color: black;
+    width: 15%; height: 50%;
+    margin: 41px;
     border-radius: 20px;
+}
+.store-filter-button-allprod{
+     justify-content: center;
+     align-content: center;
+     background-color: lightgray;
+     border-radius: 20px;
+     padding: 16px;
+     max-height: 8%;
+ }
+.store-filter-button{
+    font-family: 'Bruno Ace SC', sans-serif;
+    font-size: 15pt;
+    background-color: lightgray;
+    color: black;
+    border-radius: 20px;
+    border: none;
+    max-height: 10%;
+}
+.store-filter-img{
+    max-width: 50px;
+    max-height: 50px;
+    margin: 10px;
 }
 .registered-custom-background
 {

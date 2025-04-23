@@ -1,5 +1,6 @@
 using System.Net.Mime;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using UrbanMuse.DataBase;
 using UrbanMuse.Models;
 using UrbanMuseWeb.Components;
@@ -32,5 +33,9 @@ app.UseAntiforgery();
 app.MapStaticAssets();
 app.MapRazorComponents<App>()
     .AddInteractiveServerRenderMode();
+
+var scope = app.Services.CreateScope();
+var context = scope.ServiceProvider.GetRequiredService<ModelContext>();
+context.Database.Migrate();
 
 app.Run();
