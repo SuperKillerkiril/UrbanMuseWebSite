@@ -1,5 +1,7 @@
 using System.Net.Mime;
+using Microsoft.AspNetCore.Identity;
 using UrbanMuse.DataBase;
+using UrbanMuse.Models;
 using UrbanMuseWeb.Components;
 
 var builder = WebApplication.CreateBuilder(args);

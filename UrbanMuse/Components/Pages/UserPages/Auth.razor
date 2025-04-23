@@ -12,26 +12,33 @@
             <input class="registered-form-input" type="password" @bind="_client.Password" placeholder="Password"/>
             <button class="registered-form-button" @onclick="AuthUser">ACCEPT</button>
         </div>
-        @errorMsg
+        @Msg
     </div>
 </div>
 
 @code {
     Client _client = new Client();
-    private string errorMsg;
+    Client _authClient = new Client();
+    private string Msg;
 
     public void AuthUser()
     {
+        _authClient = ef.Clients.FirstOrDefault(c => c.Email == _client.Email);
         try
         {
-            if (expr)
+            if (_authClient != null && _authClient.Password == _client.Password)
             {
-                
+                Msg = "You have successfully logged in";
+            }
+            else
+            {
+                Msg = "incorrect email or password";
             }
         }
         catch (Exception e)
         {
-            errorMsg = e.Message;
+            Msg = e.ToString();
         }
+        
     }
 }

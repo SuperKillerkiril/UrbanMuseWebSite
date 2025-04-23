@@ -1,4 +1,6 @@
 @page "/AddProduct"
+@attribute [Authorize(Roles = "Admin")]
+@using Microsoft.AspNetCore.Authorization
 @using UrbanMuse.DataBase
 @using UrbanMuse.Models
 @inject ModelContext ef
