@@ -96,7 +96,7 @@
     
     private async Task OnScroll(EventArgs e)
     {
-        ScrollTop = await IJSRuntime.InvokeAsync<int>("getScrollToTop", "#myDiv") % 100;
+        ScrollTop = await IJSRuntime.InvokeAsync<int>("getScrollToTop", "#myDiv");
     }
 
     void UpdatePage()
