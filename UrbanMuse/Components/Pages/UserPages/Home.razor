@@ -1,12 +1,16 @@
 ﻿@page "/"
+@using UrbanMuse.DataBase
+@rendermode InteractiveServer
+@inject NavigationManager NavigationManager
+@inject ModelContext ef
 <div class="home-custom-background">
     <div class="home-layout-custom">
         <div class="home-burger-menu">
             <div class="home-burger-menu-text">
-                HOME
+                <NavLink class="nav-link" href="" Match="NavLinkMatch.All">HOME</NavLink>
             </div>
             <div class="home-burger-menu-text">
-                <button class="home-burger-menu-buttons">@_actualYear COLLECTION</button>
+                <button @onclick="GoToCollection" class="home-burger-menu-buttons">@_actualYear COLLECTION</button>
             </div>
             <div class="home-burger-menu-text">
                 <NavLink class="nav-link" href="store">STORE</NavLink>
@@ -15,24 +19,29 @@
                 <NavLink class="nav-link" href="">CONTACT</NavLink>
             </div>
             <div class="home-burger-menu-text">
-                ABOUT
+                <NavLink class="nav-link" href="about">ABOUT</NavLink>
             </div>
         </div>
         <div class="home-order-by">Order By</div>
         <div class="home-account-button">
             <div class="home-login-button">
-                вход
+                <NavLink class="nav-link" href="auth">вход</NavLink>
             </div>
             <div class="home-sign-in-button">
                 <NavLink class="nav-link" href="registered">регистрация</NavLink>
             </div>
         </div>
     </div>
-    <div class="hodie-group-png"><img src="LocalImage/HodieGroup.png"/></div>
+    <div class="hodie-group-png"><img src="LocalImage/IconAndGroup/HodieGroup.png"/></div>
 </div>
 
 @code
 {
     private readonly int _actualYear = DateTime.Now.Year;
+
+    private void GoToCollection()
+    {
+        NavigationManager.NavigateTo("");
+    }
 }
     

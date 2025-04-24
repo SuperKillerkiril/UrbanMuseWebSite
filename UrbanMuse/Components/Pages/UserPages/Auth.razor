@@ -2,6 +2,7 @@
 @using UrbanMuse.DataBase
 @using UrbanMuse.Models
 @inject ModelContext ef
+@inject NavigationManager NavigationManager
 @rendermode InteractiveServer
 
 <div class="registered-custom-background">
@@ -21,7 +22,7 @@
     Client _authClient = new Client();
     private string Msg;
 
-    public void AuthUser()
+    public async Task AuthUser()
     {
         _authClient = ef.Clients.FirstOrDefault(c => c.Email == _client.Email);
         try
@@ -29,6 +30,8 @@
             if (_authClient != null && _authClient.Password == _client.Password)
             {
                 Msg = "You have successfully logged in";
+                await Task.Delay(2000);
+                NavigationManager.NavigateTo("");
             }
             else
             {

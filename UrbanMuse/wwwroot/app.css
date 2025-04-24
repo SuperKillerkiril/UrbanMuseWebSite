@@ -59,7 +59,7 @@ h1:focus {
     text-align: start;
 }
 .home-custom-background{
-    background-image: url('LocalImage/header.png');
+    background-image: url('LocalImage/IconAndGroup/header.png');
     background-size: cover; 
     background-position: center; 
     height: 100vh;
@@ -154,12 +154,13 @@ h1:focus {
 .store-title-slogan {
     font-family: 'Gerhaus', sans-serif;
     font-size: 128pt;
-    padding-top: 450px;
+    padding-top: 350px;
     text-align: center;
     transition: transform 0.3s
 }
 
 .store-background-catalog{
+    display: flex;
     width: 90%;
     height: 2000px; 
     background-color: #ffffff; 
@@ -224,9 +225,14 @@ h1:focus {
 }
 .store-filter-container{
     display: flex;
-    width: 15%; height: 50%;
-    margin: 41px;
+    flex-direction: column;
+    min-width: 300px;
+    width: 15%; height: 30%;
+    margin: 15px;
+    padding: 15px;
     border-radius: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+
 }
 .store-filter-button-allprod{
      justify-content: center;
@@ -234,10 +240,11 @@ h1:focus {
      background-color: lightgray;
      border-radius: 20px;
      padding: 16px;
-     max-height: 8%;
- }
+     max-height: 13%;  
+     margin-top: 30px;
+}
 .store-filter-button{
-    font-family: 'Bruno Ace SC', sans-serif;
+    font-family: 'Gerhaus', sans-serif;
     font-size: 15pt;
     background-color: lightgray;
     color: black;
@@ -250,9 +257,40 @@ h1:focus {
     max-height: 50px;
     margin: 10px;
 }
+.dropdown-store-menu{
+    font-size: 15pt;
+    background-color: white;
+    color: black;
+    border: none;
+    max-height: 10%;
+    padding: 10px;
+    animation: ani 0.3s forwards;
+}
+@keyframes ani {
+    0% {opacity: 0;}
+    100% {opacity: 1;}
+}
+
+.store-product-card-container{
+    display: flex;
+    flex-wrap: wrap;
+    height: 100%;
+    width: 100%;
+}
+.store-product-card{
+    border-radius: 10px;
+    width: 30%;
+    height: 23.5%;
+}
+.store-product-card img {
+    width: 95%;
+    height: 95%;
+    padding: 16px;
+    margin: 20px;
+}
 .registered-custom-background
 {
-    background-image: url('LocalImage/header.png');
+    background-image: url('LocalImage/IconAndGroup/header.png');
     background-size: cover;
     background-position: center;
     height: 100vh;
@@ -300,4 +338,33 @@ h1:focus {
 .registered-text{
     font-family: 'Nico Moji', sans-serif;
     font-size: 40pt;
+}
+.about-header{
+    font-family: 'Nico Moji', sans-serif;
+    font-size: 45pt;
+}
+.about-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    max-width: 80%;
+}
+
+
+
+.menu-button {
+    font-size: 24px;
+    border: none;
+    background: none;
+    cursor: pointer;
+}
+.dropdown-menu {
+    position: absolute;
+    top: 40px;
+    left: 10px;
+    background: #fff;
+    border: 1px solid #ccc;
+    padding: 10px;
+    display: none;
 }
