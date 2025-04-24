@@ -281,12 +281,14 @@ h1:focus {
     border-radius: 10px;
     width: 30%;
     height: 23.5%;
+    margin: 15px;
 }
 .store-product-card img {
     width: 95%;
     height: 95%;
-    padding: 16px;
-    margin: 20px;
+    border-radius: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+
 }
 .registered-custom-background
 {
@@ -367,4 +369,8 @@ h1:focus {
     border: 1px solid #ccc;
     padding: 10px;
     display: none;
+}
+::selection{
+    background-color: pink;
+    color:  black;
 }
