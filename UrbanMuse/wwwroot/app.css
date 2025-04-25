@@ -288,7 +288,42 @@ h1:focus {
     height: 95%;
     border-radius: 20px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-
+}
+.store-product-card-description{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-right: 15px;
+}
+.store-product-card-name{
+    font-family: 'Nico Moji', sans-serif;
+    font-size: 26pt;
+    color: black;
+    margin: 5px;
+    text-align: right;
+}
+.store-product-card-price{
+    font-family: 'Nico Moji', sans-serif;
+    font-size: 23pt;
+    color: black;
+    margin: 5px;
+    text-align: left;
+}
+.store-product-card-button-add-to-cart{
+    font-family: 'Montserrat', sans-serif;
+    font-size: 14pt;
+    width: 200px;
+    height: 40px;
+    border-radius: 20px;
+}
+.store-product-card-button-buy{
+    font-family: 'Montserrat', sans-serif;
+    color: white;
+    background-color: #404040;
+    font-size: 14pt;
+    width: 150px;
+    height: 40px;
+    border-radius: 20px;
 }
 .registered-custom-background
 {

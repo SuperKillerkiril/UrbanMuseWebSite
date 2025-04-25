@@ -1,0 +1,24 @@
+﻿@page "/product/{id:int}"
+@using UrbanMuse.DataBase
+@using UrbanMuse.Models
+@inject ModelContext ef
+<h3>@_product.Name</h3>
+
+
+@code {
+    [Parameter] public int id { get; set; }
+    private Product _product = new Product();
+    private int idProduct;
+
+    protected override void OnInitialized()
+    {
+        LoadProduct();
+    }
+
+    private void LoadProduct()
+    {
+        idProduct = id;
+        _product = ef.Products.FirstOrDefault(p => p.Id == idProduct);
+    }
+
+}
