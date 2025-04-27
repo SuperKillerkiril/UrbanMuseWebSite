@@ -39,22 +39,45 @@
     </div>
     <div class="store-background-catalog">
         <div class="store-filter-container">
-            <div class="store-filter-button-allprod">
-                <img class="store-filter-img" src="LocalImage/IconAndGroup/shopping-basket.svg"/>
-                <button class="store-filter-button" @onclick="UpdatePage">ALL PRODUCT</button>
-            </div>
-            <div class="store-filter-button-allprod">
-                <img class="store-filter-img" src="LocalImage/IconAndGroup/list.svg"/>
-                <button class="store-filter-button" @onclick="ToggleMenu">TYPE</button>
-            </div>
-            @if (IsMenuOpen)
+            <button class="store-filter-button" @onclick="UpdatePage">
+                <div class="store-filter-button-sort">
+                    <img src="LocalImage/IconAndGroup/shopping-basket.svg"/>
+                    <a>ALL PRODUCT</a>
+                </div>
+            </button>
+            <button class="store-filter-button" @onclick="ToggleMenuType">
+                <div class="store-filter-button-sort">
+                    <img src="LocalImage/IconAndGroup/list.svg"/>
+                    <a>TYPE</a>
+                </div>
+            </button>
+            @if (IsMenuTypeOpen)
             {
-                foreach ( ProductEnumType productEnumType in Enum.GetValues(typeof(ProductEnumType)))
+                foreach (ProductEnumType productEnumType in Enum.GetValues(typeof(ProductEnumType)))
                 {
-                    <button @onclick=" () => ReSearch(productEnumType)" class="dropdown-store-menu">@productEnumType</button>
+                    <button @onclick=" () => ReSearchType(productEnumType)" class="dropdown-store-menu">@productEnumType</button>
                 }
             }
+            <button class="store-filter-button" @onclick="ToggleMenuPrice">
+                <div class="store-filter-button-sort">
+                    <img class="store-filter-img" src="LocalImage/IconAndGroup/circle-percent.svg"/>
+                    <a>Price</a>
+                </div>
+            </button>
+            @if (IsMenuPriseOpen)
+            {
+                <label>min @MinPrice</label>
+                <input type="range" min="0" max="10000" step="100" @bind="MinPrice"/>
+                <label>max @MaxPrice</label>
+                <input type="range" min="0" max="10000" step="100" @bind="MaxPrice"/>
+                <button>apply</button>
+            }
         </div>
+        
+        
+        
+        
+        
         <div class="store-product-card-container">
             @foreach (var prod in _products)
             { <div class="store-product-card"><!--Добавить ограничение по максимуму и минимуму пикселей проверить верстку-->
@@ -62,7 +85,6 @@
                 <div class="store-product-card-description">
                     <div class="store-product-card-name">@prod.Name</div>
                     <div class="store-product-card-price">$@prod.Price</div>
-                    <div>@prod.Id</div>
                 </div>
                 <div class="store-product-card-description">
                     <button class="store-product-card-button-add-to-cart">Add to cart</button>
@@ -85,14 +107,16 @@
 @code {
     private readonly int _actualYear = DateTime.Now.Year;
     public int ScrollTop { get; set; }
-    private bool IsMenuOpen = false;
-    private int counter = 0;
+
+    private int MinPrice = 0;
+    private int MaxPrice = 0;
     private List<Product> _products = new List<Product>();
 
     protected override void OnInitialized()
     {
         LoadProduct();
     }
+
     private void LoadProduct()
     {
         _products = ef.Products.ToList();
@@ -102,12 +126,21 @@
     {
         Navigation.NavigateTo($"/product/{productId}");
     }
-    
-    private void ToggleMenu()
+
+    private bool IsMenuTypeOpen = false;
+
+    private void ToggleMenuType()
     {
-        IsMenuOpen = !IsMenuOpen;
+        IsMenuTypeOpen = !IsMenuTypeOpen;
     }
-    
+
+    private bool IsMenuPriseOpen = false;
+
+    private void ToggleMenuPrice()
+    {
+        IsMenuPriseOpen = !IsMenuPriseOpen;
+    }
+
     private async Task OnScroll(EventArgs e)
     {
         ScrollTop = await IJSRuntime.InvokeAsync<int>("getScrollToTop", "#myDiv");
@@ -118,9 +151,11 @@
         StateHasChanged();
     }
 
-    private void ReSearch(ProductEnumType productEnumTypeType)
+    private void ReSearchType(ProductEnumType? productEnumTypeType)
     {
-        
-    }
-    
+        _products = (List<Product>)_products.Where(p => p.Type == Convert.ToString(productEnumTypeType));
+
+    }/*Кароче, во-первых, идея по стору = удалять повторки или переделать модель
+    (модель продукта наследуется от продукта, но с собственными доп полями)
+    еще не работает поиск по листу не получается конвертировать енум в стринг, но это умеет селекшн и опшн*/
 }

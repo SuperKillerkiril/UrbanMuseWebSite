@@ -24,4 +24,12 @@
       <ProjectReference Include="..\UrbanMuse.Models\UrbanMuse.Models.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Compile Remove="Migrations\ModelContextModelSnapshot.cs" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Remove="UrbanMuseModels.db" />
+    </ItemGroup>
+
 </Project>

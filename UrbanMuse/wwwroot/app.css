@@ -234,14 +234,16 @@ h1:focus {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 
 }
-.store-filter-button-allprod{
-     justify-content: center;
-     align-content: center;
-     background-color: lightgray;
-     border-radius: 20px;
-     padding: 16px;
-     max-height: 13%;  
-     margin-top: 30px;
+.store-filter-button-sort{
+    display: flex;
+    align-items: center;
+    padding: 20px;
+    margin-top: -20px;
+}
+.store-filter-button-sort img{
+    margin: 10px;
+    max-width: 50px;
+    max-height: 50px;
 }
 .store-filter-button{
     font-family: 'Gerhaus', sans-serif;
@@ -251,11 +253,7 @@ h1:focus {
     border-radius: 20px;
     border: none;
     max-height: 10%;
-}
-.store-filter-img{
-    max-width: 50px;
-    max-height: 50px;
-    margin: 10px;
+    margin-top: 20px;
 }
 .dropdown-store-menu{
     font-size: 15pt;
@@ -270,7 +268,6 @@ h1:focus {
     0% {opacity: 0;}
     100% {opacity: 1;}
 }
-
 .store-product-card-container{
     display: flex;
     flex-wrap: wrap;
@@ -408,4 +405,10 @@ h1:focus {
 ::selection{
     background-color: pink;
     color:  black;
+}
+.product-demo{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 20%;
 }

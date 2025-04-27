@@ -2,13 +2,23 @@
 @using UrbanMuse.DataBase
 @using UrbanMuse.Models
 @inject ModelContext ef
+<div class="product-demo">
+    <img class="store-header-img" src="LocalImage/IconAndGroup/amphora.svg">
+    <NavLink class="nav-link" href="about">
+        <div class="store-header-logo-text">
+            URBAN MUSE
+        </div>
+    </NavLink>
+</div>
+
+
+
 <h3>@_product.Name</h3>
 
 
 @code {
     [Parameter] public int id { get; set; }
     private Product _product = new Product();
-    private int idProduct;
 
     protected override void OnInitialized()
     {
@@ -17,8 +27,7 @@
 
     private void LoadProduct()
     {
-        idProduct = id;
-        _product = ef.Products.FirstOrDefault(p => p.Id == idProduct);
+        _product = ef.Products.FirstOrDefault(p => p.Id == id);
     }
 
 }

@@ -1,6 +1,6 @@
 namespace UrbanMuse.Models;
 
-public class Item
+public class _item
 {
     public string Name { get; set; }
     public string Color { get; set; }
