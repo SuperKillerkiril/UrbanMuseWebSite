@@ -24,7 +24,7 @@
 </div>
 
 <div class="registered-custom-background">
-    <EditForm class="registered-container"  Model="_product" OnValidSubmit="@SumbitProduct">
+    <div class="registered-container" >
         <h1>Создание нового продукта</h1>
         <a>Название</a>
         <input type="text" @bind="_product.Name"/>
@@ -33,37 +33,44 @@
         <a>Описание</a>
         <input tupe="text" @bind="_product.Description"/>
         <a>Путь к изображению</a>
-        <input type="text" @bind="_product.Image"/>
-        
+        <input type="text" @bind="imgPath"/>
+        <button @onclick="AddimgPathList">Добавить фото</button>
         <a>Тип</a>
-        <select @bind="SelectedType">
+        <select class="dropdown-store-menu" @bind="SelectedType">
             @foreach (ProductEnumType productEnumType in Enum.GetValues(typeof(ProductEnumType)))
             {
-                <option value="@productEnumType">@productEnumType</option>
+            <option value="@productEnumType">@productEnumType</option>
             }
         </select>
     
         <div style="display: flex; flex-wrap: wrap; margin: 20px;">
-            <button type="submit">Добавить продукт</button>
+            <button @onclick="SumbitProduct">Добавить продукт</button>
             <button @onclick="ClearForm">Отчистить форму</button>
         </div>
-    
         <a>@_msg</a>
-    </EditForm>
-
+    </div>
 </div>
 
 @code {
     Product _product = new();
     private string? _msg = String.Empty;
+    private string imgPath;
+    private List<string> imgPathList = new List<string>();
     private string? SelectedType = Convert.ToString(ProductEnumType.Hoodie);
 
+    public void AddimgPathList()
+    {
+        imgPathList.Add(imgPath);
+        imgPath = "LocalImage/notFound.png";
+    }
+    
     public void SumbitProduct()
     {
         try
         {
             _product.CreatedAt = DateTime.Now;
             _product.Type = SelectedType;
+            _product.Image = imgPathList;
             ef.Add(_product);
             ef.SaveChanges();
             _msg = "You have successfully add product";

@@ -186,9 +186,11 @@ h1:focus {
     right: 10px;
 }
 .store-header-logo-text{
+    margin: 5px;
     font-family: 'Nico Moji', sans-serif;
     font-size: 26pt;
     color: black;
+    display: flex;
     align-items: center;
 }
 .store-header-text-container{
@@ -260,8 +262,9 @@ h1:focus {
     background-color: white;
     color: black;
     border: none;
-    max-height: 10%;
+    max-height: 8%;
     padding: 10px;
+    margin: 4px;
     animation: ani 0.3s forwards;
 }
 @keyframes ani {
@@ -384,8 +387,98 @@ h1:focus {
     flex-direction: column;
     max-width: 80%;
 }
+.product-demo-header-right {
+    position: fixed;
+    top: 0;
+    left: 0;
+    background: white;
+    width: 20%;
+    max-height: 9%;
+    border-bottom-right-radius: 20px;
+}
+.product-demo-header-left{
+    padding: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+    top: 0;
+    right: 0;
+    background: white;
+    width: 20%;
+    max-height: 9%;
+    border-bottom-left-radius: 20px;
+}
+.product-demo-header-left button{
+    margin: 10px;
+    border: none;
+    border-radius: 49%;
+    box-shadow: 0px 0px 10px 1px rgba(0, 0, 0, 0.2);
+    background-color: rgba(64, 64, 64, 0);
+}
+.product-demo-header-left img{
+    max-width: 95%; 
+    margin: 5px;
+}   
 
-
+.product-demo-background{
+    background-image: url('LocalImage/IconAndGroup/background-myth.png');
+    background-size: cover;
+    background-position: center;
+    height: 120vh;
+}
+.product-demo-card-container{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-top: 200px;
+}
+.product-demo-card{
+    display: flex;
+    border-radius: 20px;
+    align-items: center;
+    justify-content: center;
+}
+.product-demo-card img{
+    max-width: 500px;
+    max-height: 500px;
+    border-radius: 20px;
+}
+.product-demo-card button{
+    border-radius: 48%;
+    border: 1px solid black;
+    background-color: lightgray;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0px 0px 10px 1px rgba(0, 0, 0, 0.2);
+    margin: 10px;
+}
+.product-demo-card-more{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.product-demo-card-more img{
+    margin: 20px;
+    max-width: 100px;
+    max-height: 100px;
+}
+.product-demo-card-name{
+    font-family: 'Nico Moji', sans-serif;
+    font-size: 40pt;
+    text-align: center;
+}
+.product-demo-card-price{
+    font-family: 'Nico Moji', sans-serif;
+    font-size: 30pt;
+    text-align: center;
+}
+.product-demo-louer{
+    background: white;
+    width: 100%;
+    height: 300vh;
+}
 
 .menu-button {
     font-size: 24px;
@@ -402,13 +495,8 @@ h1:focus {
     padding: 10px;
     display: none;
 }
+
 ::selection{
     background-color: pink;
     color:  black;
-}
-.product-demo{
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 20%;
 }

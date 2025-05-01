@@ -9,8 +9,9 @@ public class Product
     public string? Type { get; set; }
     public string? Description { get; set; }
     public double Price { get; set; }
-    public string Image { get; set; } = "LocalImage/notFound.png";
+    public List<string>  Image { get; set; }
     public DateTime CreatedAt { get; set; }
+    
     public int Size { get; set; }
     
 }

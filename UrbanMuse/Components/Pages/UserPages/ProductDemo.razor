@@ -2,24 +2,61 @@
 @using UrbanMuse.DataBase
 @using UrbanMuse.Models
 @inject ModelContext ef
-<div class="product-demo">
-    <img class="store-header-img" src="LocalImage/IconAndGroup/amphora.svg">
-    <NavLink class="nav-link" href="about">
-        <div class="store-header-logo-text">
+@inject NavigationManager NavigationManager
+@rendermode InteractiveServer
+
+<div class="product-demo-header-right">
+    <div class="store-header-logo-text">
+        <img class="store-header-img" src="LocalImage/IconAndGroup/amphora.svg">
+        <NavLink class="nav-link" href="about">
             URBAN MUSE
+        </NavLink>
+    </div>
+</div>
+<div class="product-demo-header-left">
+    <button><img src="LocalImage/IconAndGroup/log-in.svg"/></button>
+    <button><img src="LocalImage/IconAndGroup/log-in.svg"/></button>
+    <button><img src="LocalImage/IconAndGroup/shopping-basket.svg"/></button>
+</div>
+<div class="product-demo-background">
+    <div class="product-demo-card-container">
+        <div class="product-demo-card">
+            <button @onclick="Previous"><img src="LocalImage/IconDemo/chevron-left.svg"/></button>
+            <img src="@_product.Image[currentimg]"/>
+            <button @onclick="Next"><img src="LocalImage/IconDemo/chevron-left.png"/></button>
         </div>
-    </NavLink>
+    </div>
+    @msg
+    <div class="product-demo-card-more">
+        @foreach (var img in _product.Image)
+        {
+            <img src="@img"/>
+        }
+    </div>
+        <div class="product-demo-card-name">@_product.Name</div>
+        <div class="product-demo-card-price">@_product.Name$</div>
+</div>
+<div class="product-demo-louer">
 </div>
 
 
-
-<h3>@_product.Name</h3>
 
 
 @code {
     [Parameter] public int id { get; set; }
     private Product _product = new Product();
+    private int currentimg;
+    private string msg;
 
+    private void Next()
+    {
+        currentimg = (currentimg + 1) % _product.Image.Count;
+    }
+    private void Previous()
+    {
+        currentimg = (currentimg - 1) % _product.Image.Count;
+    }
+    
     protected override void OnInitialized()
     {
         LoadProduct();
@@ -29,5 +66,6 @@
     {
         _product = ef.Products.FirstOrDefault(p => p.Id == id);
     }
-
+    
+    
 }

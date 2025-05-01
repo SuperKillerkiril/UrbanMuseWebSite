@@ -1,4 +1,5 @@
 @page "/store"
+@using Microsoft.EntityFrameworkCore.Query.SqlExpressions
 @using UrbanMuse.DataBase
 @using UrbanMuse.Models
 @rendermode InteractiveServer
@@ -53,10 +54,12 @@
             </button>
             @if (IsMenuTypeOpen)
             {
-                foreach (ProductEnumType productEnumType in Enum.GetValues(typeof(ProductEnumType)))
-                {
-                    <button @onclick=" () => ReSearchType(productEnumType)" class="dropdown-store-menu">@productEnumType</button>
-                }
+                <select class="dropdown-store-menu" @bind="SelectedType">
+                    @foreach (ProductEnumType productEnumType in Enum.GetValues(typeof(ProductEnumType)))
+                    {
+                        <option value="@productEnumType">@productEnumType</option>
+                    }
+                </select>
             }
             <button class="store-filter-button" @onclick="ToggleMenuPrice">
                 <div class="store-filter-button-sort">
@@ -66,13 +69,23 @@
             </button>
             @if (IsMenuPriseOpen)
             {
+                <div class="dropdown-store-menu">
                 <label>min @MinPrice</label>
                 <input type="range" min="0" max="10000" step="100" @bind="MinPrice"/>
                 <label>max @MaxPrice</label>
                 <input type="range" min="0" max="10000" step="100" @bind="MaxPrice"/>
-                <button>apply</button>
+                </div>
             }
+            <button class="store-filter-button" >
+                <div class="store-filter-button-sort">
+                    <img src="LocalImage/IconAndGroup/circle-check.svg"/>
+                    <a>AVAILABILITY</a>
+                </div>
+            </button>
+            
+            <button class="store-filter-button" @onclick="ReSearchType">apply</button>
         </div>
+       
         
         
         
@@ -81,10 +94,10 @@
         <div class="store-product-card-container">
             @foreach (var prod in _products)
             { <div class="store-product-card"><!--Добавить ограничение по максимуму и минимуму пикселей проверить верстку-->
-                <img src="@prod.Image"/>
+                <img src="@prod.Image[0]"/>
                 <div class="store-product-card-description">
                     <div class="store-product-card-name">@prod.Name</div>
-                    <div class="store-product-card-price">$@prod.Price</div>
+                    <div class="store-product-card-name">@prod.Name</div>
                 </div>
                 <div class="store-product-card-description">
                     <button class="store-product-card-button-add-to-cart">Add to cart</button>
@@ -107,7 +120,6 @@
 @code {
     private readonly int _actualYear = DateTime.Now.Year;
     public int ScrollTop { get; set; }
-
     private int MinPrice = 0;
     private int MaxPrice = 0;
     private List<Product> _products = new List<Product>();
@@ -128,14 +140,12 @@
     }
 
     private bool IsMenuTypeOpen = false;
-
     private void ToggleMenuType()
     {
         IsMenuTypeOpen = !IsMenuTypeOpen;
     }
 
     private bool IsMenuPriseOpen = false;
-
     private void ToggleMenuPrice()
     {
         IsMenuPriseOpen = !IsMenuPriseOpen;
@@ -151,10 +161,27 @@
         StateHasChanged();
     }
 
-    private void ReSearchType(ProductEnumType? productEnumTypeType)
+    private string? SelectedType;
+    private string msg;
+    private void ReSearchType()
     {
-        _products = (List<Product>)_products.Where(p => p.Type == Convert.ToString(productEnumTypeType));
-
+        try
+        {
+            LoadProduct();
+            if (SelectedType != null)
+            {
+            _products = _products.Where(p => p.Type == SelectedType).ToList();
+            }
+            if (MaxPrice>MinPrice)
+            {
+            _products = _products.Where(p => p.Price > MinPrice & p.Price < MaxPrice).ToList();
+            }
+        }
+        catch (Exception e)
+        {
+            msg = e.ToString();
+        }
+        
     }/*Кароче, во-первых, идея по стору = удалять повторки или переделать модель
     (модель продукта наследуется от продукта, но с собственными доп полями)
     еще не работает поиск по листу не получается конвертировать енум в стринг, но это умеет селекшн и опшн*/
