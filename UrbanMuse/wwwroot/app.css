@@ -64,6 +64,7 @@ h1:focus {
     background-position: center; 
     height: 100vh;
     overflow:scroll;
+    animation: ani 0.5s forwards;
 }
 .home-layout-custom{
     display: flex; 
@@ -410,15 +411,18 @@ h1:focus {
     border-bottom-left-radius: 20px;
 }
 .product-demo-header-left button{
-    margin: 10px;
+    margin: 13px;
     border: none;
     border-radius: 49%;
     box-shadow: 0px 0px 10px 1px rgba(0, 0, 0, 0.2);
     background-color: rgba(64, 64, 64, 0);
 }
 .product-demo-header-left img{
-    max-width: 95%; 
     margin: 5px;
+    min-width: 55px;
+    min-height: 55px;
+    max-width: 56px;
+    max-height: 56px;
 }   
 
 .product-demo-background{
@@ -438,6 +442,13 @@ h1:focus {
     border-radius: 20px;
     align-items: center;
     justify-content: center;
+    
+}
+.product-demo-card-img{
+    max-width: 500px;
+    max-height: 500px;
+    border-radius: 20px;
+    box-shadow: 0px 0px 10px 1px rgba(0, 0, 0, 0.2);
 }
 .product-demo-card img{
     max-width: 500px;
@@ -447,7 +458,7 @@ h1:focus {
 .product-demo-card button{
     border-radius: 48%;
     border: 1px solid black;
-    background-color: lightgray;
+    background-color: rgba(255, 255, 255, 0.47);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -458,11 +469,13 @@ h1:focus {
     display: flex;
     justify-content: center;
     align-items: center;
+    
 }
 .product-demo-card-more img{
     margin: 20px;
     max-width: 100px;
     max-height: 100px;
+    border-radius: 10px;
 }
 .product-demo-card-name{
     font-family: 'Nico Moji', sans-serif;
@@ -473,13 +486,82 @@ h1:focus {
     font-family: 'Nico Moji', sans-serif;
     font-size: 30pt;
     text-align: center;
+    margin-top: 10px;
+}
+.product-demo-card-buy-container{
+    font-family: 'Nico Moji', sans-serif;
+    font-size: 30pt;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.product-demo-card-buy{
+    font-family: "Actay Light", sans-serif;
+   font-size: 20pt;
+    border-radius: 10px;
+    background: #4e4e4e;
+    color: white;
+    box-shadow: 0px 0px 10px 1px rgba(0, 0, 0, 0.2);
+    margin: 20px;
+    width: 150px;
 }
 .product-demo-louer{
     background: white;
     width: 100%;
     height: 300vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    animation: ani 0.5s forwards;
 }
-
+.product-demo-louer-description-upper{
+    font-family: 'Actay Light', sans-serif;
+    color: black;
+    font-size: 30pt;
+    text-align: left;
+    width: 50%;
+    margin: 50px;
+}
+.product-demo-louer-description{
+    font-family: 'Actay Light', sans-serif;
+    font-size: 26pt;
+    text-align: left;
+    width: 50%;
+    color: black;
+    margin-bottom: 200px;
+}
+.product-demo-recommendations-carousel
+{
+    width: 100%;
+    display: flex;
+    overflow-x: scroll;
+    scroll-snap-type: x mandatory;
+    animation: ani 0.5s forwards;
+}
+.product-demo-recommendations-carousel:hover > .product-demo-recommendations-card:not(:hover){
+    filter: blur(3px);
+    transform: scale(1.2);
+    animation: ani 0.5s;
+}
+.product-demo-recommendations-card{
+    border-radius: 10px;
+    scroll-snap-align: center;
+    margin: 50px;
+    max-width: 300px;
+    max-height: 300px;
+}
+.product-demo-recommendations-card img{
+    max-width: 200px;
+    max-height: 200px;
+    border-radius: 20px;
+}
+.product-demo-recommendations-text{
+    font-family: 'Nico Moji', sans-serif;
+    font-size: 20pt;
+    color: black;
+    margin: 5px;
+    text-align: center;
+}
 .menu-button {
     font-size: 24px;
     border: none;
@@ -499,4 +581,9 @@ h1:focus {
 ::selection{
     background-color: pink;
     color:  black;
+}
+.test{
+    width: 500px;
+    height: 500px;
+    background-color: white;
 }

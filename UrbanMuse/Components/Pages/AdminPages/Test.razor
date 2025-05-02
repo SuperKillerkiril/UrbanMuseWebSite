@@ -16,9 +16,10 @@
 <ul>
     @foreach (var item in FilteredItems)
     {
-    <li>@item.Name - @item.Color</li>
+        <li>@item.Name - @item.Color</li>
     }
 </ul>
+<div class="test"></div>
 
 @code {
     private bool IsMenuOpen = false;

@@ -22,7 +22,7 @@
     <div class="product-demo-card-container">
         <div class="product-demo-card">
             <button @onclick="Previous"><img src="LocalImage/IconDemo/chevron-left.svg"/></button>
-            <img src="@_product.Image[currentimg]"/>
+            <img class="product-demo-card-img" src="@_product.Image[currentimg]"/>
             <button @onclick="Next"><img src="LocalImage/IconDemo/chevron-left.png"/></button>
         </div>
     </div>
@@ -34,9 +34,24 @@
         }
     </div>
         <div class="product-demo-card-name">@_product.Name</div>
-        <div class="product-demo-card-price">@_product.Name$</div>
+    <div class="product-demo-card-price">@_product.Name$</div>
+    <div class="product-demo-card-buy-container">
+        Size <input type="range" min="16" max="48" step="4" @bind="currenSize"/> @currenSize 
+        <button class="product-demo-card-buy" @onclick="CreateOrder">Buy</button>
+    </div>
 </div>
 <div class="product-demo-louer">
+    <div class="product-demo-louer-description-upper">@_product.Name, what's the point?</div>
+    <div class="product-demo-louer-description">@_product.Description</div>
+    <div class="product-demo-recommendations-carousel">
+        @foreach (var prod in _products)
+        {
+            <div class="product-demo-recommendations-card">
+                <img src="@prod.Image[0]"/>
+                <div class="product-demo-recommendations-text">@prod.Name</div>
+            </div>
+        }
+    </div>
 </div>
 
 
@@ -45,6 +60,8 @@
 @code {
     [Parameter] public int id { get; set; }
     private Product _product = new Product();
+    private List<Product> _products = new List<Product>();
+    private int currenSize;
     private int currentimg;
     private string msg;
 
@@ -65,7 +82,12 @@
     private void LoadProduct()
     {
         _product = ef.Products.FirstOrDefault(p => p.Id == id);
+        _products = ef.Products.ToList();
     }
-    
+
+    private void CreateOrder()
+    {
+        
+    }
     
 }
