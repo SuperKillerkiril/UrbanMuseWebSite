@@ -15,6 +15,7 @@
             <input class="registered-form-input" type="date" @bind="_client.BirthDate" placeholder="Birthday Date"/>
             <button class="registered-form-button" @onclick="Register">ACCEPT</button>
         </div>
+        <NavLink class="nav-link" href="auth">have an account?</NavLink>
         @Msg
     </div>
 </div>
@@ -29,17 +30,25 @@
 
     public async Task Register()
     {
-        try
+        if (ef.Clients.FirstOrDefault(c => c.Email == _client.Email) != null)
         {
-            _client.Role = RoleEnum.Guest;
-            Msg = "Success";
-            ef.Add(_client); ef.SaveChanges();
-            await Task.Delay(3000);
-            NavigationManager.NavigateTo("");
+            Msg = "This email is already busy.";
         }
-        catch (Exception e)
+        else
         {
-            Msg = e.Message;
+            try
+            {
+                _client.Role = RoleEnum.Guest;
+                Msg = "Success";
+                ef.Add(_client); ef.SaveChanges();
+                await Task.Delay(3000);
+                NavigationManager.NavigateTo("");
+            }
+            catch (Exception e)
+            {
+                Msg = e.Message;
+            }
         }
+        
     }
 }

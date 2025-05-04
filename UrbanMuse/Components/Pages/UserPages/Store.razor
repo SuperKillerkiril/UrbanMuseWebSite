@@ -40,7 +40,7 @@
     </div>
     <div class="store-background-catalog">
         <div class="store-filter-container">
-            <button class="store-filter-button" @onclick="UpdatePage">
+            <button class="store-filter-button" @onclick="ClearFilter">
                 <div class="store-filter-button-sort">
                     <img src="LocalImage/IconAndGroup/shopping-basket.svg"/>
                     <a>ALL PRODUCT</a>
@@ -76,13 +76,12 @@
                 <input type="range" min="0" max="10000" step="100" @bind="MaxPrice"/>
                 </div>
             }
-            <button class="store-filter-button" >
+            <button class="store-filter-button">
                 <div class="store-filter-button-sort">
                     <img src="LocalImage/IconAndGroup/circle-check.svg"/>
                     <a>AVAILABILITY</a>
                 </div>
             </button>
-            
             <button class="store-filter-button" @onclick="ReSearchType">apply</button>
         </div>
        
@@ -120,8 +119,7 @@
 @code {
     private readonly int _actualYear = DateTime.Now.Year;
     public int ScrollTop { get; set; }
-    private int MinPrice = 0;
-    private int MaxPrice = 0;
+    private string msg;
     private List<Product> _products = new List<Product>();
 
     protected override void OnInitialized()
@@ -156,13 +154,17 @@
         ScrollTop = await IJSRuntime.InvokeAsync<int>("getScrollToTop", "#myDiv");
     }
 
-    void UpdatePage()
-    {
-        StateHasChanged();
-    }
 
     private string? SelectedType;
-    private string msg;
+    private int MinPrice = 0;
+    private int MaxPrice = 0;
+   
+
+    void ClearFilter()
+    {
+        LoadProduct();
+    }
+    
     private void ReSearchType()
     {
         try
