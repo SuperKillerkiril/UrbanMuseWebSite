@@ -3,6 +3,7 @@
 @using UrbanMuse.Models
 @inject NavigationManager NavigationManager
 @inject ModelContext ef
+@inject Blazored.LocalStorage.ILocalStorageService LocalStorage
 @rendermode InteractiveServer
 
 <div class="registered-custom-background">
@@ -27,9 +28,21 @@
 @code {
     public Client _client = new Client();
     private string Msg;
+    private bool IsAuth;
+
+    protected override async void OnInitialized()
+    {
+        IsAuth = await LocalStorage.GetItemAsync<bool>("IsAuth");
+    }
 
     public async Task Register()
     {
+        if (IsAuth)
+        {
+            Msg = "You have successfully logged in";
+            await Task.Delay(1000);
+            NavigationManager.NavigateTo("");
+        }
         if (ef.Clients.FirstOrDefault(c => c.Email == _client.Email) != null)
         {
             Msg = "This email is already busy.";
@@ -41,7 +54,7 @@
                 _client.Role = RoleEnum.Guest;
                 Msg = "Success";
                 ef.Add(_client); ef.SaveChanges();
-                await Task.Delay(3000);
+                await Task.Delay(1000);
                 NavigationManager.NavigateTo("");
             }
             catch (Exception e)

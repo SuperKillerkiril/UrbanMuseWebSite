@@ -3,6 +3,7 @@
 @using UrbanMuse.Models
 @inject ModelContext ef
 @inject NavigationManager NavigationManager
+@inject Blazored.LocalStorage.ILocalStorageService LocalStorage
 @rendermode InteractiveServer
 
 <div class="registered-custom-background">
@@ -20,17 +21,37 @@
 @code {
     Client _client = new Client();
     Client _authClient = new Client();
+    private bool IsAuth = false;
     private string Msg;
+
+    protected override async void OnInitialized()
+    {
+        try
+        {
+            IsAuth = await LocalStorage.GetItemAsync<bool>("IsAuth");
+        }
+        catch
+        {
+            IsAuth = false;
+        }
+    }
 
     public async Task AuthUser()
     {
+        if (IsAuth)
+        {
+            NavigationManager.NavigateTo("");
+        }
         _authClient = ef.Clients.FirstOrDefault(c => c.Email == _client.Email);
         try
         {
             if (_authClient != null && _authClient.Password == _client.Password)
             {
                 Msg = "You have successfully logged in";
-                await Task.Delay(2000);
+                LocalStorage.SetItemAsync("clientemail", _client.Email);
+                LocalStorage.SetItemAsync("clientpassword", _client.Password);
+                LocalStorage.SetItemAsync("IsAuth", true);
+                await Task.Delay(1000);
                 NavigationManager.NavigateTo("");
             }
             else

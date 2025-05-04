@@ -1,4 +1,5 @@
 using System.Net.Mime;
+using Blazored.LocalStorage;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using UrbanMuse.DataBase;
@@ -13,7 +14,7 @@ builder.Services.AddRazorComponents()
 
 
 builder.Services.AddDbContext<ModelContext>();
-
+builder.Services.AddBlazoredLocalStorage();
 
 var app = builder.Build();
 
