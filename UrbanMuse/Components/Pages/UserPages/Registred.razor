@@ -55,7 +55,7 @@
                 Msg = "Success";
                 ef.Add(_client); ef.SaveChanges();
                 await Task.Delay(1000);
-                NavigationManager.NavigateTo("");
+                NavigationManager.NavigateTo("auth");
             }
             catch (Exception e)
             {

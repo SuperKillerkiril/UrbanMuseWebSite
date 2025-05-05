@@ -163,10 +163,10 @@ h1:focus {
 .store-background-catalog{
     display: flex;
     width: 90%;
-    height: 2000px; 
     background-color: #ffffff; 
     border-radius: 20px; 
     margin: 0 auto;
+    padding-bottom: 50px;
     box-shadow: 0px 0px 10px 1px rgba(0, 0, 0, 0.4);
 }
 .store-header{
@@ -237,26 +237,25 @@ h1:focus {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 
 }
-.store-filter-button-sort{
+.store-filter-button{
+    font-family: 'Gerhaus', sans-serif;
+    font-size: 15pt;
+    color: black;
+    background-color: lightgray;
+    border-radius: 20px; border: none;
+    max-height: 10%;
     display: flex;
     align-items: center;
-    padding: 20px;
-    margin-top: -20px;
+    padding: 10px;
+    margin: 5px;
+}
+.store-filter-button-sort{
+    text-align: center;
 }
 .store-filter-button-sort img{
     margin: 10px;
     max-width: 50px;
     max-height: 50px;
-}
-.store-filter-button{
-    font-family: 'Gerhaus', sans-serif;
-    font-size: 15pt;
-    background-color: lightgray;
-    color: black;
-    border-radius: 20px;
-    border: none;
-    max-height: 10%;
-    margin-top: 20px;
 }
 .dropdown-store-menu{
     font-size: 15pt;
@@ -392,6 +391,7 @@ h1:focus {
     max-width: 80%;
 }
 .product-demo-header-right {
+    z-index: 1000;
     position: fixed;
     top: 0;
     left: 0;
@@ -401,6 +401,7 @@ h1:focus {
     border-bottom-right-radius: 20px;
 }
 .product-demo-header-left{
+    z-index: 1000;
     padding: 5px;
     display: flex;
     align-items: center;
@@ -459,7 +460,7 @@ h1:focus {
     border-radius: 20px;
 }
 .product-demo-card button{
-    border-radius: 48%;
+    border-radius:50%;
     border: 1px solid black;
     background-color: rgba(255, 255, 255, 0.47);
     display: flex;
@@ -467,9 +468,12 @@ h1:focus {
     justify-content: center;
     box-shadow: 0px 0px 10px 1px rgba(0, 0, 0, 0.2);
     margin: 10px;
+    width: 100px;
+    height: 100px;
 }
 .product-demo-card-more{
     display: flex;
+    flex-wrap: wrap;
     justify-content: center;
     align-items: center;
     
@@ -552,6 +556,10 @@ h1:focus {
     max-width: 300px;
     max-height: 300px;
 }
+.product-demo-recommendations-card img:hover{
+    transform: scale(1.1) translateX(0px);
+    animation: ani 0.5s;
+}
 .product-demo-recommendations-card img{
     max-width: 200px;
     max-height: 200px;
@@ -564,21 +572,7 @@ h1:focus {
     margin: 5px;
     text-align: center;
 }
-.menu-button {
-    font-size: 24px;
-    border: none;
-    background: none;
-    cursor: pointer;
-}
-.dropdown-menu {
-    position: absolute;
-    top: 40px;
-    left: 10px;
-    background: #fff;
-    border: 1px solid #ccc;
-    padding: 10px;
-    display: none;
-}
+
 
 ::selection{
     background-color: pink;

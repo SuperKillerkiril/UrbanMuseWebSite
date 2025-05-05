@@ -4,8 +4,10 @@
 @using UrbanMuse.Models
 @inject ModelContext ef
 @rendermode InteractiveServer
+@inject Blazored.LocalStorage.ILocalStorageService LocalStorage
 
-
+@if (IsAuth && role == RoleEnum.Admin)
+{
 <div class="store-header">
     <img class="store-header-img" src="LocalImage/IconAndGroup/amphora.svg">
     <div class="store-header-logo-text">
@@ -18,7 +20,7 @@
             </NavLink>
         </div>
         <div class="store-header-text-store">
-            <NavLink class="nav-link" href="store">STORE</NavLink> 
+            <NavLink class="nav-link" href="store">STORE</NavLink>
         </div>
     </div>
 </div>
@@ -42,21 +44,50 @@
             <option value="@productEnumType">@productEnumType</option>
             }
         </select>
-    
+
         <div style="display: flex; flex-wrap: wrap; margin: 20px;">
             <button @onclick="SumbitProduct">Добавить продукт</button>
             <button @onclick="ClearForm">Отчистить форму</button>
         </div>
         <a>@_msg</a>
     </div>
-</div>
+</div> 
+}
+else
+{
+    <div class="registered-custom-background">
+        <h5>@_msg</h5>
+    </div>
+}
+
 
 @code {
     Product _product = new();
     private string? _msg = String.Empty;
     private string imgPath;
     private List<string> imgPathList = new List<string>();
-    private string? SelectedType = Convert.ToString(ProductEnumType.Hoodie);
+    private string? SelectedType = Convert.ToString(ProductEnumType.Thing);
+    
+    private bool IsAuth = false;
+    private int Id;
+    private RoleEnum role;
+    private Client _client = new Client();
+
+    protected override async void OnInitialized()
+    {
+        try
+        {
+            IsAuth = await LocalStorage.GetItemAsync<bool>("IsAuth");
+            Id = await LocalStorage.GetItemAsync<int>("clientId");
+            _client = ef.Clients.FirstOrDefault(c => c.Id == Id);
+            role = _client.Role;
+        }
+        catch (Exception e)
+        {
+            _msg = e.Message;
+            IsAuth = false;
+        }
+    }
 
     public void AddimgPathList()
     {

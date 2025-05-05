@@ -1,42 +1,11 @@
 @page "/TEST"
 @using UrbanMuse.Models
-<h3>Test</h3>
-<button class="menu-button" @onclick="ToggleMenu">☰</button>
 
-<div class="dropdown-menu" style="display: @(IsMenuOpen ? "block" : "none")">
-    <select @bind="SelectedColor">
-        <option value="">Все цвета</option>
-        @foreach (var color in Colors)
-        {
-        <option value="@color">@color</option>
-        }
-    </select>
+<div class="test">
+    
 </div>
 
-<ul>
-    @foreach (var item in FilteredItems)
-    {
-        <li>@item.Name - @item.Color</li>
-    }
-</ul>
-<div class="test"></div>
-
 @code {
-    private bool IsMenuOpen = false;
-    private string SelectedColor = "";
-    private List<string> Colors = new List<string> { "Красный", "Синий", "Зеленый" };
-    private List<_item> Items = new List<_item>
-    {
-        new _item { Name = "Футболка", Color = "Красный" },
-        new _item { Name = "Куртка", Color = "Синий" },
-        new _item { Name = "Штаны", Color = "Зеленый" }
-    };
-
-    private void ToggleMenu()
-    {
-        IsMenuOpen = !IsMenuOpen;
-    }
-
-    private List<_item> FilteredItems => 
-        string.IsNullOrEmpty(SelectedColor) ? Items : Items.Where(i => i.Color == SelectedColor).ToList();
+    
+    
 }
