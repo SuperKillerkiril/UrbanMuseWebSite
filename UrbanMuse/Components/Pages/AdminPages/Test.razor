@@ -1,11 +1,48 @@
 @page "/TEST"
+@using UrbanMuse.DataBase
 @using UrbanMuse.Models
+@inject ModelContext ef
+@rendermode InteractiveServer
 
 <div class="test">
-    
+    <div class="t-carousel">
+        @foreach (var _product in _products_d)
+        {
+            <div class="t-carousel-item">
+                <img src="@_product.Image[0]"/>
+                <a>@_product.Name</a>
+            </div>
+        }
+    </div>
+    <button @onclick="Previous">предыдущий</button><button @onclick="Next">следующий</button>
 </div>
 
 @code {
+    private List<Product> _products = new List<Product>();
+    private List<Product> _products_d = new List<Product>();
+    private int Slide = 0;
+    private int _currentSlide;
     
-    
+    private void Next()
+    {
+        _currentSlide = (_currentSlide + 1) % _products.Count;
+        _products_d.Remove(_products[_currentSlide]);
+        for (int i = 0; i < 5+_currentSlide; i++)
+        {
+            _products_d.Add(_products[i]);
+        }
+    }
+    private void Previous()
+    {
+        _currentSlide = (_currentSlide - 1 + _products.Count) % _products.Count;
+    }
+    protected override void OnInitialized()
+    {
+        _products = ef.Products.ToList();
+        for (int i = 0; i < 5; i++)
+        {
+            _products_d.Add(_products[i]);
+        }
+    }
+
 }

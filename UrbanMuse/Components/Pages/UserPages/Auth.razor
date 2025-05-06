@@ -13,6 +13,10 @@
             <input class="registered-form-input" type="text" @bind="_client.Email" placeholder="Email"/>
             <input class="registered-form-input" type="password" @bind="_client.Password" placeholder="Password"/>
             <button class="registered-form-button" @onclick="AuthUser">ACCEPT</button>
+            @if (IsAuth)
+            {
+            <button class="registered-form-button" @onclick="ReAuth">log in to a new account</button>
+            }
         </div>
         @Msg
     </div>
@@ -29,6 +33,10 @@
         try
         {
             IsAuth = await LocalStorage.GetItemAsync<bool>("IsAuth");
+            if (IsAuth)
+            {
+                Msg = "You have successfully logged in";
+            }
         }
         catch
         {
@@ -36,12 +44,15 @@
         }
     }
 
+    private void ReAuth()
+    {
+        LocalStorage.SetItemAsync("IsAuth", false);
+        Msg = "Enter your account details";
+        StateHasChanged();
+    }
+    
     public async Task AuthUser()
     {
-        if (IsAuth)
-        {
-            NavigationManager.NavigateTo("");
-        }
         _authClient = ef.Clients.FirstOrDefault(c => c.Email == _client.Email);
         try
         {

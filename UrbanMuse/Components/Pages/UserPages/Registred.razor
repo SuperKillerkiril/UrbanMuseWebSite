@@ -54,6 +54,10 @@
                 _client.Role = RoleEnum.Guest;
                 Msg = "Success";
                 ef.Add(_client); ef.SaveChanges();
+                LocalStorage.SetItemAsync("clientId", _client.Id);
+                LocalStorage.SetItemAsync("clientemail", _client.Email);
+                LocalStorage.SetItemAsync("clientpassword", _client.Password);
+                LocalStorage.SetItemAsync("IsAuth", true);
                 await Task.Delay(1000);
                 NavigationManager.NavigateTo("auth");
             }

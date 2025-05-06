@@ -433,7 +433,6 @@ h1:focus {
     background-image: url('LocalImage/IconAndGroup/background-myth.png');
     background-size: cover;
     background-position: center;
-    height: 120vh;
 }
 .product-demo-card-container{
     display: flex;
@@ -468,8 +467,8 @@ h1:focus {
     justify-content: center;
     box-shadow: 0px 0px 10px 1px rgba(0, 0, 0, 0.2);
     margin: 10px;
-    width: 100px;
-    height: 100px;
+    width: 80px;
+    height: 80px;
 }
 .product-demo-card-more{
     display: flex;
@@ -483,6 +482,7 @@ h1:focus {
     max-width: 100px;
     max-height: 100px;
     border-radius: 10px;
+    box-shadow: 0px 0px 10px 1px rgba(0, 0, 0, 0.2);
 }
 .product-demo-card-name{
     font-family: 'Nico Moji', sans-serif;
@@ -491,7 +491,7 @@ h1:focus {
 }
 .product-demo-card-price{
     font-family: 'Nico Moji', sans-serif;
-    font-size: 30pt;
+    font-size: 26pt;
     text-align: center;
     margin-top: 10px;
 }
@@ -501,6 +501,15 @@ h1:focus {
     display: flex;
     justify-content: center;
     align-items: center;
+}
+.product-demo-card-buy-container-button{
+    font-family: 'Actay Light', sans-serif;
+    font-size: 14pt;
+    background-color: rgba(174, 174, 174, 0.63);
+    box-shadow: 0px 0px 10px 1px rgba(0, 0, 0, 0.2);
+    border: black solid 1px;
+    width: 50px; height: 50px;
+    margin: 10px;
 }
 .product-demo-card-buy{
     font-family: "Actay Light", sans-serif;
@@ -515,7 +524,6 @@ h1:focus {
 .product-demo-louer{
     background: white;
     width: 100%;
-    height: 300vh;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -552,34 +560,72 @@ h1:focus {
 .product-demo-recommendations-card{
     border-radius: 10px;
     scroll-snap-align: center;
-    margin: 50px;
-    max-width: 300px;
-    max-height: 300px;
+    margin-left: 100px;
+    margin-right: 50px;
+    max-width: 500px;
+    max-height: 500px;
 }
 .product-demo-recommendations-card img:hover{
     transform: scale(1.1) translateX(0px);
     animation: ani 0.5s;
 }
 .product-demo-recommendations-card img{
-    max-width: 200px;
-    max-height: 200px;
-    border-radius: 20px;
+    max-width: 350px;
+    max-height: 350px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px 1px rgba(0, 0, 0, 0.2);
 }
 .product-demo-recommendations-text{
     font-family: 'Nico Moji', sans-serif;
     font-size: 20pt;
     color: black;
     margin: 5px;
-    text-align: center;
+    text-align: left;
 }
-
-
+.product-demo-desc{
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    margin: 50px;
+}
+.product-demo-desc button{
+    border: none;
+    background-color: rgba(255, 255, 255, 0);
+    font-family: "Actay Light", sans-serif;
+    font-size: 15pt;
+    margin-right: 150px;
+}
+.product-demo-desc img{
+    max-width: 50px;
+    max-height: 50px;
+    margin-left: 5px;
+}
+.product-demo-desc h1{
+    font-family: 'Nico Moji', sans-serif;
+    font-size: 20pt;
+    margin-left: 50px;      
+}
 ::selection{
     background-color: pink;
     color:  black;
 }
 .test{
-    width: 500px;
-    height: 500px;
-    background-color: white;
+    background-color: pink;
+    background-size: cover;
+    background-position: center;
+    height: 100vh;
+}
+.t-carousel{
+    display: flex;
+}
+.t-carousel-item{
+    text-align: center;
+    width: 400px; height: 400px;
+    justify-content: center;
+    align-items: center;
+    margin: 20px;
+}
+.t-carousel-item img {
+    width: 300px; height: 300px;
+    border-radius: 20px;
 }
