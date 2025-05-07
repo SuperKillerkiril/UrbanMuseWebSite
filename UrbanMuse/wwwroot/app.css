@@ -422,7 +422,7 @@ h1:focus {
 }
 .product-demo-menu{
     z-index: 1001;
-    padding: 5px;
+    padding-top: 10px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -432,8 +432,45 @@ h1:focus {
     background: white;
     width: 20%;
     min-height: 100%;
-    animation: ani 0.5s forwards;
+    animation: ani 0.2s forwards;
 }
+.product-demo-menu-button{
+    margin-left: 210px;
+    border: none;
+    border-radius: 49%;
+    box-shadow: 0px 0px 10px 1px rgba(0, 0, 0, 0.2);
+    background-color: rgba(64, 64, 64, 0);
+}
+.product-demo-menu-button img{
+    margin: 5px;
+    min-width: 55px;
+    min-height: 55px;
+    max-width: 56px;
+    max-height: 56px;
+}
+.product-demo-menu-button-another{
+    font-family: 'Bruno Ace SC', sans-serif;
+    font-size: 18pt;
+    border: none;
+    border-radius: 10px;
+    width: 95%;
+    height: 10%;
+    display: flex;
+    align-items: center;
+    padding: 20px;
+    margin-top: 20px;
+}
+.product-demo-menu-button-another a{
+    width: 100%;
+    text-align: center;
+}
+.product-demo-menu-button-another img{
+    max-height: 50px;
+    max-width: 50px;
+    min-width: 50px;
+    min-height: 50px;
+}
+
 .product-demo-header-right {
     z-index: 1000;
     position: fixed;
@@ -610,10 +647,6 @@ h1:focus {
     max-width: 500px;
     max-height: 500px;
     padding-top: 10px;
-}
-.product-demo-recommendations-card img:hover{
-    transform: scale(1.05) translateX(0px);
-    animation: ani 0.5s;
 }
 .product-demo-recommendations-card img{
     max-width: 350px;

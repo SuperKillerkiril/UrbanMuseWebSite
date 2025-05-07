@@ -15,9 +15,19 @@
 @if (IsMenuOpen)
 {
     <div class="product-demo-menu">
-        <button>home</button>
-        <button>home</button>
-        <button>home</button>
+        <button class="product-demo-menu-button" @onclick="OpenMenu"><img src="LocalImage/IconDemo/menu.svg"/></button>
+        <button class="product-demo-menu-button-another" @onclick="NavigateToHome">
+            <img src="LocalImage/IconAndGroup/house.svg"/>
+            <a>HOME</a>
+        </button>
+        <button class="product-demo-menu-button-another" @onclick="NavigateToStore">
+            <img src="LocalImage/IconAndGroup/shopping-basket.svg"/>
+            <a>STORE</a>
+        </button>
+        <button class="product-demo-menu-button-another" @onclick="NavigateToAbout">
+            <img src="LocalImage/IconAndGroup/amphora.svg"/>
+            <a>ABOUT US</a>
+        </button>
     </div>
 }
 
@@ -85,7 +95,7 @@
     </div>
     <div class="product-demo-desc-hr"></div>
     <div class="product-demo-desc">
-        <button>I luuuuf i luf i luf i u</button>
+        <button @onclick="NavigateToNew">I luuuuf i luf i luf i u</button>
         <a>URBAN MUSE</a><img class="store-header-img" src="LocalImage/IconAndGroup/amphora.svg"/>
     </div>
 </div>
@@ -137,6 +147,13 @@
     { NavigationManager.NavigateTo("/registered"); }
     public void NavigateToNew()
     { NavigationManager.NavigateTo("/New"); }
+    public void NavigateToHome()
+    { NavigationManager.NavigateTo("");}
+    public void NavigateToStore()
+    { NavigationManager.NavigateTo("/store");}
+    public void NavigateToAbout()
+    { NavigationManager.NavigateTo("/about");}
+    
 
     private async void Timer()
     { await Task.Delay(2000); msg = null; StateHasChanged(); }
@@ -145,7 +162,7 @@
     {
         if (!IsAuth)
         {
-            msg = "you are not logged in"; /*ДОБ. ОКНО ВЫВОДА СООБЩЕНИЯ*/
+            msg = "you are not logged in";
         }
         else
         {
