@@ -58,6 +58,14 @@ h1:focus {
 .form-floating > .form-control-plaintext:focus::placeholder, .form-floating > .form-control:focus::placeholder {
     text-align: start;
 }
+
+
+@font-face {
+    font-family: 'Nico Moji';
+    src: url('Fonts/NicoMoji-Regular.ttf');
+}
+
+
 .home-custom-background{
     background-image: url('LocalImage/IconAndGroup/header.png');
     background-size: cover; 
@@ -374,6 +382,7 @@ h1:focus {
     padding: 10px;
     background-color: lightgray;
     border-radius: 15px;
+    margin: 5px;
 }
 .registered-text{
     font-family: 'Nico Moji', sans-serif;
@@ -382,6 +391,7 @@ h1:focus {
 .about-header{
     font-family: 'Nico Moji', sans-serif;
     font-size: 45pt;
+    margin: 20px;
 }
 .about-container{
     display: flex;
@@ -389,6 +399,40 @@ h1:focus {
     align-items: center;
     flex-direction: column;
     max-width: 80%;
+}
+.product-demo-message{
+    position: fixed;
+    left: 50%;
+    transform: translateX(-50.5%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    bottom: 0;
+    background-color: white;
+    border-radius: 20px;
+    text-align: center;
+    font-family: 'Nico Moji', sans-serif;
+    font-size: 20pt;
+    min-height: 50px;
+    min-width: 20px;
+    padding: 25px;
+    margin: 25px;
+    animation: ani 0.5s forwards;
+}
+.product-demo-menu{
+    z-index: 1001;
+    padding: 5px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    right: 0;
+    background: white;
+    width: 20%;
+    min-height: 100%;
+    animation: ani 0.5s forwards;
 }
 .product-demo-header-right {
     z-index: 1000;
@@ -549,9 +593,10 @@ h1:focus {
 {
     width: 100%;
     display: flex;
-    overflow-x: scroll;
     scroll-snap-type: x mandatory;
     animation: ani 0.5s forwards;
+    overflow: hidden;
+    padding-top: 15px;
 }
 .product-demo-recommendations-carousel:hover > .product-demo-recommendations-card:not(:hover){
     filter: blur(3px);
@@ -560,13 +605,14 @@ h1:focus {
 .product-demo-recommendations-card{
     border-radius: 10px;
     scroll-snap-align: center;
-    margin-left: 100px;
-    margin-right: 50px;
+    margin-left: 60px;
+    margin-right: 60px;
     max-width: 500px;
     max-height: 500px;
+    padding-top: 10px;
 }
 .product-demo-recommendations-card img:hover{
-    transform: scale(1.1) translateX(0px);
+    transform: scale(1.05) translateX(0px);
     animation: ani 0.5s;
 }
 .product-demo-recommendations-card img{
@@ -587,6 +633,15 @@ h1:focus {
     align-items: center;
     justify-content: space-evenly;
     margin: 50px;
+    text-align: center;
+}
+.product-demo-desc-hr{
+    width: 90%;
+    height: 1px;
+    margin-top: 50px;
+    border: 2px solid #000000;
+    border-radius: 2px;
+    color: black;
 }
 .product-demo-desc button{
     border: none;
@@ -600,10 +655,13 @@ h1:focus {
     max-height: 50px;
     margin-left: 5px;
 }
-.product-demo-desc h1{
+.product-demo-desc a{
     font-family: 'Nico Moji', sans-serif;
     font-size: 20pt;
-    margin-left: 50px;      
+    margin-left: 50px;
+    text-align: center;
+    align-items: center;
+    
 }
 ::selection{
     background-color: pink;

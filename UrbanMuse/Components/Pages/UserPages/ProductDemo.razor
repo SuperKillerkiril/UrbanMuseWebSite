@@ -5,6 +5,21 @@
 @inject NavigationManager NavigationManager
 @rendermode InteractiveServer
 @inject Blazored.LocalStorage.ILocalStorageService LocalStorage
+@if (msg != null)
+{
+    <div class="product-demo-message">
+        <a>@msg</a>
+    </div>
+    Timer();
+}
+@if (IsMenuOpen)
+{
+    <div class="product-demo-menu">
+        <button>home</button>
+        <button>home</button>
+        <button>home</button>
+    </div>
+}
 
 <div class="product-demo-header-right">
     <div class="store-header-logo-text">
@@ -18,7 +33,7 @@
 <div class="product-demo-header-left">
     <button @onclick="NavigateToRegistred"><img src="LocalImage/IconAndGroup/log-in.svg"/></button>
     <button ><img src="LocalImage/IconAndGroup/shopping-basket.svg"/></button>
-    <button ><img src="LocalImage/IconDemo/menu.svg"/></button>
+    <button @onclick="OpenMenu"><img src="LocalImage/IconDemo/menu.svg"/></button>
 </div>
 
 
@@ -31,11 +46,10 @@
             <button @onclick="Next"><img src="LocalImage/IconDemo/chevron-left.png"/></button>
         </div>
     </div>
-    @msg
     <div class="product-demo-card-more">
         @foreach (var img in _product.Image)
         {
-            <img src="@img"/>
+            <img @onclick="() => currentimgSet(img)" src="@img"/>
         }
     </div>
     <div class="product-demo-card-name">@_product.Name</div>
@@ -69,10 +83,10 @@
             </div>
         }
     </div>
-    
+    <div class="product-demo-desc-hr"></div>
     <div class="product-demo-desc">
-        <button>I luuuuf i luf i luf i luf</button>
-        <h1>URBAN MUSE</h1><img class="store-header-img" src="LocalImage/IconAndGroup/amphora.svg"/>
+        <button>I luuuuf i luf i luf i u</button>
+        <a>URBAN MUSE</a><img class="store-header-img" src="LocalImage/IconAndGroup/amphora.svg"/>
     </div>
 </div>
 
@@ -88,8 +102,20 @@
     private List<Product> _products = new List<Product>();
     private int currentSize = 2;
     private int currentimg;
-    private string msg;
+    private string? msg = null;
     private bool IsAuth = false;
+    private bool IsMenuOpen = false;
+
+    protected void OpenMenu()
+    {
+        IsMenuOpen = !IsMenuOpen;
+        StateHasChanged();
+    }
+
+    private void currentimgSet(string imge)
+    {
+        currentimg = _product.Image.Where(img => img == imge).Count();
+    }
 
     protected override async void OnInitialized()
     {
@@ -111,6 +137,9 @@
     { NavigationManager.NavigateTo("/registered"); }
     public void NavigateToNew()
     { NavigationManager.NavigateTo("/New"); }
+
+    private async void Timer()
+    { await Task.Delay(2000); msg = null; StateHasChanged(); }
 
     private async void  CreateOrder()
     {

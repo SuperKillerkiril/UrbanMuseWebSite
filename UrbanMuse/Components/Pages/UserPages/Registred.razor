@@ -15,6 +15,10 @@
             <input class="registered-form-input" type="password" @bind="_client.Password" placeholder="Password"/>
             <input class="registered-form-input" type="date" @bind="_client.BirthDate" placeholder="Birthday Date"/>
             <button class="registered-form-button" @onclick="Register">ACCEPT</button>
+            @if (IsAuth)
+            {
+            <button class="registered-form-button" @onclick="ReAuth">log in to a new account</button>
+            }
         </div>
         <NavLink class="nav-link" href="auth">have an account?</NavLink>
         @Msg
@@ -33,16 +37,21 @@
     protected override async void OnInitialized()
     {
         IsAuth = await LocalStorage.GetItemAsync<bool>("IsAuth");
-    }
-
-    public async Task Register()
-    {
         if (IsAuth)
         {
             Msg = "You have successfully logged in";
-            await Task.Delay(1000);
-            NavigationManager.NavigateTo("");
         }
+        StateHasChanged();
+    }
+    private void ReAuth()
+    {
+        LocalStorage.SetItemAsync("IsAuth", false);
+        Msg = "Enter your account details";
+        StateHasChanged();
+    }
+    
+    public async Task Register()
+    {
         if (ef.Clients.FirstOrDefault(c => c.Email == _client.Email) != null)
         {
             Msg = "This email is already busy.";
