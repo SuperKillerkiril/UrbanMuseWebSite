@@ -81,6 +81,7 @@ else
             Id = await LocalStorage.GetItemAsync<int>("clientId");
             _client = ef.Clients.FirstOrDefault(c => c.Id == Id);
             role = _client.Role;
+            StateHasChanged();
         }
         catch (Exception e)
         {

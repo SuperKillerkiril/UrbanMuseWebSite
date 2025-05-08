@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace ClassLibrary1.Migrations
 {
     /// <inheritdoc />
-    public partial class _01053 : Migration
+    public partial class Init : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -40,7 +40,8 @@ namespace ClassLibrary1.Migrations
                     Price = table.Column<double>(type: "REAL", nullable: false),
                     Image = table.Column<string>(type: "TEXT", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    Size = table.Column<int>(type: "INTEGER", nullable: false)
+                    Size = table.Column<int>(type: "INTEGER", nullable: false),
+                    CollectionId = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -56,6 +57,7 @@ namespace ClassLibrary1.Migrations
                     OrderDate = table.Column<DateTime>(type: "TEXT", nullable: false),
                     ShippedDate = table.Column<DateTime>(type: "TEXT", nullable: false),
                     Comment = table.Column<string>(type: "TEXT", nullable: true),
+                    Status = table.Column<string>(type: "TEXT", nullable: true),
                     ClientId = table.Column<int>(type: "INTEGER", nullable: true),
                     ProductId = table.Column<int>(type: "INTEGER", nullable: true)
                 },

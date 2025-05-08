@@ -42,7 +42,7 @@
 
 <div class="product-demo-header-left">
     <button @onclick="NavigateToRegistred"><img src="LocalImage/IconAndGroup/log-in.svg"/></button>
-    <button ><img src="LocalImage/IconAndGroup/shopping-basket.svg"/></button>
+    <button @onclick="NavigateToCart"><img src="LocalImage/IconAndGroup/shopping-basket.svg"/></button>
     <button @onclick="OpenMenu"><img src="LocalImage/IconDemo/menu.svg"/></button>
 </div>
 
@@ -153,6 +153,8 @@
     { NavigationManager.NavigateTo("/store");}
     public void NavigateToAbout()
     { NavigationManager.NavigateTo("/about");}
+    public void NavigateToCart()
+    { NavigationManager.NavigateTo("/cart"); }
     
 
     private async void Timer()

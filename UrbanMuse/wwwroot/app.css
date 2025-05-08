@@ -163,7 +163,7 @@ h1:focus {
 .store-title-slogan {
     font-family: 'Gerhaus', sans-serif;
     font-size: 128pt;
-    padding-top: 350px;
+    padding-top: 500px; 
     text-align: center;
     transition: transform 0.3s
 }
@@ -696,6 +696,19 @@ h1:focus {
     align-items: center;
     
 }
+.cart-background{
+    background-image: url('LocalImage/Backgrounds/Cloud2k.jpg');
+    background-size: cover;
+    background-position: center;
+    height: 100vh;
+    overflow:scroll;
+    animation: ani 0.5s forwards;
+}
+
+
+
+
+
 ::selection{
     background-color: pink;
     color:  black;

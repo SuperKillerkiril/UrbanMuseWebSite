@@ -11,8 +11,8 @@ using UrbanMuse.DataBase;
 namespace ClassLibrary1.Migrations
 {
     [DbContext(typeof(ModelContext))]
-    [Migration("20250501125113_01.05.3")]
-    partial class _01053
+    [Migration("20250508203736_Init")]
+    partial class Init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -70,6 +70,9 @@ namespace ClassLibrary1.Migrations
                     b.Property<DateTime>("ShippedDate")
                         .HasColumnType("TEXT");
 
+                    b.Property<string>("Status")
+                        .HasColumnType("TEXT");
+
                     b.HasKey("Id");
 
                     b.HasIndex("ClientId");
@@ -83,6 +86,9 @@ namespace ClassLibrary1.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("CollectionId")
                         .HasColumnType("INTEGER");
 
                     b.Property<DateTime>("CreatedAt")
@@ -116,7 +122,7 @@ namespace ClassLibrary1.Migrations
             modelBuilder.Entity("UrbanMuse.Models.Order", b =>
                 {
                     b.HasOne("UrbanMuse.Models.Client", "Client")
-                        .WithMany()
+                        .WithMany("Orders")
                         .HasForeignKey("ClientId");
 
                     b.HasOne("UrbanMuse.Models.Product", "Product")
@@ -126,6 +132,11 @@ namespace ClassLibrary1.Migrations
                     b.Navigation("Client");
 
                     b.Navigation("Product");
+                });
+
+            modelBuilder.Entity("UrbanMuse.Models.Client", b =>
+                {
+                    b.Navigation("Orders");
                 });
 #pragma warning restore 612, 618
         }

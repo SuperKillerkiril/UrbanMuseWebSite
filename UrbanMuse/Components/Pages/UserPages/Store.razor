@@ -30,7 +30,9 @@
     </div>
     <div class="store-header-button-container">
         <img class="store-header-button-img" src="LocalImage/IconAndGroup/поиск.svg"/>
-        <img class="store-header-button-img" src="LocalImage/IconAndGroup/корзина.svg"/>
+        <NavLink href="cart">
+            <img class="store-header-button-img" src="LocalImage/IconAndGroup/корзина.svg"/>
+        </NavLink>
     </div>
 </div>
 
@@ -185,6 +187,5 @@
         }
         
     }/*Кароче, во-первых, идея по стору = удалять повторки или переделать модель
-    (модель продукта наследуется от продукта, но с собственными доп полями)
-    еще не работает поиск по листу не получается конвертировать енум в стринг, но это умеет селекшн и опшн*/
+    (модель продукта наследуется от продукта, но с собственными доп полями)*/
 }
