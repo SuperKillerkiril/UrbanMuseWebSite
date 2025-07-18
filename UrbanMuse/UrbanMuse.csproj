@@ -12,6 +12,7 @@
       <_ContentIncludedByDefault Remove="Components\Layout\NavMenu.razor" />
       <_ContentIncludedByDefault Remove="Components\MyLayout\NullLayout.razor" />
       <_ContentIncludedByDefault Remove="Components\AdminPages\AddProduct.razor" />
+      <_ContentIncludedByDefault Remove="Components\CustomLayout\CustomLayout.razor" />
     </ItemGroup>
 
     <ItemGroup>

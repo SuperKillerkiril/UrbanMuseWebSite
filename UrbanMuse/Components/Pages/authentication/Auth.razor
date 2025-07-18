@@ -60,10 +60,10 @@
             if (_authClient != null && _authClient.Password == _client.Password)
             {
                 Msg = "You have successfully logged in";
-                LocalStorage.SetItemAsync("clientId", _client.Id);
-                LocalStorage.SetItemAsync("clientemail", _client.Email);
-                LocalStorage.SetItemAsync("clientpassword", _client.Password);
-                LocalStorage.SetItemAsync("IsAuth", true);
+                await LocalStorage.SetItemAsync("clientId", _client.Id);
+                await LocalStorage.SetItemAsync("clientemail", _client.Email);
+                await LocalStorage.SetItemAsync("clientpassword", _client.Password);
+                await LocalStorage.SetItemAsync("IsAuth", true);
                 await Task.Delay(1000);
                 NavigationManager.NavigateTo("");
             }

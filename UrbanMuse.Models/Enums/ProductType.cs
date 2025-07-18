@@ -1,6 +1,6 @@
 ﻿namespace UrbanMuse.Models;
 
-public enum ProductEnumType
+public enum ProductType
 {
     Hoodie,
     Pants,

@@ -1,4 +1,5 @@
 @page "/store"
+@using Microsoft.EntityFrameworkCore
 @using Microsoft.EntityFrameworkCore.Query.SqlExpressions
 @using UrbanMuse.DataBase
 @using UrbanMuse.Models
@@ -29,163 +30,161 @@
         </div><!--Можно кодом актуальный год поставить или год самой свежей коллекции (фильтр по бд)-->
     </div>
     <div class="store-header-button-container">
-        <img class="store-header-button-img" src="LocalImage/IconAndGroup/поиск.svg"/>
+        <NavLink href="">
+            <div class="store-header-button">
+                <img src="LocalImage/IconAndGroup/profile.svg"/>
+            </div>
+        </NavLink>
         <NavLink href="cart">
-            <img class="store-header-button-img" src="LocalImage/IconAndGroup/корзина.svg"/>
+            <div class="store-header-button">
+                <img src="LocalImage/IconAndGroup/shopping-basket.svg"/>
+            </div>
         </NavLink>
     </div>
 </div>
 
-<div @onscroll="@OnScroll" id="myDiv" class="home-custom-background">
+<div class="home-custom-background">
     <div class="store-title-slogan">
         ART IN EVERYDAY
     </div>
     <div class="store-background-catalog">
         <div class="store-filter-container">
-            <button class="store-filter-button" @onclick="ClearFilter">
-                <div class="store-filter-button-sort">
-                    <img src="LocalImage/IconAndGroup/shopping-basket.svg"/>
-                    <a>ALL PRODUCT</a>
-                </div>
+            
+            <button class="store-filter-allprod" @onclick="ClearFilter">
+                <img src="LocalImage/IconAndGroup/shopping-basket.svg"/>
+                <a>ALL PRODUCT</a>
             </button>
+            
             <button class="store-filter-button" @onclick="ToggleMenuType">
-                <div class="store-filter-button-sort">
-                    <img src="LocalImage/IconAndGroup/list.svg"/>
-                    <a>TYPE</a>
-                </div>
+                <img src="LocalImage/IconAndGroup/list.svg"/>
+                <a>TYPE</a>
             </button>
+            
             @if (IsMenuTypeOpen)
             {
-                <select class="dropdown-store-menu" @bind="SelectedType">
-                    @foreach (ProductEnumType productEnumType in Enum.GetValues(typeof(ProductEnumType)))
+                <select class="dropdown-store-menu" @bind="_searchOption.ProductType">
+                    @foreach (ProductType productEnumType in Enum.GetValues(typeof(ProductType)))
                     {
                         <option value="@productEnumType">@productEnumType</option>
                     }
                 </select>
             }
+            
             <button class="store-filter-button" @onclick="ToggleMenuPrice">
-                <div class="store-filter-button-sort">
-                    <img class="store-filter-img" src="LocalImage/IconAndGroup/circle-percent.svg"/>
-                    <a>PRICE</a>
-                </div>
+                <img class="store-filter-img" src="LocalImage/IconAndGroup/circle-percent.svg"/>
+                <a>PRICE</a>
             </button>
+            
             @if (IsMenuPriseOpen)
             {
                 <div class="dropdown-store-menu">
-                <label>min @MinPrice</label>
-                <input type="range" min="0" max="10000" step="100" @bind="MinPrice"/>
-                <label>max @MaxPrice</label>
-                <input type="range" min="0" max="10000" step="100" @bind="MaxPrice"/>
+                    <div class="dropdown-store-menu-input-container">
+                        <a>от</a>
+                        <input type="text" @bind="_searchOption.Min"/>
+                    </div>
+                    <div class="dropdown-store-menu-input-container">
+                        <a>до</a>
+                        <input type="text" @bind="_searchOption.Max"/>
+                    </div>
+                    
                 </div>
             }
+            
             <button class="store-filter-button">
-                <div class="store-filter-button-sort">
-                    <img src="LocalImage/IconAndGroup/circle-check.svg"/>
-                    <a></a>
-                </div>
+                <img src="LocalImage/IconAndGroup/circle-check.svg"/>
+                <a>PREORDER</a>
             </button>
-            <button class="store-filter-button" @onclick="ReSearchType">apply</button>
+            
+            <button class="store-filter-button" @onclick="ReSearchByTypeAndPrice"><a>apply</a></button>
         </div>
        
         
-        
-        
-        
-        
-        <div class="store-product-card-container">
-            @foreach (var prod in _products)
-            { <div class="store-product-card"><!--Добавить ограничение по максимуму и минимуму пикселей проверить верстку-->
-                <img src="@prod.Image[0]"/>
-                <div class="store-product-card-description">
-                    <div class="store-product-card-name">@prod.Name</div>
-                    <div class="store-product-card-name">@prod.Price</div>
+        <div class="store-catalog">
+            <div class="store-catalog-search-bar-container">
+                <div class="store-catalog-search-bar">
+                    <img src="LocalImage/IconAndGroup/search.svg"/>
+                    <input @bind="_searchOption.SearchText" type="text" placeholder="Search on stuff"/>
+                    <button @onclick="ReSearchBySearchText">Search</button>
                 </div>
-                <div class="store-product-card-description">
-                    <button class="store-product-card-button-add-to-cart">Add to cart</button>
-                    <button class="store-product-card-button-buy" @onclick="() =>GoToProductDetail(prod.Id)">Buy</button><!--Поменять картинку на продукт с белым фоном из фигмы, и поменять контейнер-->
-                </div>
-                </div>
-            }
+            </div>
+            
+            <div class="store-product-card-container">
+                @foreach (var prod in _products)
+                {
+                    <div class="store-product-card">
+                        <img src="@prod.Image[0]"/>
+                        <div class="store-product-card-description">
+                            <div class="store-product-card-name">@prod.Name</div>
+                            <div class="store-product-card-name">@prod.Price</div>
+                        </div>
+                        <div class="store-product-card-description">
+                            <button class="store-product-card-button-add-to-cart">Add to cart</button>
+                            <button class="store-product-card-button-buy" @onclick="() => GoToProductDetail(prod.Id)">Buy</button>
+                        </div>
+                    </div>
+                }
+            </div>
+            @msg
+            <div class="store-catalog-more">
+                <button>more</button>
+            </div>
         </div>
     </div>
+    
 </div>
 
 
-<script suppress-error="BL9992">
-    window.getScrollToTop =  (selector) => {
-        return document.querySelector(selector).scrollTop
-    }
-</script>
-
-
 @code {
+    private List<Product> _products = new();
+    private SearchOption _searchOption = new();
     private readonly int _actualYear = DateTime.Now.Year;
-    public int ScrollTop { get; set; }
+    private int HowMuchToTake = 10;    
+    private bool IsMenuTypeOpen = false;
+    private bool IsMenuPriseOpen = false;
     private string msg;
-    private List<Product> _products = new List<Product>();
 
     protected override void OnInitialized()
     {
         LoadProduct();
     }
-
     private void LoadProduct()
     {
-        _products = ef.Products.ToList();
+        _products = ef.Products.Take(HowMuchToTake).ToList();
     }
-
     private void GoToProductDetail(int productId)
     {
         Navigation.NavigateTo($"/product/{productId}");
     }
-
-    private bool IsMenuTypeOpen = false;
+    
     private void ToggleMenuType()
     {
         IsMenuTypeOpen = !IsMenuTypeOpen;
     }
-
-    private bool IsMenuPriseOpen = false;
     private void ToggleMenuPrice()
     {
         IsMenuPriseOpen = !IsMenuPriseOpen;
     }
-
-    private async Task OnScroll(EventArgs e)
-    {
-        ScrollTop = await IJSRuntime.InvokeAsync<int>("getScrollToTop", "#myDiv");
-    }
-
-
-    private string? SelectedType;
-    private int MinPrice = 0;
-    private int MaxPrice = 0;
-   
-
+    
     void ClearFilter()
     {
+        _searchOption = new SearchOption();
+        HowMuchToTake = 10;
         LoadProduct();
+        StateHasChanged();
     }
     
-    private void ReSearchType()
+    private async Task ReSearchByTypeAndPrice()
     {
-        try
-        {
-            LoadProduct();
-            if (SelectedType != null)
-            {
-            _products = _products.Where(p => p.Type == SelectedType).ToList();
-            }
-            if (MaxPrice>MinPrice)
-            {
-            _products = _products.Where(p => p.Price > MinPrice & p.Price < MaxPrice).ToList();
-            }
-        }
-        catch (Exception e)
-        {
-            msg = e.ToString();
-        }
-        
-    }/*Кароче, во-первых, идея по стору = удалять повторки или переделать модель
-    (модель продукта наследуется от продукта, но с собственными доп полями)*/
+        _products = await ef.Products
+            .Where(p => p.Price >= _searchOption.Min && p.Price <= _searchOption.Max)
+            .Where(p => p.Type == _searchOption.ProductType.ToString()).ToListAsync();
+    }
+
+    private async Task ReSearchBySearchText()
+    {
+        _products = await ef.Products
+            .Where(p => EF.Functions.Like(p.Name, $"%{_searchOption.SearchText}%")
+                        || EF.Functions.Like(p.Name, $"%{_searchOption.SearchText[0]}%"))
+            .ToListAsync();
+    }
 }
