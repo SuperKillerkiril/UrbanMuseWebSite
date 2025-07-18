@@ -11,7 +11,8 @@ public class Product
     public double Price { get; set; }
     public List<string>  Image { get; set; }
     public DateTime CreatedAt { get; set; }
-    
     public int Size { get; set; }
+    
+    public int CollectionId { get; set; }
     
 }

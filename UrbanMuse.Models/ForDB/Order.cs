@@ -11,6 +11,8 @@ public class Order
     public DateTime ShippedDate { get; set; }
     public string? Comment { get; set; }
     
+    public string? Status { get; set; }
+    
     public int? ClientId { get; set; }
     [ForeignKey("ClientId")] public Client? Client { get; set; }
     public int? ProductId { get; set; }

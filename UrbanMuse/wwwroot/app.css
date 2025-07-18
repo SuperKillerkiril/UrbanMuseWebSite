@@ -64,7 +64,10 @@ h1:focus {
     font-family: 'Nico Moji';
     src: url('Fonts/NicoMoji-Regular.ttf');
 }
-
+@font-face {
+    font-family: 'Bruno Ace';
+    src: url('Fonts/BrunoAce-Regular.ttf');
+}
 
 .home-custom-background{
     background-image: url('LocalImage/IconAndGroup/header.png');
@@ -162,19 +165,20 @@ h1:focus {
 }
 .store-title-slogan {
     font-family: 'Gerhaus', sans-serif;
-    font-size: 128pt;
-    padding-top: 350px;
+    padding-top: 500px;
+    font-size: 150px;
     text-align: center;
     transition: transform 0.3s
 }
 
 .store-background-catalog{
+    padding: 35px;
     display: flex;
+    min-height: 100vh;
     width: 90%;
     background-color: #ffffff; 
-    border-radius: 20px; 
+    border-radius: 30px 30px 0 0; 
     margin: 0 auto;
-    padding-bottom: 50px;
     box-shadow: 0px 0px 10px 1px rgba(0, 0, 0, 0.4);
 }
 .store-header{
@@ -192,10 +196,12 @@ h1:focus {
     align-items: center
 }
 .store-header-img{
-    right: 10px;
+    margin-left: 10px;
+    max-width: 60px;
 }
 .store-header-logo-text{
-    margin: 5px;
+    margin: 10px;
+    padding-top: 5px;
     font-family: 'Nico Moji', sans-serif;
     font-size: 26pt;
     color: black;
@@ -221,52 +227,70 @@ h1:focus {
     padding: 30px 30px;
 }
 .store-header-button-container{
-    align-items: center;
+    margin-right: 15px;
     display: flex;
-    justify-content: center;
-    position: absolute;
-    right: 30px;
-    top: 50%;
-    transform: translateY(-50%);
 }
-.store-header-button-img{
-    max-width: 70px;
-    max-height: 70px;
+.store-header-button{
+    background-color: white;
+    border-radius: 50%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    width: 70px;
+    height: 70px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     margin: 10px;
 }
+.store-header-button img{
+    width: 60px;
+    height: 60px;
+    
+}
 .store-filter-container{
+    position: sticky;
+    top: 150px;
     display: flex;
     flex-direction: column;
     min-width: 300px;
     width: 25%; height: 30%;
-    margin: 25px;
     padding: 25px;
     border-radius: 20px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 
 }
-.store-filter-button{
-    font-family: 'Gerhaus', sans-serif;
-    font-size: 15pt;
-    color: black;
-    background-color: lightgray;
-    border-radius: 20px; border: none;
-    max-height: 10%;
+.store-filter-allprod{
+    padding: 25px;
     display: flex;
     align-items: center;
-    padding: 10px;
-    margin: 5px;
+    border: none;
+    border-radius: 15px;
+    background-color: rgba(217, 217, 217, 1);
+    max-height: 70px;
 }
-.store-filter-button-sort{
+.store-filter-allprod a{
     text-align: center;
+    width: 100%;
+    font-size: 15pt;
+    font-family: "Bruno Ace SC", serif;
 }
-.store-filter-button-sort img{
-    margin: 10px;
-    max-width: 50px;
-    max-height: 50px;
+.store-filter-button{
+    padding: 25px;
+    display: flex;
+    align-items: center;
+    border: none;
+    border-radius: 15px;
+    background: none;
+    max-height: 70px;
+}
+.store-filter-button a{
+    text-align: center;
+    width: 100%;
+    font-size: 15pt;
+    font-family: "Bruno Ace SC", serif;
 }
 .dropdown-store-menu{
     font-size: 15pt;
+    display: flex;
     background-color: white;
     color: black;
     border: none;
@@ -279,12 +303,69 @@ h1:focus {
     0% {opacity: 0;}
     100% {opacity: 1;}
 }
+.dropdown-store-menu-input-container{
+    display: flex;
+    flex-direction: column;
+    max-width: 50%;
+    padding: 10px;
+}
+.dropdown-store-menu-input-container input{
+    
+    border: none;
+    border-radius: 10px;
+    background-color:  rgba(217, 217, 217, 1);
+}
+.store-catalog{
+    width: 75%;
+    display: flex;
+    flex-direction: column;
+    margin-top: 35px;
+    padding: 0px 25px 0px 25px;
+}
+.store-catalog-search-bar-container{
+    width: 100%;
+    display: flex;
+    justify-content: flex-end
+}
+.store-catalog-search-bar{
+    padding: 10px;
+    width: 50%;
+    height: 60px;
+    display: flex;
+    justify-content: space-between;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    border-radius: 40px;
+    align-items: center;
+}
+.store-catalog-search-bar input{
+    border: none;
+    background: none;
+    font-size: 15pt;
+    outline:none;
+}
+.store-catalog-search-bar img{
+    width: 40px;
+    height: 40px;
+    margin: 5px;
+}
+.store-catalog-search-bar button{
+    height: 100%;
+    border: none;
+    background-color: rgba(64, 64, 64, 1);
+    color: white;
+    font-family: "Bruno Ace", sans-serif;
+    font-size: 20pt;
+    border-radius: 25px;
+    padding: 0px 20px 0px 20px;
+}
+
 .store-product-card-container{
+    flex-direction: row;
+    justify-content: space-around;
     display: flex;
     flex-wrap: wrap;
     height: 100%;
     width: 100%;
-    margin-left: 35px;
 }
 .store-product-card{
     border-radius: 10px;
@@ -311,7 +392,7 @@ h1:focus {
     font-size: 26pt;
     color: black;
     margin: 5px;
-    text-align: right;
+    text-align: left;
 }
 .store-product-card-price{
     font-family: 'Nico Moji', sans-serif;
@@ -335,6 +416,18 @@ h1:focus {
     width: 150px;
     height: 40px;
     border-radius: 20px;
+}
+.store-catalog-more{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.store-catalog-more button{
+    font-family: 'Nico Moji', sans-serif;
+    font-size: 24pt;
+    border: none;
+    border-radius: 15px;
 }
 .registered-custom-background
 {
@@ -409,7 +502,7 @@ h1:focus {
     align-items: center;
     z-index: 1000;
     bottom: 0;
-    background-color: white;
+    background-color: #ff9df3;
     border-radius: 20px;
     text-align: center;
     font-family: 'Nico Moji', sans-serif;
@@ -418,7 +511,7 @@ h1:focus {
     min-width: 20px;
     padding: 25px;
     margin: 25px;
-    animation: ani 0.5s forwards;
+    animation: ani 5.5s forwards;
 }
 .product-demo-menu{
     z-index: 1001;
@@ -480,6 +573,10 @@ h1:focus {
     width: 20%;
     max-height: 9%;
     border-bottom-right-radius: 20px;
+    min-height: 9%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 .product-demo-header-left{
     z-index: 1000;
@@ -592,6 +689,10 @@ h1:focus {
     width: 50px; height: 50px;
     margin: 10px;
 }
+.selected {
+    background-color: rgb(177, 85, 157); 
+    color: white;
+}
 .product-demo-card-buy{
     font-family: "Actay Light", sans-serif;
    font-size: 20pt;
@@ -696,6 +797,19 @@ h1:focus {
     align-items: center;
     
 }
+.cart-background{
+    background-image: url('LocalImage/Backgrounds/Cloud2k.jpg');
+    background-size: cover;
+    background-position: center;
+    height: 100vh;
+    overflow:scroll;
+    animation: ani 0.5s forwards;
+}
+
+
+
+
+
 ::selection{
     background-color: pink;
     color:  black;

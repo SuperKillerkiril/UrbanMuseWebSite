@@ -33,16 +33,16 @@
 
 <div class="product-demo-header-right">
     <div class="store-header-logo-text">
-        <img class="store-header-img" src="LocalImage/IconAndGroup/amphora.svg">
         <NavLink class="nav-link" href="about">
+            <img class="store-header-img" src="LocalImage/IconAndGroup/amphora.svg">
             URBAN MUSE
         </NavLink>
     </div>
 </div>
 
 <div class="product-demo-header-left">
-    <button @onclick="NavigateToRegistred"><img src="LocalImage/IconAndGroup/log-in.svg"/></button>
-    <button ><img src="LocalImage/IconAndGroup/shopping-basket.svg"/></button>
+    <button @onclick="NavigateToRegistred"><img src="LocalImage/IconAndGroup/profile.svg"/></button>
+    <button @onclick="NavigateToCart"><img src="LocalImage/IconAndGroup/shopping-basket.svg"/></button>
     <button @onclick="OpenMenu"><img src="LocalImage/IconDemo/menu.svg"/></button>
 </div>
 
@@ -65,10 +65,10 @@
     <div class="product-demo-card-name">@_product.Name</div>
     <div class="product-demo-card-price">@_product.Price$</div>
     <div class="product-demo-card-buy-container">
-        <button class="product-demo-card-buy-container-button" @onclick="() => CurrentSize(1)">S</button>
-        <button class="product-demo-card-buy-container-button"  @onclick="() => CurrentSize(2)">M</button>
-        <button class="product-demo-card-buy-container-button"  @onclick="() => CurrentSize(3)">L</button>
-        <button class="product-demo-card-buy-container-button"  @onclick="() => CurrentSize(4)">XL</button>
+        <button class="product-demo-card-buy-container-button @GetButtonClass(1)" @onclick="() => CurrentSize(1)">S</button>
+        <button class="product-demo-card-buy-container-button @GetButtonClass(2)" @onclick="() => CurrentSize(2)">M</button>
+        <button class="product-demo-card-buy-container-button @GetButtonClass(3)"  @onclick="() => CurrentSize(3)">L</button>
+        <button class="product-demo-card-buy-container-button @GetButtonClass(4)"  @onclick="() => CurrentSize(4)">XL</button>
         <button class="product-demo-card-buy" @onclick="CreateOrder">Buy</button>
     </div>
 </div>
@@ -124,7 +124,7 @@
 
     private void currentimgSet(string imge)
     {
-        currentimg = _product.Image.Where(img => img == imge).Count();
+        currentimg = _product.Image.Count(img => img == imge);
     }
 
     protected override async void OnInitialized()
@@ -132,13 +132,26 @@
         LoadProduct();
         IsAuth = await LocalStorage.GetItemAsync<bool>("IsAuth");
     }
+
     private void CurrentSize(int size)
-    { currentSize = size; }
+    {
+        currentSize = size;
+        
+    }
+    string GetButtonClass(int size)
+    {
+        return currentSize == size ? "selected" : "";
+    }
 
     private void Next()
-    { currentimg = (currentimg + 1) % _product.Image.Count; }
+    {
+        currentimg = (currentimg + 1) % _product.Image.Count;
+    }
+    
     private void Previous()
-    { currentimg = (currentimg - 1 + _product.Image.Count) % _product.Image.Count; }
+    {
+        currentimg = (currentimg - 1 + _product.Image.Count) % _product.Image.Count;
+    }
 
     private void LoadProduct()
     { _product = ef.Products.FirstOrDefault(p => p.Id == id)!; _products = ef.Products.ToList(); }
@@ -153,10 +166,12 @@
     { NavigationManager.NavigateTo("/store");}
     public void NavigateToAbout()
     { NavigationManager.NavigateTo("/about");}
+    public void NavigateToCart()
+    { NavigationManager.NavigateTo("/cart"); }
     
 
     private async void Timer()
-    { await Task.Delay(2000); msg = null; StateHasChanged(); }
+    { await Task.Delay(10000); msg = null; StateHasChanged(); }
 
     private async void  CreateOrder()
     {
@@ -168,12 +183,12 @@
         {
             try
             {
-                ClientId = await LocalStorage.GetItemAsync<int>("clientId");
-                
                 _order.OrderDate = DateTime.Now;
                 
+                ClientId = await LocalStorage.GetItemAsync<int>("clientId");
+                _client = ef.Clients.FirstOrDefault(c => c.Id == ClientId)!;
+                _order.Client = _client;
                 _order.ClientId = ClientId;
-                _order.Client = ef.Clients.FirstOrDefault(c => c.Id == ClientId);
                 
                 _product.Size = currentSize;
                 _order.ProductId = _product.Id;
@@ -183,11 +198,11 @@
                 ef.SaveChanges();
                 msg = $"the order has been successfully created, the size {_product.Size}, the name {_product.Name}, all orders can be viewed in the shopping cart";
                 _order = null!;
-                _product = null!;
+                StateHasChanged();
             }
             catch (Exception e)
             {
-                msg = e.Message;
+                msg = "вы уже заказали этот товар, смотреть в корзине, если хотите заказать еще раз, обновите страницу";
             }
         }
     }
