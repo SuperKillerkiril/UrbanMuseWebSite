@@ -68,6 +68,10 @@ h1:focus {
     font-family: 'Bruno Ace';
     src: url('Fonts/BrunoAce-Regular.ttf');
 }
+@font-face {
+    font-family: 'Actay Wide';
+    src: url('Fonts/ActayWide-Bold.otf');
+}
 
 .home-custom-background{
     background-image: url('LocalImage/IconAndGroup/header.png');
@@ -806,7 +810,164 @@ h1:focus {
     animation: ani 0.5s forwards;
 }
 
+.profile-navbar{
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    padding: 2vh;
+}
+.profile-logo{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.profile-logo-text{
+    display: block;
+    margin: 10px;
+    font-family: 'Nico Moji', sans-serif;
+    font-size: 26pt;
+    color: black;
+}
+.profile-logo img{
+    max-width: 70px;
+    max-height: 70px;
+    padding: 8px;
+    border-radius: 50%;
+    background-color: rgba(235, 166, 199, 1);
+    box-shadow: 0px 0px 10px 1px rgba(0, 0, 0, 0.2);
+    margin-right: 3vh;
+}
+.profile-logo h1{
+    text-decoration: none;
+    font-family: 'Nico Moji', sans-serif;
+    font-size: 26pt;
+    margin-left: 2vh;
+}
 
+.profile-nav-links {
+    display: flex;
+    gap: 10px;
+}
+.profile-nav-links-item{
+    background-color: white;
+    border-radius: 50%;
+    box-shadow: 0px 0px 10px 1px rgba(0, 0, 0, 0.2);
+    width: 70px;
+    height: 70px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 10px;
+}
+.profile-nav-links-item img{
+    max-width: 70px;
+    max-height: 70px;
+    padding: 8px;
+}
+.profile-burger {
+    display: none;
+    border-radius: 50%;
+    box-shadow: 0px 0px 10px 1px rgba(0, 0, 0, 0.2);
+    width: 70px;
+    height: 70px;
+}
+.profile-burger img{
+    max-width: 70px;
+    max-height: 70px;
+    padding: 8px;
+}
+@media (max-width: 768px) {
+    .profile-nav-links {
+        display: none;
+        position: absolute;
+        top: 60px;
+        right: 10px;
+        background: #fff;
+        flex-direction: column;
+        padding: 10px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    }
+    .profile-burger {
+        display: block;
+    }
+    .profile-logo-text{
+        display: none;
+    }
+}
+
+.profile{
+    background-image: url('LocalImage/Backgrounds/Cloud2k.jpg');
+    background-size: cover;
+    background-position: center;
+}
+.profile-avatar{
+    position: relative;
+    top: 150px;
+    z-index: 2;
+    background: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+.profile-avatar img{
+    border-radius: 50%;
+    width: 250px;
+    height: 250px;
+    background: white;
+}
+.profile-avatar h2{
+    font-family: 'Actay Wide', sans-serif;
+    font-size: 36pt;
+}
+.profile-avatar h4{
+    font-family: 'Actay Wide', sans-serif;
+    font-size: 20pt;
+}
+@media (max-width: 768px) {
+    .profile-avatar{
+        position: relative;
+        top: 70px;
+        z-index: 2;
+        background: none;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+    }
+    .profile-avatar img{
+        border-radius: 50%;
+        width: 100px;
+        height: 100px;
+        background: white;
+    }
+    .profile-avatar h2{
+        font-family: 'Actay Wide', sans-serif;
+        font-size: 26pt;
+    }
+    .profile-avatar h4{
+        font-family: 'Actay Wide', sans-serif;
+        font-size: 10pt;
+    }
+}
+.profile-louer{
+    padding-top: 150px;
+    background: white;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+}
+.profile-product-container{
+    display: flex;
+}
+.profile-product-description{
+    display: flex;
+    flex-direction: column;
+}
 
 
 
@@ -814,23 +975,100 @@ h1:focus {
     background-color: pink;
     color:  black;
 }
-.test{
-    background-color: pink;
-    background-size: cover;
-    background-position: center;
-    height: 100vh;
+
+
+
+
+
+
+
+
+
+
+
+
+ .product-form {
+     margin-bottom: 20px;
+ }
+
+.product-table {
+    width: 100%;
+    max-width: 600px;
+    border-collapse: collapse;
 }
-.t-carousel{
+
+.product-table td {
+    padding: 8px;
+    border: 1px solid #ccc;
+}
+
+label {
+    font-weight: bold;
+}
+
+input, input, textarea, select {
+    width: 100%;
+    padding: 6px;
+    box-sizing: border-box;
+}
+
+.photo-section {
+    margin-top: 10px;
+    border: 1px solid #eee;
+    padding: 10px;
+    max-width: 800px;
+}
+
+.photos-preview {
     display: flex;
+    flex-wrap: wrap;
+    margin-top: 10px;
 }
-.t-carousel-item{
-    text-align: center;
-    width: 400px; height: 400px;
-    justify-content: center;
+
+.photo-container {
+    position: relative;
+    margin-right: 10px;
+    margin-bottom: 10px;
+}
+
+.photo-preview {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.delete-btn {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    background-color: rgba(255, 0, 0, 0.7);
+    border: none;
+    color: white;
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+    font-weight: bold;
+    cursor: pointer;
+    display: flex;
     align-items: center;
-    margin: 20px;
+    justify-content: center;
+    padding: 0;
 }
-.t-carousel-item img {
-    width: 300px; height: 300px;
-    border-radius: 20px;
+
+.save-btn {
+    margin-top: 15px;
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    border: none;
+    color: white;
+    font-size: 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.save-btn:hover {
+    background-color: #45a049;
 }

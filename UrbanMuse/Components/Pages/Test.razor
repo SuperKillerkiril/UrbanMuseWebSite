@@ -1,0 +1,133 @@
+@page "/test123"
+@rendermode InteractiveServer
+@using Microsoft.EntityFrameworkCore
+@using UrbanMuse.Models
+@using UrbanMuse.DataBase
+@using MediaTypeHeaderValue = System.Net.Http.Headers.MediaTypeHeaderValue
+@inject ModelContext ef
+@inject NavigationManager nm
+@inject Blazored.LocalStorage.ILocalStorageService LocalStorage
+
+<h3>Добавление нового товара</h3>
+
+<div class="product-form">
+    <table class="product-table">
+        <tr>
+            <td><label for="name">Название:</label></td>
+            <td><InputText id="name" @bind-Value="product.Name" placeholder="Введите название" /></td>
+        </tr>
+        <tr>
+            <td><label for="price">Стоимость:</label></td>
+            <td><InputNumber id="price" @bind-Value="product.Price" placeholder="Введите стоимость" /></td>
+        </tr>
+        <tr>
+            <td><label for="description">Описание:</label></td>
+            <td>
+                <InputTextArea id="description" @bind-Value="product.Description" placeholder="Описание товара" />
+            </td>
+        </tr>
+        <tr>
+            <td><label for="type">Тип товара:</label></td>
+            <td>
+                <InputSelect id="type" @bind-Value="product.Type">
+                    @foreach (var type in productTypes)
+                    {
+                    <option value="@type">@type</option>
+                    }
+                </InputSelect>
+            </td>
+        </tr>
+    </table>
+</div>
+
+<h4>Фотографии товара</h4>
+<div class="photo-section">
+    <InputFile OnChange="OnFilesSelected" multiple />
+    <div class="photos-preview">
+        @foreach (var photo in photos)
+        {
+        <div class="photo-container">
+            <img src="@GetImageSrc(photo)" class="photo-preview" />
+            <button class="delete-btn" @onclick="@(() => RemovePhoto(photo))">Удалить</button>
+        </div>
+        }
+    </div>
+</div>
+
+<button class="save-btn" @onclick="OnValidSubmit">Сохранить товар</button>
+
+@code {
+    private Product product = new();
+    private List<string> productTypes = new() { "Категория", "Электроника", "Одежда", "Книги" };
+    private List<Photo> photos = new();
+    
+
+    /*private async Task HandleSelectedFiles(InputFileChangeEventArgs e)
+    {
+        foreach (var file in e.GetMultipleFiles(5))
+        {
+            await using var stream = file.OpenReadStream(maxAllowedSize:512000);
+            var buffer = new byte[file.Size];
+            await stream.ReadAsync(buffer);
+            var dataUrl = $"data:{file.ContentType};base64,{Convert.ToBase64String(buffer)}";
+            photos.Add(new Photo { DataUrl = dataUrl, FileName = file.Name });
+        }
+    }*/
+    
+    private IReadOnlyList<IBrowserFile> selectedFiles;
+
+    private void OnFilesSelected(InputFileChangeEventArgs e)
+    {
+        selectedFiles = e.GetMultipleFiles();
+    }
+
+    private async Task OnValidSubmit()
+    {
+        if (selectedFiles != null)
+        {
+            foreach (var file in selectedFiles)
+            {
+                using var ms = new MemoryStream();
+                await file.OpenReadStream(5 * 1024 * 1024)  
+                    .CopyToAsync(ms);
+
+                product.Photos.Add(new Photo
+                {
+                    Data = ms.ToArray(),
+                    ContentType = file.ContentType
+                });
+            }
+        }
+
+        ef.Products.Add(product);
+        await ef.SaveChangesAsync();
+
+        // сброс формы
+        product = new();
+        selectedFiles = null;
+    }
+    private string GetImageSrc(Photo img)
+    {
+        return $"data:{img.ContentType};base64,{Convert.ToBase64String(img.Data)}";
+    } 
+
+    private void RemovePhoto(Photo photo)
+    {
+        photos.Remove(photo);
+    }
+
+    private void SaveProduct()
+    {
+        ef.Add(InitializeProduct());
+        ef.SaveChanges();
+    }
+    
+    private Product InitializeProduct()
+    {
+        return new Product
+        {
+            CreatedAt = DateTime.Now,
+            Photos = photos
+        };
+    }
+}
