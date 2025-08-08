@@ -10,6 +10,6 @@ public class Product //Заглавная Модель товара
     public string? Type { get; set; }
     public string? Description { get; set; }
     public double Price { get; set; }//в идеале реализовать зависимость от размера, но без этого можно оставить
-    public List<Photo> Photos { get; set; }
+    public List<Photo> Photos { get; set; } = new List<Photo>();
     public DateTime CreatedAt { get; set; } //бесполезно, есть айди коллекции(пока нет)
 }

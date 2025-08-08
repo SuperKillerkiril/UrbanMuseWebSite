@@ -1072,3 +1072,19 @@ input, input, textarea, select {
 .save-btn:hover {
     background-color: #45a049;
 }
+.input-group-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    min-width: 50%;
+    min-height: 50%;
+    background-color: #ffffff;
+    border-radius: 20px;
+    padding: 10px;
+    -webkit-box-shadow: 0px 0px 10px 1px rgba(0, 0, 0, 0.4);
+    -moz-box-shadow: 0px 0px 10px 1px rgba(0, 0, 0, 0.4);
+    box-shadow: 0px 0px 10px 1px rgba(0, 0, 0, 0.4);
+    opacity: 0;
+    animation: ani 0.5s forwards;
+}

@@ -27,180 +27,121 @@
 </div>
 
 <div class="registered-custom-background">
-    <div class="registered-container" >
-        <h1>Создание нового продукта</h1>
-        <table class="product-table">
-            <tr>
-                <td><label for="name">Название:</label></td>
-                <td><InputText id="name" @bind-Value="_product.Name" placeholder="Введите название" /></td>
-            </tr>
-            <tr>
-                <td><label for="price">Стоимость:</label></td>
-                <td><InputNumber id="price" @bind-Value="_product.Price" placeholder="Введите стоимость" /></td>
-            </tr>
-            <tr>
-                <td><label for="description">Описание:</label></td>
-                <td>
-                    <InputTextArea id="description" @bind-Value="_product.Description" placeholder="Описание товара" />
-                </td>
-            </tr>
-            <tr>
-                <td><label for="type">Тип товара:</label></td>
-                <td>
-                    <InputSelect id="type" @bind-Value="SelectedType">
-                        @foreach (ProductType type in  Enum.GetValues(typeof(ProductType)))
-                        {
-                            <option value="@type">@type</option>
-                        }
-                    </InputSelect>
-                </td>
-            </tr>
-        </table>
+    <div class="input-group-container" >
+        <div class="product-form">
+            <table class="product-table">
+                <tr>
+                    <td><label for="name">Название:</label></td>
+                    <td><InputText id="name" @bind-Value="_product.Name" placeholder="Введите название" /></td>
+                </tr>
+                <tr>
+                    <td><label for="price">Стоимость:</label></td>
+                    <td><InputNumber id="price" @bind-Value="_product.Price" placeholder="Введите стоимость" /></td>
+                </tr>
+                <tr>
+                    <td><label for="description">Описание:</label></td>
+                    <td>
+                        <InputTextArea id="description" @bind-Value="_product.Description" placeholder="Описание товара" />
+                    </td>
+                </tr>
+                <tr>
+                    <td><label for="type">Тип товара:</label></td>
+                    <td>
+                        <InputSelect id="type" @bind-Value="_product.Type">
+                            @foreach (var productEnumType in Enum.GetValues(typeof(ProductType)).Cast<ProductType>())
+                            {
+                            <option value="@productEnumType">@productEnumType</option>
+                            }
+                        </InputSelect>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
         <h4>Фотографии товара</h4>
         <div class="photo-section">
-            <InputFile OnChange="HandleSelectedFiles" multiple />
+            <InputFile OnChange="@OnFilesSelected" enctype="multipart/form-data" />
             <div class="photos-preview">
-                @foreach (var photo in photos)
+                @foreach (var photo in _photos)
                 {
-                <div class="photo-container">
-                    <img src="@photo" class="photo-preview" />
-                    <button class="delete-btn" @onclick="@(() => RemovePhoto(photo))">Удалить</button>
-                </div>
+                    <div class="photo-container" @key="photo.TempId">
+                        <img src="@GetImageSrc(photo)" class="photo-preview" />
+                        <button class="delete-btn" @onclick="@(() => RemovePhoto(photo))">X</button>
+                    </div>
                 }
             </div>
         </div>
 
-        <button class="save-btn" @onclick="SaveProduct">Сохранить товар</button>
+        <button class="save-btn" @onclick="OnValidSubmit">Сохранить товар</button>
     </div>
 </div>
 
-<div class="registered-custom-background">
-    <div class="registered-container">
-        <h1>Создание нового продукта</h1>
-        <a>Название</a>
-        <input type="text" @bind="_product.Name"/>
-        <a>Стоимость?</a>
-        <input type="number" @bind="_product.Price"/>
-        <a>Описание</a>
-        <input tupe="text" @bind="_product.Description"/>
-        <a>Путь к изображению</a>
-        <input type="text" @bind="imgPath"/>
-        <button @onclick="AddimgPathList">Добавить фото</button>
-        <a>Тип</a>
-        <select class="dropdown-store-menu" @bind="SelectedType">
-            @foreach (ProductType productEnumType in Enum.GetValues(typeof(ProductType)))
-            {
-                <option value="@productEnumType">@productEnumType</option>
-            }
-        </select>
-
-        <div style="display: flex; flex-wrap: wrap; margin: 20px;">
-            <button @onclick="SumbitProduct">Добавить продукт</button>
-            <button @onclick="ClearForm">Отчистить форму</button>
-        </div>
-
-        <a>@_msg</a>
-    </div>
-</div> 
-
 
 @code {
-    private Product _product = new();
-    private Client _client = new Client();
-    
-    private bool _isAuth;
-    private int _userId;
-    
-    
-    private string? _msg = String.Empty;
-    
-    private string imgPath = "LocalImage/notFound.png";
-    private List<string> imgPathList = new List<string>();
-    
-    private string? SelectedType = Convert.ToString(ProductType.Thing);
-    
-    private List<Photo> photos = new();
 
-    private async Task HandleSelectedFiles(InputFileChangeEventArgs e)
+    private Product _product = new();
+    private List<Photo> _photos = new();
+
+    private IReadOnlyList<IBrowserFile> selectedFiles;
+
+    private async Task OnFilesSelected(InputFileChangeEventArgs e)
     {
-        foreach (var file in e.GetMultipleFiles(5))
+        selectedFiles = e.GetMultipleFiles();
+
+        if (selectedFiles.Count == 0)
+            return;
+
+        foreach (var file in selectedFiles)
         {
-            await using var stream = file.OpenReadStream();
-            var buffer = new byte[file.Size];
-            await stream.ReadAsync(buffer);
-            var dataUrl = $"data:{file.ContentType};base64,{Convert.ToBase64String(buffer)}";
-            /*photos.Add(new Photo { Data = dataUrl, FileName = file.Name });*/
+            using var ms = new MemoryStream();
+            await file.OpenReadStream(5 * 1024 * 1024)
+                .CopyToAsync(ms);
+            var photo = new Photo
+            {
+                Data = ms.ToArray(),
+                ContentType = file.ContentType
+            };
+            _photos.Add(photo);
+            _product.Photos.Add(photo);
         }
+
+        StateHasChanged();
     }
+
+    private async Task OnValidSubmit()
+    {
+        _product.Photos = _photos.ToList();
+        _product.CreatedAt = DateTime.Now;
+        
+        ef.Products.Add(_product);
+        await ef.SaveChangesAsync();
+        
+        _product = new();
+        _photos.Clear();
+        selectedFiles = null;
+    }
+
+    private string GetImageSrc(Photo photo)
+    {
+        if (photo?.Data == null || photo.Data.Length == 0)
+        {
+            return string.Empty;
+        }
+        Console.WriteLine(photo.Data.Length);
+        Console.WriteLine(photo.ContentType);
+
+
+        var base64 = Convert.ToBase64String(photo.Data);
+        return $"data:{photo.ContentType};base64,{base64}";
+    }
+
     private void RemovePhoto(Photo photo)
     {
-        photos.Remove(photo);
-    }
-
-    private void SaveProduct()
-    {
-        SumbitProduct();
-    }
-
-    protected override async void OnInitialized()
-    {
-        try
+        var target = _photos.FirstOrDefault(p => p.TempId == photo.TempId);
+        if (target != null)
         {
-            _isAuth = await LocalStorage.GetItemAsync<bool>("IsAuth");
-            _userId = await LocalStorage.GetItemAsync<int>("clientId");
-            
-            _client = (await ef.Clients.FirstOrDefaultAsync(c => c.Id == _userId))!;
-            if (_client.Role != RoleEnum.Admin)
-            {
-                nm.NavigateTo("");
-            }
+            _photos.Remove(target);
             StateHasChanged();
         }
-        catch (Exception e)
-        {
-            _msg = e.Message;
-            _isAuth = false;
-            //выход (пока тещу бд, лучше не делать)
-        }
-    }
-
-    public void AddimgPathList()
-    {
-        imgPathList.Add(imgPath);
-        imgPath = "LocalImage/notFound.png";
-    }
-    
-    public void SumbitProduct()
-    {
-        try
-        {
-            ef.Add(InitializeProduct());
-            ef.SaveChanges();
-            _msg = "You have successfully add product";
-            ClearForm();
-        }
-        catch (Exception e)
-        {
-            _msg = Convert.ToString(e);
-        }
-    }
-    private Product InitializeProduct()
-    {
-        return new Product
-        {
-            CreatedAt = DateTime.Now,
-            Type = SelectedType,
-            Photos = photos
-        };
-    }
-
-    public void ClearForm()
-    {
-        _product = new Product();
-        SelectedType = Convert.ToString(ProductType.Thing);
-        imgPath = String.Empty;
-        imgPathList = new List<string>();
-        _msg = string.Empty;
-        StateHasChanged();
     }
 }

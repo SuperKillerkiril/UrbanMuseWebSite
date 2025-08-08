@@ -30,9 +30,9 @@
             <td><label for="type">Тип товара:</label></td>
             <td>
                 <InputSelect id="type" @bind-Value="product.Type">
-                    @foreach (var type in productTypes)
+                    @foreach (ProductType productEnumType in Enum.GetValues(typeof(ProductType)))
                     {
-                    <option value="@type">@type</option>
+                        <option value="@productEnumType">@productEnumType</option>
                     }
                 </InputSelect>
             </td>
@@ -48,7 +48,7 @@
         {
         <div class="photo-container">
             <img src="@GetImageSrc(photo)" class="photo-preview" />
-            <button class="delete-btn" @onclick="@(() => RemovePhoto(photo))">Удалить</button>
+            <button class="delete-btn" @onclick="@(() => RemovePhoto(photo))">X</button>
         </div>
         }
     </div>
@@ -58,47 +58,33 @@
 
 @code {
     private Product product = new();
-    private List<string> productTypes = new() { "Категория", "Электроника", "Одежда", "Книги" };
     private List<Photo> photos = new();
     
-
-    /*private async Task HandleSelectedFiles(InputFileChangeEventArgs e)
-    {
-        foreach (var file in e.GetMultipleFiles(5))
-        {
-            await using var stream = file.OpenReadStream(maxAllowedSize:512000);
-            var buffer = new byte[file.Size];
-            await stream.ReadAsync(buffer);
-            var dataUrl = $"data:{file.ContentType};base64,{Convert.ToBase64String(buffer)}";
-            photos.Add(new Photo { DataUrl = dataUrl, FileName = file.Name });
-        }
-    }*/
     
     private IReadOnlyList<IBrowserFile> selectedFiles;
 
-    private void OnFilesSelected(InputFileChangeEventArgs e)
+    private async Task OnFilesSelected(InputFileChangeEventArgs e)
     {
         selectedFiles = e.GetMultipleFiles();
+        
+        if (selectedFiles.Count == 0)
+            return;
+        
+            foreach (var file in selectedFiles)
+            {
+                var photo = new Photo();
+                using var ms = new MemoryStream();
+                await file.OpenReadStream(5 * 1024 * 1024)
+                    .CopyToAsync(ms);
+
+                photos.Add(photo);
+                product.Photos.Add(photo);
+            }
+        
     }
 
     private async Task OnValidSubmit()
     {
-        if (selectedFiles != null)
-        {
-            foreach (var file in selectedFiles)
-            {
-                using var ms = new MemoryStream();
-                await file.OpenReadStream(5 * 1024 * 1024)  
-                    .CopyToAsync(ms);
-
-                product.Photos.Add(new Photo
-                {
-                    Data = ms.ToArray(),
-                    ContentType = file.ContentType
-                });
-            }
-        }
-
         ef.Products.Add(product);
         await ef.SaveChangesAsync();
 
@@ -114,20 +100,6 @@
     private void RemovePhoto(Photo photo)
     {
         photos.Remove(photo);
-    }
-
-    private void SaveProduct()
-    {
-        ef.Add(InitializeProduct());
-        ef.SaveChanges();
-    }
-    
-    private Product InitializeProduct()
-    {
-        return new Product
-        {
-            CreatedAt = DateTime.Now,
-            Photos = photos
-        };
+        product.Photos.Remove(photo);
     }
 }
