@@ -1,4 +1,6 @@
 ﻿@page "/product/{id:int}"
+@using System.Drawing
+@using Microsoft.EntityFrameworkCore
 @using UrbanMuse.DataBase
 @using UrbanMuse.Models
 @inject ModelContext ef
@@ -42,7 +44,7 @@
 
 <div class="product-demo-header-left">
     <button @onclick="NavigateToRegistred"><img src="LocalImage/IconAndGroup/profile.svg"/></button>
-    <button @onclick="NavigateToCart"><img src="LocalImage/IconAndGroup/shopping-basket.svg"/></button>
+    <button @onclick="NavigateToStore"><img src="LocalImage/IconAndGroup/shopping-basket.svg"/></button>
     <button @onclick="OpenMenu"><img src="LocalImage/IconDemo/menu.svg"/></button>
 </div>
 
@@ -52,14 +54,14 @@
     <div class="product-demo-card-container">
         <div class="product-demo-card">
             <button @onclick="Previous"><img src="LocalImage/IconDemo/chevron-left.svg"/></button>
-            <img class="product-demo-card-img" src="@_product.Image[currentimg]"/>
+            <img class="product-demo-card-img" src="@currentimg"/>
             <button @onclick="Next"><img src="LocalImage/IconDemo/chevron-left.png"/></button>
         </div>
     </div>
     <div class="product-demo-card-more">
-        @foreach (var img in _product.Image)
+        @foreach (var img in _product.Photos)
         {
-            <img @onclick="() => currentimgSet(img)" src="@img"/>
+            <img @onclick="() => currentimgSet(img)" src="@GetImageSrc(img)"/>
         }
     </div>
     <div class="product-demo-card-name">@_product.Name</div>
@@ -69,7 +71,7 @@
         <button class="product-demo-card-buy-container-button @GetButtonClass(2)" @onclick="() => CurrentSize(2)">M</button>
         <button class="product-demo-card-buy-container-button @GetButtonClass(3)"  @onclick="() => CurrentSize(3)">L</button>
         <button class="product-demo-card-buy-container-button @GetButtonClass(4)"  @onclick="() => CurrentSize(4)">XL</button>
-        <button class="product-demo-card-buy" @onclick="CreateOrder">Buy</button>
+        <button class="product-demo-card-buy" @onclick="CreateOrderAsync">Buy</button>
     </div>
 </div>
 
@@ -85,7 +87,7 @@
         @foreach (var prod in _products)
         {
             <div class="product-demo-recommendations-card">
-                <img src="@prod.Image[0]"/>
+                <img src="@prod.Photos[0]"/>
                 <div class="store-product-card-description">
                     <div class="product-demo-recommendations-text">@prod.Name</div>
                     <div class="product-demo-recommendations-text">@prod.Price$</div>
@@ -122,16 +124,23 @@
         StateHasChanged();
     }
 
-    private void currentimgSet(string imge)
+    private void currentimgSet(Photo imge)
     {
-        currentimg = _product.Image.Count(img => img == imge);
+        currentimg = _product.Photos.Count(img => img == imge);
     }
 
     protected override async void OnInitialized()
     {
         LoadProduct();
+        _products = await ef.Products
+            .Include(p => p.Photos)
+            .ToListAsync();
         IsAuth = await LocalStorage.GetItemAsync<bool>("IsAuth");
     }
+    private string GetImageSrc(Photo img)
+    {
+        return $"data:{img.ContentType};base64,{Convert.ToBase64String(img.Data)}";
+    } 
 
     private void CurrentSize(int size)
     {
@@ -145,16 +154,19 @@
 
     private void Next()
     {
-        currentimg = (currentimg + 1) % _product.Image.Count;
+        currentimg = (currentimg + 1) % _product.Photos.Count;
     }
     
     private void Previous()
     {
-        currentimg = (currentimg - 1 + _product.Image.Count) % _product.Image.Count;
+        currentimg = (currentimg - 1 + _product.Photos.Count) % _product.Photos.Count;
     }
 
     private void LoadProduct()
-    { _product = ef.Products.FirstOrDefault(p => p.Id == id)!; _products = ef.Products.ToList(); }
+    {
+        _product = ef.Products.FirstOrDefault(p => p.Id == id)!;
+        _products = ef.Products.Take(10).ToList(); 
+    }
 
     public void NavigateToRegistred()
     { NavigationManager.NavigateTo("/registered"); }
@@ -166,8 +178,6 @@
     { NavigationManager.NavigateTo("/store");}
     public void NavigateToAbout()
     { NavigationManager.NavigateTo("/about");}
-    public void NavigateToCart()
-    { NavigationManager.NavigateTo("/cart"); }
     
 
     private async void Timer()
@@ -185,18 +195,16 @@
             {
                 _order.OrderDate = DateTime.Now;
                 
-                ClientId = await LocalStorage.GetItemAsync<int>("clientId");
+                ClientId = await LocalStorage.GetItemAsync<int>("clientId"); 
                 _client = ef.Clients.FirstOrDefault(c => c.Id == ClientId)!;
                 _order.Client = _client;
                 _order.ClientId = ClientId;
-                
-                _product.Size = currentSize;
                 _order.ProductId = _product.Id;
                 _order.Product = ef.Products.FirstOrDefault(p => p.Id == id);
-                
+                _order.Size = currentSize;
                 ef.Add(_order);
                 ef.SaveChanges();
-                msg = $"the order has been successfully created, the size {_product.Size}, the name {_product.Name}, all orders can be viewed in the shopping cart";
+                msg = $"the order has been successfully created, the size {_order.Color}, the name {_product.Name}, all orders can be viewed in the shopping cart";
                 _order = null!;
                 StateHasChanged();
             }
@@ -204,6 +212,45 @@
             {
                 msg = "вы уже заказали этот товар, смотреть в корзине, если хотите заказать еще раз, обновите страницу";
             }
+        }
+    }
+    private async Task CreateOrderAsync()
+    {
+        if (!IsAuth)
+        {
+            msg = "you are not logged in";
+            return;
+        }
+    
+        try
+        {
+            _order.OrderDate = DateTime.Now;
+            ClientId = await LocalStorage.GetItemAsync<int>("clientId");
+            _client = ef.Clients.FirstOrDefault(c => c.Id == ClientId);
+            if (_client == null)
+            {
+                msg = "Client not found.";
+                return;
+            }
+            _order.Client = _client;
+            _order.ClientId = ClientId;
+            _order.ProductId = _product.Id;
+            _order.Product = ef.Products.FirstOrDefault(p => p.Id == _product.Id);
+            if (_order.Product == null)
+            {
+                msg = "Product not found.";
+                return;
+            }
+            _order.Size = currentSize;
+            ef.Add(_order);
+            await ef.SaveChangesAsync();
+            msg = $"Order created: Size {_order.Size}, Product {_product.Name}";
+            _order = new Order();
+            StateHasChanged();
+        }
+        catch (Exception e)
+        {
+            msg = "Error creating order: " + e.Message;
         }
     }
 }

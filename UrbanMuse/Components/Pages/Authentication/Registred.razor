@@ -52,28 +52,30 @@
     
     public async Task Register()
     {
-        if (ef.Clients.FirstOrDefault(c => c.Email == _client.Email) != null)
+        if (ef.Clients.Any(c => c.Email == _client.Email))  
         {
             Msg = "This email is already busy.";
+            return;
         }
-        else
+        try
         {
-            try
-            {
-                _client.Role = RoleEnum.Guest;
-                Msg = "Success";
-                ef.Add(_client); ef.SaveChanges();
-                LocalStorage.SetItemAsync("clientId", _client.Id);
-                LocalStorage.SetItemAsync("clientemail", _client.Email);
-                LocalStorage.SetItemAsync("clientpassword", _client.Password);
-                LocalStorage.SetItemAsync("IsAuth", true);
-                await Task.Delay(1000);
-                NavigationManager.NavigateTo("auth");
-            }
-            catch (Exception e)
-            {
-                Msg = e.Message;
-            }
+            _client.Role = RoleEnum.Guest;
+            ef.Add(_client); 
+            ef.SaveChanges();
+                
+            await LocalStorage.SetItemAsync("clientId", _client.Id);
+            await LocalStorage.SetItemAsync("clientemail", _client.Email);
+            await LocalStorage.SetItemAsync("clientpassword", _client.Password);
+            await LocalStorage.SetItemAsync("IsAuth", true);
+                
+            await Task.Delay(1000);
+            Msg = "Registration successful!";
+            NavigationManager.NavigateTo("auth");
+        }
+        catch (Exception e)
+        {
+            Msg = e.Message;
+        }
         }
         
     }

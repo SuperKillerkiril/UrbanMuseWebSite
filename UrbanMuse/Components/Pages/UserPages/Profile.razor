@@ -1,0 +1,109 @@
+@page "/Profile"
+@using System.Drawing
+@using Microsoft.EntityFrameworkCore
+@using UrbanMuse.DataBase
+@using UrbanMuse.Models
+@inject ModelContext ef
+@inject NavigationManager NavigationManager
+@rendermode InteractiveServer
+@inject Blazored.LocalStorage.ILocalStorageService LocalStorage
+
+<header class="profile-navbar">
+    <div class="profile-logo">
+        <img src="LocalImage/IconAndGroup/amphora.svg"/>
+        <NavLink><div class="profile-logo-text">URBAN MUSE</div></NavLink>
+    </div>
+    <nav class="profile-nav-links">
+        <NavLink href="">
+            <div class="profile-nav-links-item">
+                <img src="LocalImage/IconAndGroup/house.svg"/>
+            </div>
+        </NavLink>
+        <NavLink href="store">
+            <div class="profile-nav-links-item">
+                <img src="LocalImage/IconAndGroup/shopping-basket.svg"/>
+            </div>
+        </NavLink>
+    </nav>
+    <div class="profile-burger" @onclick="ToggleMenu" id="burger">
+        <img src="LocalImage/IconDemo/menu.svg"/>
+    </div>
+    @if (IsMenuOpen)
+    {
+        <div></div>
+    }
+</header>
+<div class="profile">
+    <div class="profile-avatar">
+        <img src="LocalImage/IconAndGroup/profile.svg"/>
+        <h2>@_client.Name</h2>
+        <h4>@_client.Role.ToString()</h4>
+    </div>   
+    <div class="profile-louer">
+        @foreach (var product in _clientProducts)
+        {
+        <div class="profile-product-container">
+            <img src="@product.Photos" alt="product photo"/>
+            <div class="profile-product-description">
+                <h1>@product.Name</h1>
+                <h2>@product.Description</h2>
+                <h3 @onclick="() => GoToProductDetail(product.Id)">more info</h3>
+            </div>
+        </div>
+        }
+    </div>
+</div>
+
+@code {
+    //как подтянуть инфу о прдукте по заказу, для отражения статуса заказа и фотографии продукта
+    //верстай с мобилы на десктоп и наоборот
+    private bool IsMenuOpen = false;
+    private Client _client = new Client();
+    private List<Order> _clientOrders = new List<Order>();
+    private List<Product> _clientProducts = new List<Product>();
+    private string msg;
+    private int ClientId;
+    bool IsAuth = false;
+    
+    void ToggleMenu()
+    {
+        IsMenuOpen = !IsMenuOpen;
+    }
+
+   protected override async void OnInitialized()
+   {
+       IsAuth = await LocalStorage.GetItemAsync<bool>("IsAuth");
+       if (!IsAuth)
+       {
+           msg = "you are not logged in";
+       }
+       else
+       {
+           try
+           {
+               ClientId = await LocalStorage.GetItemAsync<int>("clientId"); 
+               _client = ef.Clients.FirstOrDefault(c => c.Id == ClientId)!;
+               GetClientOrders(_client.Id);
+           }
+           catch (Exception e)
+           {
+               msg = "couldn't find you";
+           }
+       }
+   }
+
+   private async void GetClientOrders(int clientId)
+   {
+       _clientOrders = await ef.Orders.Where(o => o.ClientId == clientId).ToListAsync();
+       foreach (var order in _clientOrders)
+       {    
+           _clientProducts.Add(ef.Products.FirstOrDefault(p => p.Id == order.ProductId)!);  
+       }
+   }
+
+   private void GoToProductDetail(int productId)
+   {
+       NavigationManager.NavigateTo($"/product/{productId}");
+   }
+
+}

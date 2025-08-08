@@ -1,8 +1,10 @@
-@page "/AddProduct"
+@page "/product/add"
 @using Microsoft.AspNetCore.Authorization
+@using Microsoft.EntityFrameworkCore
 @using UrbanMuse.DataBase
 @using UrbanMuse.Models
 @inject ModelContext ef
+@inject NavigationManager nm
 @rendermode InteractiveServer
 @inject Blazored.LocalStorage.ILocalStorageService LocalStorage
 
@@ -27,6 +29,54 @@
 <div class="registered-custom-background">
     <div class="registered-container" >
         <h1>Создание нового продукта</h1>
+        <table class="product-table">
+            <tr>
+                <td><label for="name">Название:</label></td>
+                <td><InputText id="name" @bind-Value="_product.Name" placeholder="Введите название" /></td>
+            </tr>
+            <tr>
+                <td><label for="price">Стоимость:</label></td>
+                <td><InputNumber id="price" @bind-Value="_product.Price" placeholder="Введите стоимость" /></td>
+            </tr>
+            <tr>
+                <td><label for="description">Описание:</label></td>
+                <td>
+                    <InputTextArea id="description" @bind-Value="_product.Description" placeholder="Описание товара" />
+                </td>
+            </tr>
+            <tr>
+                <td><label for="type">Тип товара:</label></td>
+                <td>
+                    <InputSelect id="type" @bind-Value="SelectedType">
+                        @foreach (ProductType type in  Enum.GetValues(typeof(ProductType)))
+                        {
+                            <option value="@type">@type</option>
+                        }
+                    </InputSelect>
+                </td>
+            </tr>
+        </table>
+        <h4>Фотографии товара</h4>
+        <div class="photo-section">
+            <InputFile OnChange="HandleSelectedFiles" multiple />
+            <div class="photos-preview">
+                @foreach (var photo in photos)
+                {
+                <div class="photo-container">
+                    <img src="@photo" class="photo-preview" />
+                    <button class="delete-btn" @onclick="@(() => RemovePhoto(photo))">Удалить</button>
+                </div>
+                }
+            </div>
+        </div>
+
+        <button class="save-btn" @onclick="SaveProduct">Сохранить товар</button>
+    </div>
+</div>
+
+<div class="registered-custom-background">
+    <div class="registered-container">
+        <h1>Создание нового продукта</h1>
         <a>Название</a>
         <input type="text" @bind="_product.Name"/>
         <a>Стоимость?</a>
@@ -40,7 +90,7 @@
         <select class="dropdown-store-menu" @bind="SelectedType">
             @foreach (ProductType productEnumType in Enum.GetValues(typeof(ProductType)))
             {
-            <option value="@productEnumType">@productEnumType</option>
+                <option value="@productEnumType">@productEnumType</option>
             }
         </select>
 
@@ -48,41 +98,69 @@
             <button @onclick="SumbitProduct">Добавить продукт</button>
             <button @onclick="ClearForm">Отчистить форму</button>
         </div>
+
         <a>@_msg</a>
     </div>
 </div> 
 
-    <div class="registered-custom-background">
-        <h5>@_msg</h5>
-    </div>
-
 
 @code {
-    Product _product = new();
+    private Product _product = new();
+    private Client _client = new Client();
+    
+    private bool _isAuth;
+    private int _userId;
+    
+    
     private string? _msg = String.Empty;
+    
     private string imgPath = "LocalImage/notFound.png";
     private List<string> imgPathList = new List<string>();
+    
     private string? SelectedType = Convert.ToString(ProductType.Thing);
     
-    private bool IsAuth = false;
-    private int Id;
-    private RoleEnum role;
-    private Client _client = new Client();
+    private List<Photo> photos = new();
+
+    private async Task HandleSelectedFiles(InputFileChangeEventArgs e)
+    {
+        foreach (var file in e.GetMultipleFiles(5))
+        {
+            await using var stream = file.OpenReadStream();
+            var buffer = new byte[file.Size];
+            await stream.ReadAsync(buffer);
+            var dataUrl = $"data:{file.ContentType};base64,{Convert.ToBase64String(buffer)}";
+            /*photos.Add(new Photo { Data = dataUrl, FileName = file.Name });*/
+        }
+    }
+    private void RemovePhoto(Photo photo)
+    {
+        photos.Remove(photo);
+    }
+
+    private void SaveProduct()
+    {
+        SumbitProduct();
+    }
 
     protected override async void OnInitialized()
     {
         try
         {
-            IsAuth = await LocalStorage.GetItemAsync<bool>("IsAuth");
-            Id = await LocalStorage.GetItemAsync<int>("clientId");
-            _client = ef.Clients.FirstOrDefault(c => c.Id == Id);
-            role = _client.Role;
+            _isAuth = await LocalStorage.GetItemAsync<bool>("IsAuth");
+            _userId = await LocalStorage.GetItemAsync<int>("clientId");
+            
+            _client = (await ef.Clients.FirstOrDefaultAsync(c => c.Id == _userId))!;
+            if (_client.Role != RoleEnum.Admin)
+            {
+                nm.NavigateTo("");
+            }
             StateHasChanged();
         }
         catch (Exception e)
         {
             _msg = e.Message;
-            IsAuth = false;
+            _isAuth = false;
+            //выход (пока тещу бд, лучше не делать)
         }
     }
 
@@ -96,10 +174,7 @@
     {
         try
         {
-            _product.CreatedAt = DateTime.Now;
-            _product.Type = SelectedType;
-            _product.Image = imgPathList;
-            ef.Add(_product);
+            ef.Add(InitializeProduct());
             ef.SaveChanges();
             _msg = "You have successfully add product";
             ClearForm();
@@ -108,6 +183,15 @@
         {
             _msg = Convert.ToString(e);
         }
+    }
+    private Product InitializeProduct()
+    {
+        return new Product
+        {
+            CreatedAt = DateTime.Now,
+            Type = SelectedType,
+            Photos = photos
+        };
     }
 
     public void ClearForm()

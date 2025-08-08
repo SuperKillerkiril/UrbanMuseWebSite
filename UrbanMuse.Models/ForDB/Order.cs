@@ -9,7 +9,8 @@ public class Order
     [Key] public int Id { get; set; }
     public DateTime OrderDate { get; set; }
     public DateTime ShippedDate { get; set; }
-    public string? Comment { get; set; }
+    public int Size { get; set; }
+    public int Color { get; set; }
     
     public string? Status { get; set; }
     
