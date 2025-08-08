@@ -5,6 +5,7 @@ namespace UrbanMuse.Models;
 
 public class Photo
 {
+    public Guid TempId { get; set; } = Guid.NewGuid();
     [Key] public int id { get; set; }
     public byte[] Data { get; set; }
     public string ContentType { get; set; }
