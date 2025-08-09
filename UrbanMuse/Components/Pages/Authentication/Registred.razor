@@ -1,27 +1,26 @@
 @page "/registered"
-@using UrbanMuse.DataBase
 @using UrbanMuse.Models
+@using UrbanMuse.Services
+@inject AuthService AuthService
 @inject NavigationManager NavigationManager
-@inject ModelContext ef
-@inject Blazored.LocalStorage.ILocalStorageService LocalStorage
 @rendermode InteractiveServer
 
 <div class="registered-custom-background">
     <div class="registered-container">
         <h3 class="registered-text">REGISTERED</h3>
         <div class="registered-form">
-            <input class="registered-form-input" type="text" @bind="User.Name" placeholder="What should call you"/>
-            <input class="registered-form-input" type="text" @bind="User.Email" placeholder="Email"/>
-            <input class="registered-form-input" type="password" @bind="User.Password" placeholder="Password"/>
-            <input class="registered-form-input" type="date" @bind="User.BirthDate" placeholder="Birthday Date"/>
+            <input class="registered-form-input" type="text" @bind="registredModel.Name" placeholder="What should call you"/>
+            <input class="registered-form-input" type="text" @bind="registredModel.Email" placeholder="Email"/>
+            <input class="registered-form-input" type="password" @bind="registredModel.Password" placeholder="Password"/>
+            <input class="registered-form-input" type="date" @bind="registredModel.BirthDate" placeholder="Birthday Date"/>
             <button class="registered-form-button" @onclick="Register">ACCEPT</button>
-            @if (IsAuth)
+            @*@if (IsAuth)
             {
             <button class="registered-form-button" @onclick="ReAuth">log in to a new account</button>
-            }
+            }*@
         </div>
         <NavLink class="nav-link" href="auth">have an account?</NavLink>
-        @Msg
+        @Message
     </div>
 </div>
 
@@ -30,53 +29,17 @@
 
 
 @code {
-    public User User = new User();
-    private string Msg;
-    private bool IsAuth;
+    private readonly string Message = null!;
 
-    protected override async void OnInitialized()
+    private User registredModel = new();
+
+    private async Task Register()
     {
-        IsAuth = await LocalStorage.GetItemAsync<bool>("IsAuth");
-        if (IsAuth)
+        registredModel.Role = RoleEnum.User;
+        var success = await AuthService.RegisterAsync(registredModel);
+        if (success)
         {
-            Msg = "You have successfully logged in";
+            NavigationManager.NavigateTo("/"); //пеерход в профиль
         }
-        StateHasChanged();
-    }
-    private void ReAuth()
-    {
-        LocalStorage.SetItemAsync("IsAuth", false);
-        Msg = "Enter your account details";
-        StateHasChanged();
-    }
-    
-    public async Task Register()
-    {
-        if (ef.Clients.Any(c => c.Email == User.Email))  
-        {
-            Msg = "This email is already busy.";
-            return;
-        }
-        try
-        {
-            User.Role = RoleEnum.Guest;
-            ef.Add(User); 
-            ef.SaveChanges();
-                
-            await LocalStorage.SetItemAsync("clientId", User.Id);
-            await LocalStorage.SetItemAsync("clientemail", User.Email);
-            await LocalStorage.SetItemAsync("clientpassword", User.Password);
-            await LocalStorage.SetItemAsync("IsAuth", true);
-                
-            await Task.Delay(1000);
-            Msg = "Registration successful!";
-            NavigationManager.NavigateTo("auth");
-        }
-        catch (Exception e)
-        {
-            Msg = e.Message;
-        }
-        }
-        
     }
 }

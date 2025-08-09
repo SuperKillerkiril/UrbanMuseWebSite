@@ -1,5 +1,6 @@
 @page "/Profile"
-@using System.Drawing
+@attribute [Authorize]
+@using Microsoft.AspNetCore.Authorization
 @using Microsoft.EntityFrameworkCore
 @using UrbanMuse.DataBase
 @using UrbanMuse.Models
@@ -61,7 +62,7 @@
     private User _user = new User();
     private List<Order> _clientOrders = new List<Order>();
     private List<Product> _clientProducts = new List<Product>();
-    private string msg;
+    private protected string Message = null!;
     private int ClientId;
     bool IsAuth = false;
     
@@ -75,7 +76,7 @@
        IsAuth = await LocalStorage.GetItemAsync<bool>("IsAuth");
        if (!IsAuth)
        {
-           msg = "you are not logged in";
+           Message = "you are not logged in";
        }
        else
        {
@@ -87,7 +88,7 @@
            }
            catch (Exception e)
            {
-               msg = "couldn't find you";
+               Message = "couldn't find you";
            }
        }
    }

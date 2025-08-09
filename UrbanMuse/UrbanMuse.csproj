@@ -35,10 +35,11 @@
     <ItemGroup>
       <ProjectReference Include="..\UrbanMuse.DataBase\UrbanMuse.DataBase.csproj" />
       <ProjectReference Include="..\UrbanMuse.Models\UrbanMuse.Models.csproj" />
+      <ProjectReference Include="..\UrbanMuse.Services\UrbanMuse.Services.csproj" />
     </ItemGroup>
 
     <ItemGroup>
-      <AdditionalFiles Include="Components\Pages\AdminPages\AddProduct.razor" />
+      <AdditionalFiles Include="Components\Pages\Internal\AddProduct.razor" />
     </ItemGroup>
 
 </Project>

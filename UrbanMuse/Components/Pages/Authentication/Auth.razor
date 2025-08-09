@@ -1,84 +1,43 @@
 ﻿@page "/auth"
-@using UrbanMuse.DataBase
-@using UrbanMuse.Models
-@inject ModelContext ef
+@using UrbanMuse.Services
+@inject AuthService AuthService
 @inject NavigationManager NavigationManager
-@inject Blazored.LocalStorage.ILocalStorageService LocalStorage
 @rendermode InteractiveServer
 
 <div class="registered-custom-background">
     <div class="registered-container">
         <h3 class="registered-text">AUTHENTICATION</h3>
         <div class="registered-form">
-            <input class="registered-form-input" type="text" @bind="_user.Email" placeholder="Email"/>
-            <input class="registered-form-input" type="password" @bind="_user.Password" placeholder="Password"/>
+            <input class="registered-form-input" type="text" @bind="loginModel.Email" placeholder="Email"/>
+            <input class="registered-form-input" type="password" @bind="loginModel.Password" placeholder="Password"/>
             <button class="registered-form-button" @onclick="AuthUser">ACCEPT</button>
-            @if (IsAuth)
+            
+            @*@if (IsAuth)
             {
             <button class="registered-form-button" @onclick="ReAuth">log in to a new account</button>
-            }
+            }*@
+            
         </div>
-        @Msg
+        @Message
     </div>
 </div>
 
 @code {
-    User _user = new User();
-    User _authUser = new User();
-    private bool IsAuth = false;
-    private string Msg;
+    private readonly string Message = null!;
 
-    protected override async void OnInitialized()
-    {
-        try
-        {
-            IsAuth = await LocalStorage.GetItemAsync<bool>("IsAuth");
-            if (IsAuth)
-            {
-                Msg = "You have successfully logged in";
-            }
-            StateHasChanged();
-        }
-        catch
-        {
-            IsAuth = false;
-        }
-    }
+    private LoginModel loginModel = new LoginModel();
 
-    private void ReAuth()
+    private async Task AuthUser()
     {
-        LocalStorage.SetItemAsync("IsAuth", false);
-        Msg = "Enter your account details";
-        StateHasChanged();
+        var success = await AuthService.LoginAsync(loginModel.Email, loginModel.Password);
+        if (success)
+            NavigationManager.NavigateTo("/");
     }
     
-    public async Task AuthUser()
+    public class LoginModel
     {
-        try
-        {
-            _authUser = ef.Clients.FirstOrDefault(c => c.Email == _user.Email);
-            
-            if (_authUser != null && _authUser.Password == _user.Password)
-            {
-                Msg = "You have successfully logged in";
-                
-                await LocalStorage.SetItemAsync("clientId", _user.Id);
-                await LocalStorage.SetItemAsync("clientemail", _user.Email);
-                await LocalStorage.SetItemAsync("clientpassword", _user.Password);
-                await LocalStorage.SetItemAsync("IsAuth", true);
-                
-                await Task.Delay(1000);
-                NavigationManager.NavigateTo("");
-            }
-            else
-            {
-                Msg = "incorrect email or password";
-            }
-        }
-        catch (Exception e)
-        {
-            Msg = e.ToString();
-        }
-        
+        public string Email { get; set; }
+        public string Password { get; set; }
     }
+
 }
