@@ -36,8 +36,8 @@
 <div class="profile">
     <div class="profile-avatar">
         <img src="LocalImage/IconAndGroup/profile.svg"/>
-        <h2>@_client.Name</h2>
-        <h4>@_client.Role.ToString()</h4>
+        <h2>@_user.Name</h2>
+        <h4>@_user.Role.ToString()</h4>
     </div>   
     <div class="profile-louer">
         @foreach (var product in _clientProducts)
@@ -58,7 +58,7 @@
     //как подтянуть инфу о прдукте по заказу, для отражения статуса заказа и фотографии продукта
     //верстай с мобилы на десктоп и наоборот
     private bool IsMenuOpen = false;
-    private Client _client = new Client();
+    private User _user = new User();
     private List<Order> _clientOrders = new List<Order>();
     private List<Product> _clientProducts = new List<Product>();
     private string msg;
@@ -82,8 +82,8 @@
            try
            {
                ClientId = await LocalStorage.GetItemAsync<int>("clientId"); 
-               _client = ef.Clients.FirstOrDefault(c => c.Id == ClientId)!;
-               GetClientOrders(_client.Id);
+               _user = ef.Clients.FirstOrDefault(c => c.Id == ClientId)!;
+               GetClientOrders(_user.Id);
            }
            catch (Exception e)
            {

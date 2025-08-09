@@ -61,7 +61,7 @@
     <div class="product-demo-card-more">
         @foreach (var img in _product.Photos)
         {
-            <img @onclick="() => currentimgSet(img)" src="@GetImageSrc(img)"/>
+            <img @onclick="() => CurrentImgSet(img)" src="@GetImageSrc(img)"/>
         }
     </div>
     <div class="product-demo-card-name">@_product.Name</div>
@@ -109,7 +109,7 @@
     [Parameter] public int id { get; set; }
     private int ClientId { get; set; }
     private Product _product = new Product();
-    private Client _client = new Client();
+    private User _user = new User();
     private Order _order = new Order();
     private List<Product> _products = new List<Product>();
     private int currentSize = 2;
@@ -124,7 +124,7 @@
         StateHasChanged();
     }
 
-    private void currentimgSet(Photo imge)
+    private void CurrentImgSet(Photo imge)
     {
         currentimg = _product.Photos.Count(img => img == imge);
     }
@@ -196,8 +196,8 @@
                 _order.OrderDate = DateTime.Now;
                 
                 ClientId = await LocalStorage.GetItemAsync<int>("clientId"); 
-                _client = ef.Clients.FirstOrDefault(c => c.Id == ClientId)!;
-                _order.Client = _client;
+                _user = ef.Clients.FirstOrDefault(c => c.Id == ClientId)!;
+                _order.Client = _user;
                 _order.ClientId = ClientId;
                 _order.ProductId = _product.Id;
                 _order.Product = ef.Products.FirstOrDefault(p => p.Id == id);
@@ -226,13 +226,13 @@
         {
             _order.OrderDate = DateTime.Now;
             ClientId = await LocalStorage.GetItemAsync<int>("clientId");
-            _client = ef.Clients.FirstOrDefault(c => c.Id == ClientId);
-            if (_client == null)
+            _user = ef.Clients.FirstOrDefault(c => c.Id == ClientId);
+            if (_user == null)
             {
                 msg = "Client not found.";
                 return;
             }
-            _order.Client = _client;
+            _order.Client = _user;
             _order.ClientId = ClientId;
             _order.ProductId = _product.Id;
             _order.Product = ef.Products.FirstOrDefault(p => p.Id == _product.Id);

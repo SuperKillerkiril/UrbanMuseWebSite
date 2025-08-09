@@ -15,7 +15,7 @@ public class Order
     public string? Status { get; set; }
     
     public int? ClientId { get; set; }
-    [ForeignKey("ClientId")] public Client? Client { get; set; }
+    [ForeignKey("ClientId")] public User? Client { get; set; }
     public int? ProductId { get; set; }
     [ForeignKey("ProductId")] public Product? Product { get; set; }
     

@@ -10,8 +10,8 @@
     <div class="registered-container">
         <h3 class="registered-text">AUTHENTICATION</h3>
         <div class="registered-form">
-            <input class="registered-form-input" type="text" @bind="_client.Email" placeholder="Email"/>
-            <input class="registered-form-input" type="password" @bind="_client.Password" placeholder="Password"/>
+            <input class="registered-form-input" type="text" @bind="_user.Email" placeholder="Email"/>
+            <input class="registered-form-input" type="password" @bind="_user.Password" placeholder="Password"/>
             <button class="registered-form-button" @onclick="AuthUser">ACCEPT</button>
             @if (IsAuth)
             {
@@ -23,8 +23,8 @@
 </div>
 
 @code {
-    Client _client = new Client();
-    Client _authClient = new Client();
+    User _user = new User();
+    User _authUser = new User();
     private bool IsAuth = false;
     private string Msg;
 
@@ -56,15 +56,15 @@
     {
         try
         {
-            _authClient = ef.Clients.FirstOrDefault(c => c.Email == _client.Email);
+            _authUser = ef.Clients.FirstOrDefault(c => c.Email == _user.Email);
             
-            if (_authClient != null && _authClient.Password == _client.Password)
+            if (_authUser != null && _authUser.Password == _user.Password)
             {
                 Msg = "You have successfully logged in";
                 
-                await LocalStorage.SetItemAsync("clientId", _client.Id);
-                await LocalStorage.SetItemAsync("clientemail", _client.Email);
-                await LocalStorage.SetItemAsync("clientpassword", _client.Password);
+                await LocalStorage.SetItemAsync("clientId", _user.Id);
+                await LocalStorage.SetItemAsync("clientemail", _user.Email);
+                await LocalStorage.SetItemAsync("clientpassword", _user.Password);
                 await LocalStorage.SetItemAsync("IsAuth", true);
                 
                 await Task.Delay(1000);

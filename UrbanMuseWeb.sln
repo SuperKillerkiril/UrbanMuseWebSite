@@ -6,6 +6,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UrbanMuse.Models", "UrbanMu
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UrbanMuse.DataBase", "UrbanMuse.DataBase\UrbanMuse.DataBase.csproj", "{FD7F8EFD-115A-44B7-9E9A-72A86BFD436C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UrbanMuse.Services", "UrbanMuse.Services\UrbanMuse.Services.csproj", "{48AF6691-09CF-427B-8335-6DC8FAEE5F23}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -24,5 +26,9 @@ Global
 		{FD7F8EFD-115A-44B7-9E9A-72A86BFD436C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FD7F8EFD-115A-44B7-9E9A-72A86BFD436C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FD7F8EFD-115A-44B7-9E9A-72A86BFD436C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{48AF6691-09CF-427B-8335-6DC8FAEE5F23}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{48AF6691-09CF-427B-8335-6DC8FAEE5F23}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{48AF6691-09CF-427B-8335-6DC8FAEE5F23}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{48AF6691-09CF-427B-8335-6DC8FAEE5F23}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

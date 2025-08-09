@@ -2,7 +2,7 @@
 
 namespace UrbanMuse.Models;
 
-public class Client
+public class User 
 {
     [Key] public int Id { get; set; }
     public string Name { get; set; }

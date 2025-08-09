@@ -112,7 +112,11 @@
                 @foreach (var prod in _products)
                 {
                     <div class="store-product-card">
-                        <img src="@prod.Photos"/>
+                        @foreach (var photo in prod.Photos)
+                        {
+                            <img src="@GetImageSrc(photo)" alt="@GetImageSrc(photo)"/>
+                            break;
+                        }
                         <div class="store-product-card-description">
                             <div class="store-product-card-name">@prod.Name</div>
                             <div class="store-product-card-name">@prod.Price</div>
@@ -149,7 +153,9 @@
     }
     private void LoadProduct()
     {
-        _products = ef.Products.Take(HowMuchToTake).ToList();
+        _products = ef.Products
+            .Include(p => p.Photos)
+            .Take(HowMuchToTake).ToList();
     }
     private void GoToProductDetail(int productId)
     {
@@ -172,6 +178,17 @@
         LoadProduct();
         StateHasChanged();
     }
+    private string GetImageSrc(Photo photo)
+    {
+        if (photo?.Data == null || photo.Data.Length == 0)
+        {
+            return string.Empty;
+        }
+        
+        var base64 = Convert.ToBase64String(photo.Data);
+        return $"data:{photo.ContentType};base64,{base64}";
+    }
+
     
     private async Task ReSearchByTypeAndPrice()
     {
