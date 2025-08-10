@@ -4,8 +4,8 @@ using UrbanMuse.Services;
 
 namespace UrbanMuse.Controllers;
 
+[Route("api/auth")]
 [ApiController]
-[Route("api/[controller]")]
 public class AuthController : ControllerBase
 {
     private readonly AuthService _authService;
@@ -31,4 +31,12 @@ public class AuthController : ControllerBase
         await _authService.LogoutAsync();
         return Ok();
     }
+
+
+    [HttpGet("test")]
+    public IActionResult Test()
+    {
+        return Ok("тест");
+    }
+    
 }

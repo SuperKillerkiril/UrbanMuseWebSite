@@ -33,6 +33,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\UrbanMuse.Controllers\UrbanMuse.Controllers.csproj" />
       <ProjectReference Include="..\UrbanMuse.DataBase\UrbanMuse.DataBase.csproj" />
       <ProjectReference Include="..\UrbanMuse.Models\UrbanMuse.Models.csproj" />
       <ProjectReference Include="..\UrbanMuse.Services\UrbanMuse.Services.csproj" />

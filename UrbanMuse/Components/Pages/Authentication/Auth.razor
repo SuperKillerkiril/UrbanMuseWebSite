@@ -1,24 +1,27 @@
-﻿@page "/auth"
+﻿
 @using UrbanMuse.Models
 @inject HttpClient Http
 @inject NavigationManager NavigationManager
-@rendermode InteractiveServer
 
-<div class="registered-custom-background">
-    <div class="registered-container">
-        <h3 class="registered-text">AUTHENTICATION</h3>
-        <div class="registered-form">
-            <input class="registered-form-input" type="text" @bind="loginModel.Email" placeholder="Email"/>
-            <input class="registered-form-input" type="password" @bind="loginModel.Password" placeholder="Password"/>
-            <button class="registered-form-button" @onclick="AuthUser">ACCEPT</button>
-            <button class="registered-form-button-L" @onclick="Logout">LOGOUT</button>
+@rendermode InteractiveWebAssembly
+
+<EditForm Model="loginModel" OnSubmit="AuthUser">
+    <div class="registered-custom-background">
+        <div class="registered-container">
+            <h3 class="registered-text">AUTHENTICATION</h3>
+            <div class="registered-form">
+                <input class="registered-form-input" type="text" @bind="loginModel.Email" placeholder="Email"/>
+                <input class="registered-form-input" type="password" @bind="loginModel.Password" placeholder="Password"/>
+                <button class="registered-form-button" @onclick="AuthUser">ACCEPT</button>
+                <button class="registered-form-button-L" @onclick="Logout">LOGOUT</button>
+            </div>
+            @if (!string.IsNullOrEmpty(Message))
+            {
+                @Message
+            }
         </div>
-        @if (!string.IsNullOrEmpty(Message))
-        {
-        @Message
-        }
     </div>
-</div>
+</EditForm>
 
 @code {
     private string Message = null!;
@@ -45,7 +48,7 @@
             var response = await Http.PostAsync("api/auth/logout", null);
             if (response.IsSuccessStatusCode)
             {
-            NavigationManager.NavigateTo("/", true);
+                NavigationManager.NavigateTo("/", true);
             }
         }
         catch (Exception e)
@@ -53,4 +56,5 @@
             Message = e.Message;
         }
     }
+
 }

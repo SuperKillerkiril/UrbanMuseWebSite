@@ -1,0 +1,45 @@
+<form id="loginForm">
+    <div class="registered-custom-background">
+        <div class="registered-container">
+            <h3 class="registered-text">AUTHENTICATION</h3>
+            <div class="registered-form">
+                <label>
+                    <input class="registered-form-input" type="email" id="email" placeholder="Email" required />
+                </label>
+                <label>
+                    <input class="registered-form-input" type="password" id="password" placeholder="Password" required />
+                </label>
+                <button type="button" onclick="login()" class="registered-form-button">ACCEPT</button>
+            </div>
+            <div>
+                <button type="button" onclick="logout()" class="registered-form-button-L">LOGOUT</button>
+            </div>
+        </div>
+    </div>
+</form>
+
+<script>
+    async function login() {
+        const email = document.getElementById("email").value;
+        const password = document.getElementById("password").value;
+
+        const response = await fetch("/api/auth/login", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ email, password }),
+        });
+
+        if (response.ok) {
+            window.location.href = "/"; // Перенаправление после успешного входа
+        } else {
+            alert("Ошибка входа!");
+        }
+    }
+
+    async function logout() {
+        await fetch("/api/auth/logout", { method: "POST" });
+        window.location.reload(); // Обновляем страницу после выхода
+    }
+</script>
