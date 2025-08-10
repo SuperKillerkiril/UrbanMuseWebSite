@@ -1,6 +1,6 @@
 ﻿@page "/auth"
-@using UrbanMuse.Services
-@inject AuthService AuthService
+@using UrbanMuse.Models
+@inject HttpClient Http
 @inject NavigationManager NavigationManager
 @rendermode InteractiveServer
 
@@ -11,9 +11,12 @@
             <input class="registered-form-input" type="text" @bind="loginModel.Email" placeholder="Email"/>
             <input class="registered-form-input" type="password" @bind="loginModel.Password" placeholder="Password"/>
             <button class="registered-form-button" @onclick="AuthUser">ACCEPT</button>
-            <button class="registered-form-button" @onclick="Logout">LOGOUT</button>
+            <button class="registered-form-button-L" @onclick="Logout">LOGOUT</button>
         </div>
+        @if (!string.IsNullOrEmpty(Message))
+        {
         @Message
+        }
     </div>
 </div>
 
@@ -24,12 +27,25 @@
 
     private async Task AuthUser()
     {
+        var response = await Http.PostAsJsonAsync("api/auth/login", loginModel);
+        if (response.IsSuccessStatusCode)
+        {
+            NavigationManager.NavigateTo("/profile", true);
+        }
+        else
+        {
+            Message = "Неверный email или пароль";
+        }
+    }
+
+    private async Task Logout()
+    {
         try
         {
-            var success = await AuthService.LoginAsync(loginModel.Email, loginModel.Password);
-            if (success)
+            var response = await Http.PostAsync("api/auth/logout", null);
+            if (response.IsSuccessStatusCode)
             {
-                NavigationManager.NavigateTo("/profile");
+            NavigationManager.NavigateTo("/", true);
             }
         }
         catch (Exception e)
@@ -37,16 +53,4 @@
             Message = e.Message;
         }
     }
-
-    private async Task Logout()
-    {
-        await AuthService.LogoutAsync();
-    }
-    
-    public class LoginModel
-    {
-        public string Email { get; set; }
-        public string Password { get; set; }
-    }
-
 }

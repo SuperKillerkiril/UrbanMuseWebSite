@@ -14,19 +14,29 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 
-builder.Services.AddBlazoredLocalStorage();
-builder.Services.AddDbContext<ModelContext>();
+builder.Services.AddBlazoredLocalStorage(); //Локал Сторадж
+builder.Services.AddDbContext<ModelContext>(); //Контекст бд
 
-builder.Services.AddHttpContextAccessor();
-builder.Services.AddScoped<AuthService>();
+builder.Services.AddHttpContextAccessor(); //Хттп контекст 
+builder.Services.AddScoped<AuthService>(); //сервис авторизации
 
-builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme) //сервис аутентиф
     .AddCookie(options =>
     {
         options.LoginPath = "/auth";
         options.AccessDeniedPath = "/access-denied";
     });
-builder.Services.AddAuthorization();
+builder.Services.AddAuthorization(); //сервис авториз
+
+builder.Services.AddControllers(); //контроллеры
+
+var apiBaseUrl = builder.Configuration["ApiSettings:BaseUrl"]; //апи
+
+builder.Services
+    .AddScoped(sp => new HttpClient 
+    { 
+        BaseAddress = new Uri(apiBaseUrl) 
+    });//апи
 
 var app = builder.Build();
 
@@ -39,6 +49,7 @@ if (!app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.UseRouting();
 
 app.UseAuthentication();
 app.UseAuthorization();
@@ -48,6 +59,8 @@ app.UseAntiforgery();
 app.MapStaticAssets();
 app.MapRazorComponents<App>()
     .AddInteractiveServerRenderMode();
+
+app.MapControllers();
 
 
 var scope = app.Services.CreateScope();

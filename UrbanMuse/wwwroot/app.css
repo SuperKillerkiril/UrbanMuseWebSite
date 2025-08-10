@@ -473,15 +473,25 @@ h1:focus {
     width: 90%;
 }
 .registered-form-input{
+    font-family: 'Montserrat', sans-serif;
     background-color: transparent;
     border: none;
     padding: 10px;
-    font-family: 'Gerhaus', sans-serif;
     font-size: 15pt;
+    margin: 10px;
+    border-radius: 10px;
 }
 .registered-form-button{
+    font-family: 'Montserrat', sans-serif;
     padding: 10px;
     background-color: lightgray;
+    border-radius: 15px;
+    margin: 5px;
+}
+.registered-form-button-L{
+    font-family: 'Montserrat', sans-serif;
+    padding: 10px;
+    background: none;
     border-radius: 15px;
     margin: 5px;
 }
