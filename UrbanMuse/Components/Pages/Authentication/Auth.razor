@@ -11,27 +11,36 @@
             <input class="registered-form-input" type="text" @bind="loginModel.Email" placeholder="Email"/>
             <input class="registered-form-input" type="password" @bind="loginModel.Password" placeholder="Password"/>
             <button class="registered-form-button" @onclick="AuthUser">ACCEPT</button>
-            
-            @*@if (IsAuth)
-            {
-            <button class="registered-form-button" @onclick="ReAuth">log in to a new account</button>
-            }*@
-            
+            <button class="registered-form-button" @onclick="Logout">LOGOUT</button>
         </div>
         @Message
     </div>
 </div>
 
 @code {
-    private readonly string Message = null!;
+    private string Message = null!;
 
     private LoginModel loginModel = new LoginModel();
 
     private async Task AuthUser()
     {
-        var success = await AuthService.LoginAsync(loginModel.Email, loginModel.Password);
-        if (success)
-            NavigationManager.NavigateTo("/");
+        try
+        {
+            var success = await AuthService.LoginAsync(loginModel.Email, loginModel.Password);
+            if (success)
+            {
+                NavigationManager.NavigateTo("/profile");
+            }
+        }
+        catch (Exception e)
+        {
+            Message = e.Message;
+        }
+    }
+
+    private async Task Logout()
+    {
+        await AuthService.LogoutAsync();
     }
     
     public class LoginModel

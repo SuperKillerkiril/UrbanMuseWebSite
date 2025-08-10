@@ -26,11 +26,11 @@ public class AuthService
             return false;
         var claims = new List<Claim>
         {
-            new Claim(ClaimTypes.Name, user.Name),
-            new Claim(ClaimTypes.Email, user.Email),
-            new Claim(ClaimTypes.Role, user.Role.ToString())
+            new(ClaimTypes.Name, user.Name),
+            new(ClaimTypes.Email, user.Email),
+            new(ClaimTypes.Role, user.Role.ToString())
         };
-        var identity = new ClaimsIdentity(claims, "CookieAuthenticationDefaults.AuthenticationScheme");
+        var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
         var principal = new ClaimsPrincipal(identity);
 
         await _contextAccessor.HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
@@ -50,5 +50,14 @@ public class AuthService
         _context.Clients.Add(newUser);
         await _context.SaveChangesAsync();
         return true;
+    }
+
+    public async Task<User> GetUserAsync()
+    {
+        var email = _contextAccessor.HttpContext.User?.FindFirst(ClaimTypes.Email)?.Value;
+        if (email == null)
+            return null;
+        
+        return await _context.Clients.FirstOrDefaultAsync(u => u.Email == email);
     }
 }

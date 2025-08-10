@@ -14,15 +14,16 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 
-
-builder.Services.AddDbContext<ModelContext>();
 builder.Services.AddBlazoredLocalStorage();
+builder.Services.AddDbContext<ModelContext>();
+
+builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<AuthService>();
 
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(options =>
     {
-        options.LoginPath = "/login";
+        options.LoginPath = "/auth";
         options.AccessDeniedPath = "/access-denied";
     });
 builder.Services.AddAuthorization();
@@ -39,6 +40,8 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.UseAuthentication();
+app.UseAuthorization();
 
 app.UseAntiforgery();
 
@@ -46,8 +49,7 @@ app.MapStaticAssets();
 app.MapRazorComponents<App>()
     .AddInteractiveServerRenderMode();
 
-app.UseAuthentication();
-app.UseAuthorization();
+
 var scope = app.Services.CreateScope();
 var context = scope.ServiceProvider.GetRequiredService<ModelContext>();
 context.Database.Migrate();

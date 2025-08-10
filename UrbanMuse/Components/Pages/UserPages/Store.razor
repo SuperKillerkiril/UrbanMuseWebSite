@@ -1,16 +1,14 @@
 @page "/store"
 @using Microsoft.EntityFrameworkCore
-@using Microsoft.EntityFrameworkCore.Query.SqlExpressions
 @using UrbanMuse.DataBase
 @using UrbanMuse.Models
 @rendermode InteractiveServer
 @inject ModelContext ef
-@inject IJSRuntime IJSRuntime
 @inject NavigationManager Navigation
 
 
 <div class="store-header">
-    <img class="store-header-img" src="LocalImage/IconAndGroup/amphora.svg">
+    <img class="store-header-img" src="LocalImage/Icon/amphora.svg">
         <NavLink class="nav-link" href="about">
             <div class="store-header-logo-text">
                 URBAN MUSE
@@ -32,12 +30,12 @@
     <div class="store-header-button-container">
         <NavLink href="">
             <div class="store-header-button">
-                <img src="LocalImage/IconAndGroup/profile.svg"/>
+                <img src="LocalImage/Icon/profile.svg"/>
             </div>
         </NavLink>
         <NavLink href="cart">
             <div class="store-header-button">
-                <img src="LocalImage/IconAndGroup/shopping-basket.svg"/>
+                <img src="LocalImage/Icon/shopping-basket.svg"/>
             </div>
         </NavLink>
     </div>
@@ -51,12 +49,12 @@
         <div class="store-filter-container">
             
             <button class="store-filter-allprod" @onclick="ClearFilter">
-                <img src="LocalImage/IconAndGroup/shopping-basket.svg"/>
+                <img src="LocalImage/Icon/shopping-basket.svg"/>
                 <a>ALL PRODUCT</a>
             </button>
             
             <button class="store-filter-button" @onclick="ToggleMenuType">
-                <img src="LocalImage/IconAndGroup/list.svg"/>
+                <img src="LocalImage/Icon/list.svg"/>
                 <a>TYPE</a>
             </button>
             
@@ -71,7 +69,7 @@
             }
             
             <button class="store-filter-button" @onclick="ToggleMenuPrice">
-                <img class="store-filter-img" src="LocalImage/IconAndGroup/circle-percent.svg"/>
+                <img class="store-filter-img" src="LocalImage/Icon/circle-percent.svg"/>
                 <a>PRICE</a>
             </button>
             
@@ -91,7 +89,7 @@
             }
             
             <button class="store-filter-button">
-                <img src="LocalImage/IconAndGroup/circle-check.svg"/>
+                <img src="LocalImage/Icon/circle-check.svg"/>
                 <a>PREORDER</a>
             </button>
             
@@ -102,7 +100,7 @@
         <div class="store-catalog">
             <div class="store-catalog-search-bar-container">
                 <div class="store-catalog-search-bar">
-                    <img src="LocalImage/IconAndGroup/search.svg"/>
+                    <img src="LocalImage/Icon/search.svg"/>
                     <input @bind="_searchOption.SearchText" type="text" placeholder="Search on stuff"/>
                     <button @onclick="ReSearchBySearchText">Search</button>
                 </div>

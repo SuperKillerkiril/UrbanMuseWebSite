@@ -72,9 +72,13 @@ h1:focus {
     font-family: 'Actay Wide';
     src: url('Fonts/ActayWide-Bold.otf');
 }
+@font-face {
+    font-family: 'Gerhaus';
+    src: url('Fonts/Gerhaus.ttf');
+}
 
 .home-custom-background{
-    background-image: url('LocalImage/IconAndGroup/header.png');
+    background-image: url('LocalImage/Backgrounds/header.png');
     background-size: cover; 
     background-position: center; 
     height: 100vh;
@@ -435,7 +439,7 @@ h1:focus {
 }
 .registered-custom-background
 {
-    background-image: url('LocalImage/IconAndGroup/header.png');
+    background-image: url('LocalImage/Backgrounds/header.png');
     background-size: cover;
     background-position: center;
     height: 100vh;
@@ -612,7 +616,7 @@ h1:focus {
 }   
 
 .product-demo-background{
-    background-image: url('LocalImage/IconAndGroup/background-myth.png');
+    background-image: url('LocalImage/Backgrounds/background-myth.png');
     background-size: cover;
     background-position: center;
 }

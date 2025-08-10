@@ -29,7 +29,7 @@
 
 
 @code {
-    private readonly string Message = null!;
+    private string Message = null!;
 
     private User registredModel = new();
 
@@ -40,6 +40,10 @@
         if (success)
         {
             NavigationManager.NavigateTo("/"); //пеерход в профиль
+        }
+        else
+        {
+            Message = "почта занята";
         }
     }
 }
