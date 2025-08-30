@@ -31,6 +31,17 @@ public class AuthController : ControllerBase
         await _authService.LogoutAsync();
         return Ok();
     }
+    [HttpPost(Name = "register")]
+    public async Task<IActionResult> Registred([FromBody] LoginModel model)
+    {
+        User user = new User
+        {
+            Email = model.Email,
+            Password = model.Password
+        };
+        await _authService.RegisterAsync(user);
+        return Ok();
+    }
 
 
     [HttpGet("test")]
