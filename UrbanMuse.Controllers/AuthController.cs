@@ -4,8 +4,8 @@ using UrbanMuse.Services;
 
 namespace UrbanMuse.Controllers;
 
-[Route("api/auth")]
 [ApiController]
+[Route("api/[controller]")]
 public class AuthController : ControllerBase
 {
     private readonly AuthService _authService;

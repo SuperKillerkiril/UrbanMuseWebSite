@@ -65,7 +65,7 @@ app.MapStaticAssets();
 app.MapRazorComponents<App>()
     .AddInteractiveServerRenderMode();
 
-app.MapControllers();
+app.MapControllers();   
 
 var scope = app.Services.CreateScope();
 var context = scope.ServiceProvider.GetRequiredService<ModelContext>();

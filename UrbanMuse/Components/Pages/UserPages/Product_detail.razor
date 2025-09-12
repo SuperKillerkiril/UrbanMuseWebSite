@@ -1,5 +1,4 @@
 ﻿@page "/product/{id:int}"
-@using System.Drawing
 @using Microsoft.EntityFrameworkCore
 @using UrbanMuse.DataBase
 @using UrbanMuse.Models
@@ -54,7 +53,7 @@
     <div class="product-demo-card-container">
         <div class="product-demo-card">
             <button @onclick="Previous"><img src="LocalImage/Icon/chevron-left.svg"/></button>
-            <img class="product-demo-card-img" src="@currentimg"/>
+                <img class="product-demo-card-img" src="@GetImageSrc(_currentPhotos)"/>
             <button @onclick="Next"><img src="LocalImage/Icon/chevron-left.png"/></button>
         </div>
     </div>
@@ -112,7 +111,16 @@
     private User _user = new User();
     private Order _order = new Order();
     private List<Product> _products = new List<Product>();
-    private int currentSize = 2;
+    private List<Photo> _photos = new List<Photo>();
+    private Photo _currentPhotos = new Photo
+    {
+        TempId = Guid.NewGuid(),
+        id = 123,
+        Data = new byte[] { 1, 2, 3, 4, 5 },
+        ContentType = "image/png",
+        ProductId = 10
+    }; 
+    private int currentSize = 3;
     private int currentimg;
     private string? msg = null;
     private bool IsAuth = false;
@@ -127,6 +135,8 @@
     private void CurrentImgSet(Photo imge)
     {
         currentimg = _product.Photos.Count(img => img == imge);
+        _currentPhotos = _photos[currentimg];   
+        Console.WriteLine(_currentPhotos.ContentType);
     }
 
     protected override async void OnInitialized()
@@ -136,6 +146,7 @@
             .Include(p => p.Photos)
             .ToListAsync();
         IsAuth = await LocalStorage.GetItemAsync<bool>("IsAuth");
+        _photos = _product.Photos;
     }
     private string GetImageSrc(Photo img)
     {
