@@ -72,3 +72,4 @@ var context = scope.ServiceProvider.GetRequiredService<ModelContext>();
 context.Database.Migrate();
 
 app.Run();
+Console.WriteLine(apiBaseUrl);

@@ -32,7 +32,7 @@ public class AuthController : ControllerBase
         return Ok();
     }
     [HttpPost(Name = "register")]
-    public async Task<IActionResult> Registred([FromBody] LoginModel model)
+    public async Task<IActionResult> Registred([FromBody] User model)
     {
         User user = new User
         {

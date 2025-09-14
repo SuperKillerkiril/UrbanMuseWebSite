@@ -7,10 +7,10 @@
 @inject NavigationManager NavigationManager
 @rendermode InteractiveServer
 @inject Blazored.LocalStorage.ILocalStorageService LocalStorage
-@if (msg != null)
+@if (UiMessage != null)
 {
     <div class="product-demo-message">
-        <a>@msg</a>
+        <a>@UiMessage</a>
     </div>
     Timer();
 }
@@ -108,27 +108,27 @@
 @code {
     [Parameter] public int id { get; set; }
     private int ClientId { get; set; }
-    private Product _product = new Product();
-    private User _user = new User();
-    private Order _order = new Order();
-    private List<Product> _products = new List<Product>();
+    private Product _product = new ();
+    private User _user = new ();
+    private Order _order = new ();
+    private List<Product> _products = new();
     private int currentSize = 3;
     private int currentimg;
-    private string? msg = null;
+    private string? UiMessage = null;
     private bool IsAuth = false;
     private bool IsMenuOpen = false;
 
-    protected void OpenMenu()
+    private void OpenMenu()
     {
         IsMenuOpen = !IsMenuOpen;
         StateHasChanged();
     }
 
-    private void CurrentImgSet(Photo imge)
+    /*private void CurrentImgSet(Photo imge)
     {
         currentimg = _product.Photos.Count(img => img == imge);
         Console.WriteLine($"Номер currentimg: {currentimg}, imge: {imge.id}, {DateTime.Now}");
-    }
+    }*/
 
     protected override async void OnInitialized()
     {
@@ -186,7 +186,7 @@
     
 
     private async void Timer()
-    { await Task.Delay(10000); msg = null; StateHasChanged(); }
+    { await Task.Delay(10000); UiMessage = null; StateHasChanged(); }
 
     /*private async void  CreateOrder()
     {
@@ -204,7 +204,7 @@
                 _user = ef.Clients.FirstOrDefault(c => c.Id == ClientId)!;
                 _order.Client = _user;
                 _order.ClientId = ClientId;
-                _order.ProductId = _product.Id;
+                _order.ProductId = _product.{Id};
                 _order.Product = ef.Products.FirstOrDefault(p => p.Id == id);
                 _order.Size = currentSize;
                 ef.Add(_order);
@@ -223,7 +223,7 @@
     {
         if (!IsAuth)
         {
-            msg = "you are not logged in";
+            UiMessage = "you are not logged in";
             return;
         }
     
@@ -234,7 +234,7 @@
             _user = ef.Clients.FirstOrDefault(c => c.Id == ClientId);
             if (_user == null)
             {
-                msg = "Client not found.";
+                UiMessage = "Client not found.";
                 return;
             }
             _order.Client = _user;
@@ -243,19 +243,19 @@
             _order.Product = ef.Products.FirstOrDefault(p => p.Id == _product.Id);
             if (_order.Product == null)
             {
-                msg = "Product not found.";
+                UiMessage = "Product not found.";
                 return;
             }
             _order.Size = currentSize;
             ef.Add(_order);
             await ef.SaveChangesAsync();
-            msg = $"Order created: Size {_order.Size}, Product {_product.Name}";
+            UiMessage = $"Order created: Size {_order.Size}, Product {_product.Name}";
             _order = new Order();
             StateHasChanged();
         }
         catch (Exception e)
         {
-            msg = "Error creating order: " + e.Message;
+            UiMessage = "Error creating order: " + e.Message;
         }
     }
 }
