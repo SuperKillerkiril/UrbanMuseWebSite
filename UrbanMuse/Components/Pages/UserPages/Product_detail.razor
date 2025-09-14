@@ -1,5 +1,6 @@
 ﻿@page "/product/{id:int}"
 @using Microsoft.EntityFrameworkCore
+@using Microsoft.VisualBasic
 @using UrbanMuse.DataBase
 @using UrbanMuse.Models
 @inject ModelContext ef
@@ -53,14 +54,14 @@
     <div class="product-demo-card-container">
         <div class="product-demo-card">
             <button @onclick="Previous"><img src="LocalImage/Icon/chevron-left.svg"/></button>
-                <img class="product-demo-card-img" src="@GetImageSrc(_currentPhotos)"/>
+                <img class="product-demo-card-img" src="@GetImageSrc(_product.Photos[currentimg])"/>
             <button @onclick="Next"><img src="LocalImage/Icon/chevron-left.png"/></button>
         </div>
     </div>
     <div class="product-demo-card-more">
         @foreach (var img in _product.Photos)
         {
-            <img @onclick="() => CurrentImgSet(img)" src="@GetImageSrc(img)"/>
+            <img src="@GetImageSrc(img)"/>
         }
     </div>
     <div class="product-demo-card-name">@_product.Name</div>
@@ -86,7 +87,7 @@
         @foreach (var prod in _products)
         {
             <div class="product-demo-recommendations-card">
-                <img src="@prod.Photos[0]"/>
+                <img src="@GetImageSrc(prod.Photos[0])"/>
                 <div class="store-product-card-description">
                     <div class="product-demo-recommendations-text">@prod.Name</div>
                     <div class="product-demo-recommendations-text">@prod.Price$</div>
@@ -111,15 +112,6 @@
     private User _user = new User();
     private Order _order = new Order();
     private List<Product> _products = new List<Product>();
-    private List<Photo> _photos = new List<Photo>();
-    private Photo _currentPhotos = new Photo
-    {
-        TempId = Guid.NewGuid(),
-        id = 123,
-        Data = new byte[] { 1, 2, 3, 4, 5 },
-        ContentType = "image/png",
-        ProductId = 10
-    }; 
     private int currentSize = 3;
     private int currentimg;
     private string? msg = null;
@@ -135,8 +127,7 @@
     private void CurrentImgSet(Photo imge)
     {
         currentimg = _product.Photos.Count(img => img == imge);
-        _currentPhotos = _photos[currentimg];   
-        Console.WriteLine(_currentPhotos.ContentType);
+        Console.WriteLine($"Номер currentimg: {currentimg}, imge: {imge.id}, {DateTime.Now}");
     }
 
     protected override async void OnInitialized()
@@ -146,7 +137,6 @@
             .Include(p => p.Photos)
             .ToListAsync();
         IsAuth = await LocalStorage.GetItemAsync<bool>("IsAuth");
-        _photos = _product.Photos;
     }
     private string GetImageSrc(Photo img)
     {
@@ -179,22 +169,26 @@
         _products = ef.Products.Take(10).ToList(); 
     }
 
-    public void NavigateToRegistred()
+    private void NavigateToRegistred()
     { NavigationManager.NavigateTo("/registered"); }
-    public void NavigateToNew()
+
+    private void NavigateToNew()
     { NavigationManager.NavigateTo("/New"); }
-    public void NavigateToHome()
+
+    private void NavigateToHome()
     { NavigationManager.NavigateTo("");}
-    public void NavigateToStore()
+
+    private void NavigateToStore()
     { NavigationManager.NavigateTo("/store");}
-    public void NavigateToAbout()
+
+    private void NavigateToAbout()
     { NavigationManager.NavigateTo("/about");}
     
 
     private async void Timer()
     { await Task.Delay(10000); msg = null; StateHasChanged(); }
 
-    private async void  CreateOrder()
+    /*private async void  CreateOrder()
     {
         if (!IsAuth)
         {
@@ -224,7 +218,7 @@
                 msg = "вы уже заказали этот товар, смотреть в корзине, если хотите заказать еще раз, обновите страницу";
             }
         }
-    }
+    }*/
     private async Task CreateOrderAsync()
     {
         if (!IsAuth)
